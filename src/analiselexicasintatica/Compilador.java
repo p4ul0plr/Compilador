@@ -28,6 +28,9 @@ public class Compilador {
 
 //        Scanner scanner = new Scanner();
 //        System.out.println("" + scanner.isGraphic('@'));
+    
+//        LeitorArquivo arq = new LeitorArquivo();
+//        System.out.println(""+arq.read("/tmp/arquivo.txt"));
     }
 
 }
