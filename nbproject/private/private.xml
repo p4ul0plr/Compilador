@@ -5,6 +5,8 @@
         <group>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/analiselexicasintatica/Compilador.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/analiselexicasintatica/Scanner.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/analiselexicasintatica/LeitorArquivo.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/file/ReaderFile.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/analiselexicasintatica/Token.java</file>
         </group>
     </open-files>
