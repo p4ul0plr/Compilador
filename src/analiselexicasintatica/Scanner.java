@@ -102,7 +102,34 @@ public class Scanner {
         return false;
     }
 
-    public byte scanToken() {
+    private void scanSeparator() {
+        switch (currentChar) {
+            case '!':
+                takeIt();
+                while (isGraphic(currentChar)) {
+                    takeIt();
+                    //take('\n');
+                }
+                break;
+            case ' ':
+            case '\t':
+            case '\r':
+            case '\n':
+                takeIt();
+                break;
+        }
+    }
+
+    public Token scan() {
+        while (currentChar == '!' || currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == '\r') {
+            scanSeparator();
+        }
+        currentSpelling = new StringBuffer("");
+        currentKind = scanToken();
+        return new Token(currentKind, currentSpelling.toString());
+    }
+
+    private byte scanToken() {
         if (isLetter(currentChar)) {
             takeIt();
             while (isLetter(currentChar) || isDigit(currentChar)) {
@@ -113,11 +140,14 @@ public class Scanner {
             takeIt();
             while (isDigit(currentChar)) {
                 takeIt();
-                return Token.FLOAT_LIT;
+                if (!isDigit(currentChar)) {
+                    return Token.FLOAT_LIT;
+                }
             }
             if (currentChar == '.') {
                 return Token.DOTDOT;
             } else {
+                System.out.println("Entrou "+ currentChar);
                 return Token.DOT;
             }
         } else if (isDigit(currentChar)) {
@@ -126,15 +156,19 @@ public class Scanner {
                 takeIt();
                 while (isDigit(currentChar)) {
                     takeIt();
-                    return Token.FLOAT_LIT;
+                    if (!isDigit(currentChar)) {
+                        return Token.FLOAT_LIT;
+                    }
                 }
                 return Token.FLOAT_LIT;
             }
             while (isDigit(currentChar)) {
                 takeIt();
-                if (sourceFile.readCurrentChar() == '.') {
+                if (currentChar == '.') {
                     takeIt();
-                    return Token.FLOAT_LIT;
+                    if (!isDigit(currentChar)) {
+                        return Token.FLOAT_LIT;
+                    }
                 }
             }
             return Token.INT_LIT;
@@ -190,13 +224,15 @@ public class Scanner {
                 case ':':
                     takeIt();
                     if (currentChar == '=') {
-                       takeIt();
-                       return Token.ASSIGNMENT;
-                    } 
+                        takeIt();
+                        return Token.ASSIGNMENT;
+                    }
                     return Token.COLON;
                 case ';':
                     takeIt();
                     return Token.SEMICOLON;
+                case '\000':
+                    return Token.EOT;
                 default:
                     return -1;
             }

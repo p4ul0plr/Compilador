@@ -18,7 +18,7 @@ public class Token {
     public int line; //Número de linhas
     public int column; //Número de colunas
 
-    public Token(byte kind, String spelling, int line, int column) {
+    public Token(byte kind, String spelling) {
         this.kind = kind;
         this.spelling = spelling;
         this.line = line;

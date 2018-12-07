@@ -17,6 +17,8 @@ public class Compilador {
     /**
      * @param args the command line arguments
      */
+    public static final char EOT = '\u0000';
+
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
 //        for (char i = 32; i < 127; i++) {         //Imprime caracteras gráficos
@@ -33,7 +35,15 @@ public class Compilador {
 //        System.out.println(""+arq.read("/tmp/arquivo.txt"));
         SourceFile sourceFile = new SourceFile("/tmp/arquivo.txt");
         Scanner scanner = new Scanner(sourceFile);
-        System.out.println("" + scanner.scanToken());
+        Token token;
+        while (scanner.getCurrentChar() != EOT) {
+            token = scanner.scan();
+            System.out.println("Spelling: " + token.getSpelling() + "   Kind: " + token.getKind());
+
+        }
+
+        //System.out.println("" + sourceFile.readCurrentChar());
+        //System.out.println("" + scanner.scanToken());
 //        StringBuffer currentSpelling = new StringBuffer("teste");
 //        currentSpelling.append(sourceFile.readCurrentChar());
 //        System.out.println("" + currentSpelling);
@@ -43,8 +53,6 @@ public class Compilador {
 //        System.out.print("" + readerFile.readCurrentChar());
 //        System.out.print("" + readerFile.readCurrentChar());
 //        System.out.println("" + readerFile.readCurrentChar());
-
-
         //System.out.println(""+readerFile.teste());
         //System.out.println(""+readerFile.teste());
     }
