@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package file;
+package souceFile;
 
 //import java.io.BufferedReader;
 //import java.io.FileInputStream;
@@ -26,8 +26,9 @@ public class SourceFile {
 //    private InputStream is = null;
 //    private InputStreamReader isr = null;
 //    public BufferedReader br = null;
-    private File sourceFile;
+    public File sourceFile;
     public  FileInputStream source;
+    //public int currentLine;
 
     public SourceFile(String path) {
 
@@ -52,6 +53,31 @@ public class SourceFile {
         }
     }
 
+    public File getSourceFile() {
+        return sourceFile;
+    }
+
+    public void setSourceFile(File sourceFile) {
+        this.sourceFile = sourceFile;
+    }
+
+    public FileInputStream getSource() {
+        return source;
+    }
+
+    public void setSource(FileInputStream source) {
+        this.source = source;
+    }
+
+//    public int getCurrentLine() {
+//        return currentLine;
+//    }
+//
+//    public void setCurrentLine(int currentLine) {
+//        this.currentLine = currentLine;
+//    }
+
+    
 //    public char readCurrentChar() {
 //        try {
 //            char currentChar = (char) -1;

@@ -1,6 +1,6 @@
-package analiselexicasintatica;
+package lexicalAnalysis;
 
-import file.SourceFile;
+import souceFile.SourceFile;
 import java.io.IOException;
 
 /*
@@ -12,7 +12,7 @@ import java.io.IOException;
  *
  * @author paulo
  */
-public class Compilador {
+public class Compiler {
 
     /**
      * @param args the command line arguments
@@ -33,12 +33,15 @@ public class Compilador {
 //        System.out.println("" + scanner.isGraphic('@'));
 //        LeitorArquivo arq = new LeitorArquivo();
 //        System.out.println(""+arq.read("/tmp/arquivo.txt"));
-        SourceFile sourceFile = new SourceFile("/tmp/arquivo.txt");
+        SourceFile sourceFile = new SourceFile("/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt");
         Scanner scanner = new Scanner(sourceFile);
         Token token;
         while (scanner.getCurrentChar() != EOT) {
             token = scanner.scan();
-            System.out.println("Spelling: " + token.getSpelling() + "   Kind: " + token.getKind());
+            System.out.println("Spelling: " + token.getSpelling() 
+                    + "   Kind: " + token.getKind() 
+                    + "   Column: " + scanner.getColumn() 
+                    + "   Line: " + scanner.getLine());
 
         }
 

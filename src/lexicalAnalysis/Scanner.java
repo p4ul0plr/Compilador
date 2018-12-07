@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package analiselexicasintatica;
+package lexicalAnalysis;
 
-import file.SourceFile;
+import souceFile.SourceFile;
 
 /**
  *
@@ -18,11 +18,14 @@ public class Scanner {
     //kind and spelling of the current token
     private byte currentKind;
     private StringBuffer currentSpelling;
+    private int column = 0;
+    private int line = 0;
 
     public Scanner(SourceFile source) {
         sourceFile = source;
         currentChar = sourceFile.readCurrentChar();
         currentSpelling = new StringBuffer("");
+        line++;
     }
 
     public char getCurrentChar() {
@@ -49,6 +52,30 @@ public class Scanner {
         this.currentSpelling = currentSpelling;
     }
 
+    public SourceFile getSourceFile() {
+        return sourceFile;
+    }
+
+    public void setSourceFile(SourceFile sourceFile) {
+        this.sourceFile = sourceFile;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+    
     private void take(char expectedChar) {
         if (currentChar == expectedChar) {
             currentSpelling.append(currentChar);
@@ -61,6 +88,12 @@ public class Scanner {
 
     public void takeIt() {
         currentSpelling.append(currentChar);
+        if (currentChar == '\n') {
+            column = 0;
+            line++;
+        } else {
+            column++;
+        }
         currentChar = sourceFile.readCurrentChar();
         //currentChar = next source character;
     }
@@ -145,9 +178,9 @@ public class Scanner {
                 }
             }
             if (currentChar == '.') {
+                takeIt();
                 return Token.DOTDOT;
             } else {
-                System.out.println("Entrou "+ currentChar);
                 return Token.DOT;
             }
         } else if (isDigit(currentChar)) {

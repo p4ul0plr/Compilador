@@ -1,4 +1,4 @@
-package analiselexicasintatica;
+package lexicalAnalysis;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,7 +24,7 @@ public class Token {
         this.line = line;
         this.column = column;
         if (kind == ID) {
-            for (byte k = INTEGER; k < OP_MULT_AND; k++) {
+            for (byte k = INTEGER; k <= OP_MULT_AND; k++) {
                 if (spelling.equals(spellings[k])) {
                     this.kind = k;
                     break;
