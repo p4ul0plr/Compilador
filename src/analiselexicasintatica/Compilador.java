@@ -1,6 +1,6 @@
 package analiselexicasintatica;
 
-import file.ReaderFile;
+import file.SourceFile;
 import java.io.IOException;
 
 /*
@@ -31,13 +31,18 @@ public class Compilador {
 //        System.out.println("" + scanner.isGraphic('@'));
 //        LeitorArquivo arq = new LeitorArquivo();
 //        System.out.println(""+arq.read("/tmp/arquivo.txt"));
-        ReaderFile readerFile = new ReaderFile("/tmp/arquivo.txt");
-        System.out.print("" + readerFile.readCurrentChar());
-        System.out.print("" + readerFile.readCurrentChar());
-        System.out.print("" + readerFile.readCurrentChar());
-        System.out.print("" + readerFile.readCurrentChar());
-        System.out.print("" + readerFile.readCurrentChar());
-        System.out.println("" + readerFile.readCurrentChar());
+        SourceFile sourceFile = new SourceFile("/tmp/arquivo.txt");
+        Scanner scanner = new Scanner(sourceFile);
+        System.out.println("" + scanner.scanToken());
+//        StringBuffer currentSpelling = new StringBuffer("teste");
+//        currentSpelling.append(sourceFile.readCurrentChar());
+//        System.out.println("" + currentSpelling);
+//        System.out.print("" + readerFile.readCurrentChar());
+//        System.out.print("" + readerFile.readCurrentChar());
+//        System.out.print("" + readerFile.readCurrentChar());
+//        System.out.print("" + readerFile.readCurrentChar());
+//        System.out.print("" + readerFile.readCurrentChar());
+//        System.out.println("" + readerFile.readCurrentChar());
 
 
         //System.out.println(""+readerFile.teste());
