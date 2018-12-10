@@ -20,6 +20,8 @@ public class Scanner {
     private StringBuffer currentSpelling;
     private int column = 0;
     private int line = 0;
+    private int aux = -1;
+    private int aux2 = 0;
 
     public Scanner(SourceFile source) {
         sourceFile = source;
@@ -75,7 +77,7 @@ public class Scanner {
     public void setLine(int line) {
         this.line = line;
     }
-    
+
     private void take(char expectedChar) {
         if (currentChar == expectedChar) {
             currentSpelling.append(currentChar);
@@ -93,6 +95,7 @@ public class Scanner {
             line++;
         } else {
             column++;
+            aux++;
         }
         currentChar = sourceFile.readCurrentChar();
         //currentChar = next source character;
@@ -153,8 +156,16 @@ public class Scanner {
         }
     }
 
+    public void calculateTheNumberOfColumns() {
+        //System.out.println("column (antes): " + column + " aux (antes): " + aux);
+//        column -= aux;
+//        aux = -1;
+        //System.out.println("column (depois): " + column + " aux (depois): " + aux);
+    }
+
     public Token scan() {
         while (currentChar == '!' || currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == '\r') {
+            calculateTheNumberOfColumns();
             scanSeparator();
         }
         currentSpelling = new StringBuffer("");
@@ -168,19 +179,23 @@ public class Scanner {
             while (isLetter(currentChar) || isDigit(currentChar)) {
                 takeIt();
             }
+            calculateTheNumberOfColumns();
             return Token.ID;
         } else if (currentChar == '.') {
             takeIt();
             while (isDigit(currentChar)) {
                 takeIt();
                 if (!isDigit(currentChar)) {
+                    calculateTheNumberOfColumns();
                     return Token.FLOAT_LIT;
                 }
             }
             if (currentChar == '.') {
                 takeIt();
+                calculateTheNumberOfColumns();
                 return Token.DOTDOT;
             } else {
+                calculateTheNumberOfColumns();
                 return Token.DOT;
             }
         } else if (isDigit(currentChar)) {
@@ -190,9 +205,11 @@ public class Scanner {
                 while (isDigit(currentChar)) {
                     takeIt();
                     if (!isDigit(currentChar)) {
+                        calculateTheNumberOfColumns();
                         return Token.FLOAT_LIT;
                     }
                 }
+                calculateTheNumberOfColumns();
                 return Token.FLOAT_LIT;
             }
             while (isDigit(currentChar)) {
@@ -200,73 +217,95 @@ public class Scanner {
                 if (currentChar == '.') {
                     takeIt();
                     if (!isDigit(currentChar)) {
+                        calculateTheNumberOfColumns();
                         return Token.FLOAT_LIT;
                     }
                 }
             }
+            calculateTheNumberOfColumns();
             return Token.INT_LIT;
         } else {
             switch (currentChar) {
                 case '+':
                     takeIt();
+                    calculateTheNumberOfColumns();
                     return Token.OP_AD_AD;
                 case '-':
                     takeIt();
+                    calculateTheNumberOfColumns();
                     return Token.OP_AD_SUB;
                 case '*':
                     takeIt();
+                    calculateTheNumberOfColumns();
                     return Token.OP_MULT_MULT;
                 case '/':
                     takeIt();
+                    calculateTheNumberOfColumns();
                     return Token.OP_MULT_DIV;
                 case '<':
                     takeIt();
                     if (currentChar == '=') {
                         takeIt();
+                        calculateTheNumberOfColumns();
                         return Token.OP_REL_LESSOREQUAL;
                     } else if (currentChar == '>') {
                         takeIt();
+                        calculateTheNumberOfColumns();
                         return Token.OP_REL_DIFFERENT;
                     }
+                    calculateTheNumberOfColumns();
                     return Token.OP_REL_LESSTHEN;
                 case '>':
                     takeIt();
                     if (currentChar == '=') {
                         takeIt();
+                        calculateTheNumberOfColumns();
                         return Token.OP_REL_BIGGEROREQUAL;
                     }
+                    calculateTheNumberOfColumns();
                     return Token.OP_REL_BIGGERTHEN;
                 case '=':
                     takeIt();
+                    calculateTheNumberOfColumns();
                     return Token.OP_REL_EQUAL;
                 case '[':
                     takeIt();
+                    calculateTheNumberOfColumns();
                     return Token.LEFTBRACKET;
                 case ']':
                     takeIt();
+                    calculateTheNumberOfColumns();
                     return Token.RIGHTBRACKET;
                 case '(':
                     takeIt();
+                    calculateTheNumberOfColumns();
                     return Token.LEFTPARENTHESIS;
                 case ')':
                     takeIt();
+                    calculateTheNumberOfColumns();
                     return Token.RIGHTPARENTHESIS;
                 case ',':
                     takeIt();
+                    calculateTheNumberOfColumns();
                     return Token.COMMA;
                 case ':':
                     takeIt();
                     if (currentChar == '=') {
                         takeIt();
+                        calculateTheNumberOfColumns();
                         return Token.ASSIGNMENT;
                     }
+                    calculateTheNumberOfColumns();
                     return Token.COLON;
                 case ';':
                     takeIt();
+                    calculateTheNumberOfColumns();
                     return Token.SEMICOLON;
                 case '\000':
+                    calculateTheNumberOfColumns();
                     return Token.EOT;
                 default:
+                    calculateTheNumberOfColumns();
                     return -1;
             }
         }
