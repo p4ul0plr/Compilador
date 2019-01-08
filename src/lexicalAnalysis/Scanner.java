@@ -18,10 +18,11 @@ public class Scanner {
     //kind and spelling of the current token
     private byte currentKind;
     private StringBuffer currentSpelling;
-    private int column = 0;
+    private int endColumn = 0;
+    private int column;
+    private int contVoidSpace = 1;
     private int line = 0;
-    private int aux = -1;
-    private int aux2 = 0;
+    private int aux = 0;
 
     public Scanner(SourceFile source) {
         sourceFile = source;
@@ -30,6 +31,30 @@ public class Scanner {
         line++;
     }
 
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+    public int getContVoidSpace() {
+        return contVoidSpace;
+    }
+
+    public void setContVoidSpace(int contVoidSpace) {
+        this.contVoidSpace = contVoidSpace;
+    }
+
+    public int getAux() {
+        return aux;
+    }
+
+    public void setAux(int aux) {
+        this.aux = aux;
+    }
+    
     public char getCurrentChar() {
         return currentChar;
     }
@@ -62,12 +87,12 @@ public class Scanner {
         this.sourceFile = sourceFile;
     }
 
-    public int getColumn() {
-        return column;
+    public int getEndColumn() {
+        return endColumn;
     }
 
-    public void setColumn(int column) {
-        this.column = column;
+    public void setEndColumn(int endColumn) {
+        this.endColumn = endColumn;
     }
 
     public int getLine() {
@@ -91,11 +116,15 @@ public class Scanner {
     public void takeIt() {
         currentSpelling.append(currentChar);
         if (currentChar == '\n') {
+            aux = 0;
             column = 0;
+            endColumn = 0;
             line++;
         } else {
-            column++;
-            aux++;
+            endColumn++;
+        }
+        if (currentChar == ' ') {
+            contVoidSpace++;
         }
         currentChar = sourceFile.readCurrentChar();
         //currentChar = next source character;
@@ -157,15 +186,15 @@ public class Scanner {
     }
 
     public void calculateTheNumberOfColumns() {
-        //System.out.println("column (antes): " + column + " aux (antes): " + aux);
-//        column -= aux;
-//        aux = -1;
-        //System.out.println("column (depois): " + column + " aux (depois): " + aux);
+        column = aux + contVoidSpace;
+        aux = endColumn;
+        contVoidSpace = 1;
+        
     }
-
+     
     public Token scan() {
         while (currentChar == '!' || currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == '\r') {
-            calculateTheNumberOfColumns();
+            //calculateTheNumberOfColumns();
             scanSeparator();
         }
         currentSpelling = new StringBuffer("");
