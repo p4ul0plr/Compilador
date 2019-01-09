@@ -199,7 +199,7 @@ public class Scanner {
         }
         currentSpelling = new StringBuffer("");
         currentKind = scanToken();
-        return new Token(currentKind, currentSpelling.toString());
+        return new Token(currentKind, currentSpelling.toString(), line, column);
     }
 
     private byte scanToken() {

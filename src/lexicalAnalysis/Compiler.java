@@ -40,8 +40,8 @@ public class Compiler {
             token = scanner.scan();
             System.out.println("Spelling: " + token.getSpelling() 
                     + "   Kind: " + token.getKind() 
-                    + "   Column: " + scanner.getColumn() 
-                    + "   Line: " + scanner.getLine());
+                    + "   Column: " + token.getColumn() 
+                    + "   Line: " + token.getLine());
 
         }
 
