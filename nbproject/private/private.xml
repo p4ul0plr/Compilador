@@ -6,6 +6,7 @@
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Token.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/souceFile/SourceFile.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Scanner.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/syntaxAnalisys/Parser.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Compiler.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt</file>
         </group>
