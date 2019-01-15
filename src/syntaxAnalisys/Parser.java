@@ -119,11 +119,11 @@ public class Parser {
     }
     
     private void parseDigito () { //Não sei se precisa
-        if (currentToken.getKind() >= 48 && currentToken.getKind() <= 57) {
-            acceptIt();
-        } else  {
-            //report a systatic error
-        }
+//        if (currentToken.getKind() >= 48 && currentToken.getKind() <= 57) {
+//            acceptIt();
+//        } else  {
+//            //report a systatic error
+//        }
     }
     
     private void parseExpressao () {
@@ -135,7 +135,7 @@ public class Parser {
             case Token.OP_REL_EQUAL:
             case Token.OP_REL_LESSOREQUAL:
             case Token.OP_REL_LESSTHEN:
-                acceptIt();
+                parseOpRel();
                 parseExpressaoSimples();
                 break;
             default:
@@ -148,7 +148,7 @@ public class Parser {
         while (currentToken.getKind() == Token.OP_AD_AD ||
                currentToken.getKind() == Token.OP_AD_OR ||
                currentToken.getKind() == Token.OP_AD_SUB) {
-            acceptIt();
+            parseOpAd();
             parseTermo();
         }
     }
@@ -175,29 +175,30 @@ public class Parser {
     }
     
     private void parseFloatLit () { //Não sei se precisa
-        switch(currentToken.getKind()) {
-            case Token.INT_LIT:
-                acceptIt();
-                accept(Token.DOT);
-                if (currentToken.getKind() == Token.INT_LIT) {
-                    acceptIt();
-                }
-                break;
-            case Token.DOT:
-                acceptIt();
-                parseIntLit();
-                break;
-            default:
-                //report a systatic error
-        }
+//        switch(currentToken.getKind()) {
+//            case Token.INT_LIT:
+//                acceptIt();
+//                accept(Token.DOT);
+//                if (currentToken.getKind() == Token.INT_LIT) {
+//                    acceptIt();
+//                }
+//                break;
+//            case Token.DOT:
+//                acceptIt();
+//                parseIntLit();
+//                break;
+//            default:
+//                //report a systatic error
+//        }
+        accept(Token.FLOAT_LIT);
     }
     
     private void parseId () { //Não sei se precisa
-        
+        accept(Token.ID);
     }
     
     private void parseIntLit () {  //Não sei se precisa
-        
+        accept(Token.INT_LIT);
     }
     
     private void parseIterativo () {
@@ -236,10 +237,10 @@ public class Parser {
                 parseBoolLit();
                 break;
             case Token.INT_LIT:
-                acceptIt();
+                parseIntLit();
                 break;
             case Token.FLOAT_LIT:
-                acceptIt();
+                parseFloatLit();
                 break;
             default:
                 //report a systatic error    
@@ -307,10 +308,10 @@ public class Parser {
     
     private void parseTermo () {
         parseFator();
-        while (currentToken.getKind() == Token.OP_AD_AD ||
-               currentToken.getKind() == Token.OP_AD_OR ||
-               currentToken.getKind() == Token.OP_AD_SUB) {
-            acceptIt();
+        while (currentToken.getKind() == Token.OP_MULT_AND ||
+               currentToken.getKind() == Token.OP_MULT_DIV ||
+               currentToken.getKind() == Token.OP_MULT_MULT) {
+            parseOpMul();
             parseFator();
         }        
     }
@@ -324,6 +325,7 @@ public class Parser {
             case Token.REAL:
             case Token.BOOLEAN:
                 parseTipoSimples();
+                break;
             default:
                 //report a systatic error 
         }
