@@ -34,11 +34,13 @@ public class Parser {
         parsePrograma();
         if (currentToken.getKind() != Token.EOT) {
             //report a systatic error
+        } else  {
+            //report a systatic error
         }
     }
     
     private void parseAtribuicao () {
-        parsevariavel();
+        parseVariavel();
         accept(Token.ASSIGNMENT);
         parseExpressao();
     }
@@ -87,6 +89,8 @@ public class Parser {
         if (currentToken.getKind() == Token.ELSE) {
             acceptIt();
             parseComando();
+        } else  {
+            //report a systatic error
         }
         
     }
@@ -109,17 +113,16 @@ public class Parser {
     
     private void parseDeclaracoes () {
         while (currentToken.getKind() == Token.VAR) {
-            acceptIt();
-            parseListadeIds();
-            accept(Token.COLON);
-            parseTipo();
+            parseDeclaracao();
             accept(Token.SEMICOLON);
         }
     }
     
-    private void parseDigito () {
+    private void parseDigito () { //Não sei se precisa
         if (currentToken.getKind() >= 48 && currentToken.getKind() <= 57) {
             acceptIt();
+        } else  {
+            //report a systatic error
         }
     }
     
@@ -135,94 +138,226 @@ public class Parser {
                 acceptIt();
                 parseExpressaoSimples();
                 break;
+            default:
+                //report a systatic erro    
         }
     }
     
     private void parseExpressaoSimples () {
-        
+        parseTermo();
+        while (currentToken.getKind() == Token.OP_AD_AD ||
+               currentToken.getKind() == Token.OP_AD_OR ||
+               currentToken.getKind() == Token.OP_AD_SUB) {
+            acceptIt();
+            parseTermo();
+        }
     }
     
     private void parseFator () {
+        switch(currentToken.getKind()) {
+            case Token.ID:
+                parseVariavel();
+                break;
+            case Token.TRUE:
+            case Token.FALSE:
+            case Token.INT_LIT:
+            case Token.FLOAT_LIT:
+                parseLiteral();
+                break;
+            case Token.LEFTPARENTHESIS:
+                acceptIt();
+                parseExpressao();
+                accept(Token.RIGHTPARENTHESIS);
+                break;
+            default:
+                //report a systatic error
+        }
+    }
+    
+    private void parseFloatLit () { //Não sei se precisa
+        switch(currentToken.getKind()) {
+            case Token.INT_LIT:
+                acceptIt();
+                accept(Token.DOT);
+                if (currentToken.getKind() == Token.INT_LIT) {
+                    acceptIt();
+                }
+                break;
+            case Token.DOT:
+                acceptIt();
+                parseIntLit();
+                break;
+            default:
+                //report a systatic error
+        }
+    }
+    
+    private void parseId () { //Não sei se precisa
         
     }
     
-    private void parseFloatLit () {
-        
-    }
-    
-    private void parseId () {
-        
-    }
-    
-    private void parseIntLit () {
+    private void parseIntLit () {  //Não sei se precisa
         
     }
     
     private void parseIterativo () {
-        
+        accept(Token.WHILE);
+        parseExpressao();
+        accept(Token.DO);
+        parseComando();
     } 
     
-    private void parseLetra () {
+    private void parseLetra () { //Não sei se precisa
         
     }
     
     private void parseListaDeComandos () {
-        
+        while (currentToken.getKind() == Token.ID ||
+               currentToken.getKind() == Token.IF ||
+               currentToken.getKind() == Token.WHILE ||
+               currentToken.getKind() == Token.BEGIN ) {
+            parseComando();
+            accept(Token.SEMICOLON);
+        }
     }
     
     private void parseListadeIds () {
-        
+        accept(Token.ID);
+        while (currentToken.getKind() == Token.COMMA) {
+            acceptIt();
+            accept(Token.ID);
+        }
     }
     
     private void parseLiteral () {
-        
+        switch (currentToken.getKind()) {
+            case Token.TRUE:
+            case Token.FALSE:
+                parseBoolLit();
+                break;
+            case Token.INT_LIT:
+                acceptIt();
+                break;
+            case Token.FLOAT_LIT:
+                acceptIt();
+                break;
+            default:
+                //report a systatic error    
+        }
     }
     
     private void parseOpAd () {
-        
+        switch (currentToken.getKind()) {
+            case Token.OP_AD_AD:
+            case Token.OP_AD_OR:
+            case Token.OP_AD_SUB:
+                acceptIt();
+                break;
+            default:
+                //report a systatic error    
+        }
     }
     
     private void parseOpMul () {
-         
+        switch (currentToken.getKind()) {
+            case Token.OP_MULT_AND:
+            case Token.OP_MULT_DIV:
+            case Token.OP_MULT_MULT:
+                acceptIt();
+                break;
+            default:
+                //report a systatic error    
+        }         
     }
     
     private void parseOpRel () {
-        
+        switch (currentToken.getKind()) {
+            case Token.OP_REL_BIGGEROREQUAL:
+            case Token.OP_REL_BIGGERTHEN:
+            case Token.OP_REL_DIFFERENT:
+            case Token.OP_REL_EQUAL:
+            case Token.OP_REL_LESSOREQUAL:
+            case Token.OP_REL_LESSTHEN:
+                acceptIt();
+                break;
+            default:
+                //report a systatic error    
+        }       
     }
     
-    private void parseOutros () {
+    private void parseOutros () { //Não sei se precisa
          
     }
     
     private void parsePrograma () {
-        
+        accept(Token.PROGRAM);
+        parseId();
+        accept(Token.SEMICOLON);
+        parseCorpo();
+        accept(Token.DOT);
     }
     
     private void parseSeletor () {
-        
+        while (currentToken.getKind() == Token.LEFTBRACKET) {
+            acceptIt();
+            parseExpressao();
+            accept(Token.RIGHTBRACKET);
+        }
     }
     
     private void parseTermo () {
-        
+        parseFator();
+        while (currentToken.getKind() == Token.OP_AD_AD ||
+               currentToken.getKind() == Token.OP_AD_OR ||
+               currentToken.getKind() == Token.OP_AD_SUB) {
+            acceptIt();
+            parseFator();
+        }        
     }
     
     private void parseTipo () {
-        
+        switch (currentToken.getKind()) {
+            case Token.ARRAY:
+                parseTipoAgregado();
+                break;
+            case Token.INTEGER:
+            case Token.REAL:
+            case Token.BOOLEAN:
+                parseTipoSimples();
+            default:
+                //report a systatic error 
+        }
     }
     
     private void parseTipoAgregado () {
-        
+        accept(Token.ARRAY);
+        accept(Token.LEFTBRACKET);
+        parseLiteral(); //Errado? o correto seria <int-lit>?
+        accept(Token.DOTDOT);
+        parseLiteral(); //Errado? o correto seria <int-lit>?
+        accept(Token.RIGHTBRACKET);
+        accept(Token.OF);
+        parseTipo();
     }
     
     private void parseTipoSimples () {
-        
+        switch (currentToken.getKind()) {
+            case Token.INTEGER:
+            case Token.REAL:
+            case Token.BOOLEAN:
+                acceptIt();
+                break;
+            default:
+                //report a systatic error    
+        }
     }
     
-    private void parsevariavel () {
-        
+    private void parseVariavel () {
+        accept(Token.ID);
+        parseSeletor();
     }
     
-    private void parseVazio () {
+    private void parseVazio () { //Não sei se precisa
         
     }
 }
