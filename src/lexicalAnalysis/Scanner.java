@@ -163,7 +163,7 @@ public class Scanner {
             if (c == i) {
                 return true;
             }
-        }
+        }       
         return false;
     }
 
