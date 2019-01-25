@@ -2,6 +2,7 @@ package lexicalAnalysis;
 
 import souceFile.SourceFile;
 import java.io.IOException;
+import syntaxAnalisys.Parser;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -34,7 +35,13 @@ public class Compiler {
 //        LeitorArquivo arq = new LeitorArquivo();
 //        System.out.println(""+arq.read("/tmp/arquivo.txt"));
         SourceFile sourceFile = new SourceFile("/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt");
-        Scanner scanner = new Scanner(sourceFile);
+        if (sourceFile.toString().equals(EOT)) {
+            //System.out.println("vazio");
+        } else {
+            Parser parser = new Parser(sourceFile);
+            parser.parse();
+        }
+        /*Scanner scanner = new Scanner(sourceFile);
         Token token;
         while (scanner.getCurrentChar() != EOT) {
             token = scanner.scan();
@@ -43,7 +50,7 @@ public class Compiler {
                     + "   Column: " + token.getColumn() 
                     + "   Line: " + token.getLine());
 
-        }
+        }*/
 
         //System.out.println("" + sourceFile.readCurrentChar());
         //System.out.println("" + scanner.scanToken());

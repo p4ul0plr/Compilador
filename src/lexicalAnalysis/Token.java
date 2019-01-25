@@ -29,8 +29,7 @@ public class Token {
                     this.kind = k;
                     break;
                 }
-            }
-            
+            }  
         }
     }
 
@@ -109,7 +108,7 @@ public class Token {
             ASSIGNMENT = 40,
             EOT = 41;
 
-    private final static String[] spellings = {
+    public static final String[] spellings = {
         "<id>",
         "<int-lit>",
         "<float-lit>",

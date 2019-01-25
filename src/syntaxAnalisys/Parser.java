@@ -7,57 +7,67 @@ package syntaxAnalisys;
 
 import lexicalAnalysis.Scanner;
 import lexicalAnalysis.Token;
+import souceFile.SourceFile;
 
 /**
  *
  * @author paulo
  */
 public class Parser {
-    
+
     private Token currentToken;
     private Scanner scanner;
-    
-    private void accept (byte expectedKind) {
+
+    public Parser(SourceFile source) {
+        scanner = new Scanner(source);
+    }
+
+    private void accept(byte expectedKind) {
         if (currentToken.getKind() == expectedKind) {
             currentToken = scanner.scan();
-        } else  {
+        } else {
+            //System.out.println("SYNTAX ERROR!");
             //report a systatic error
         }
     }
-    
-    private void acceptIt () {
+
+    private void acceptIt() {
         currentToken = scanner.scan();
     }
-    
-    private void parse () {
+
+    public void parse() {
         currentToken = scanner.scan();
         parsePrograma();
         if (currentToken.getKind() != Token.EOT) {
             //report a systatic error
-        } else  {
+        } else {
             //report a systatic error
         }
     }
-    
-    private void parseAtribuicao () {
+
+    private void parseAtribuicao() {
         parseVariavel();
         accept(Token.ASSIGNMENT);
         parseExpressao();
     }
-    
-    private void parseBoolLit () {
-        switch(currentToken.getKind()) {
+
+    private void parseBoolLit() {
+        switch (currentToken.getKind()) {
             case Token.TRUE:
             case Token.FALSE:
                 acceptIt();
                 break;
             default:
-                //report a systatic error
+                System.out.println("SYNTAX ERROR! - "
+                        + "LINE: " + currentToken.getLine()
+                        + " COLUMN: " + currentToken.getColumn()
+                        + " - true | false");
+            //report a systatic error
         }
     }
-    
-    private void parseComando () {
-        switch(currentToken.getKind()) {
+
+    private void parseComando() {
+        switch (currentToken.getKind()) {
             case Token.ID:
                 parseAtribuicao();
                 break;
@@ -71,17 +81,21 @@ public class Parser {
                 parseComandoComposto();
                 break;
             default:
-                //report a systatic error
+                System.out.println("SYNTAX ERROR! - "
+                        + "LINE: " + currentToken.getLine()
+                        + " COLUMN: " + currentToken.getColumn()
+                        + " - id | if | while | begin");
+            //report a systatic error
         }
     }
-    
-    private void parseComandoComposto () {
+
+    private void parseComandoComposto() {
         accept(Token.BEGIN);
         parseListaDeComandos();
         accept(Token.END);
     }
-    
-    private void parseCondicional () {
+
+    private void parseCondicional() {
         accept(Token.IF);
         parseExpressao();
         accept(Token.THEN);
@@ -89,46 +103,53 @@ public class Parser {
         if (currentToken.getKind() == Token.ELSE) {
             acceptIt();
             parseComando();
-        } else  {
+        } else {
             //report a systatic error
         }
-        
+
     }
-    
-    private void parseCorpo () {
+
+    private void parseCorpo() {
         parseDeclaracao();
         parseComandoComposto();
     }
-    
-    private void parseDeclaracao () {
-        parseDeclaracaoDeVariavel();
+
+    private void parseDeclaracao() {
+        if (currentToken.getKind() == Token.VAR) {
+            parseDeclaracaoDeVariavel();
+        } else {
+            System.out.println("SYNTAX ERROR! - "
+                        + "LINE: " + currentToken.getLine()
+                        + " COLUMN: " + (currentToken.getColumn() - 2)
+                        + " - var");
+        }
     }
-    
-    private void parseDeclaracaoDeVariavel () {
+
+    private void parseDeclaracaoDeVariavel() {
         accept(Token.VAR);
         parseListadeIds();
         accept(Token.COLON);
         parseTipo();
     }
-    
-    private void parseDeclaracoes () {
+
+    private void parseDeclaracoes() {
         while (currentToken.getKind() == Token.VAR) {
             parseDeclaracao();
             accept(Token.SEMICOLON);
         }
     }
-    
-    private void parseDigito () { //Não sei se precisa
+
+    private void parseDigito() { //Não sei se precisa
 //        if (currentToken.getKind() >= 48 && currentToken.getKind() <= 57) {
 //            acceptIt();
 //        } else  {
 //            //report a systatic error
 //        }
     }
-    
-    private void parseExpressao () {
+
+    private void parseExpressao() {
         parseExpressaoSimples();
-        switch(currentToken.getKind()) {
+        switch (currentToken.getKind()) {
             case Token.OP_REL_BIGGEROREQUAL:
             case Token.OP_REL_BIGGERTHEN:
             case Token.OP_REL_DIFFERENT:
@@ -139,22 +160,22 @@ public class Parser {
                 parseExpressaoSimples();
                 break;
             default:
-                //report a systatic erro    
+            //report a systatic erro    
         }
     }
-    
-    private void parseExpressaoSimples () {
+
+    private void parseExpressaoSimples() {
         parseTermo();
-        while (currentToken.getKind() == Token.OP_AD_AD ||
-               currentToken.getKind() == Token.OP_AD_OR ||
-               currentToken.getKind() == Token.OP_AD_SUB) {
+        while (currentToken.getKind() == Token.OP_AD_AD
+                || currentToken.getKind() == Token.OP_AD_OR
+                || currentToken.getKind() == Token.OP_AD_SUB) {
             parseOpAd();
             parseTermo();
         }
     }
-    
-    private void parseFator () {
-        switch(currentToken.getKind()) {
+
+    private void parseFator() {
+        switch (currentToken.getKind()) {
             case Token.ID:
                 parseVariavel();
                 break;
@@ -170,11 +191,15 @@ public class Parser {
                 accept(Token.RIGHTPARENTHESIS);
                 break;
             default:
-                //report a systatic error
+                System.out.println("SYNTAX ERROR! - "
+                        + "LINE: " + currentToken.getLine()
+                        + " COLUMN: " + currentToken.getColumn()
+                        + " - id | true | false | int-lit | float-lit | \"(\"");
+            //report a systatic error
         }
     }
-    
-    private void parseFloatLit () { //Não sei se precisa
+
+    private void parseFloatLit() { //Não sei se precisa
 //        switch(currentToken.getKind()) {
 //            case Token.INT_LIT:
 //                acceptIt();
@@ -192,45 +217,45 @@ public class Parser {
 //        }
         accept(Token.FLOAT_LIT);
     }
-    
-    private void parseId () { //Não sei se precisa
+
+    private void parseId() { //Não sei se precisa
         accept(Token.ID);
     }
-    
-    private void parseIntLit () {  //Não sei se precisa
+
+    private void parseIntLit() {  //Não sei se precisa
         accept(Token.INT_LIT);
     }
-    
-    private void parseIterativo () {
+
+    private void parseIterativo() {
         accept(Token.WHILE);
         parseExpressao();
         accept(Token.DO);
         parseComando();
-    } 
-    
-    private void parseLetra () { //Não sei se precisa
-        
     }
-    
-    private void parseListaDeComandos () {
-        while (currentToken.getKind() == Token.ID ||
-               currentToken.getKind() == Token.IF ||
-               currentToken.getKind() == Token.WHILE ||
-               currentToken.getKind() == Token.BEGIN ) {
+
+    private void parseLetra() { //Não sei se precisa
+
+    }
+
+    private void parseListaDeComandos() {
+        while (currentToken.getKind() == Token.ID
+                || currentToken.getKind() == Token.IF
+                || currentToken.getKind() == Token.WHILE
+                || currentToken.getKind() == Token.BEGIN) {
             parseComando();
             accept(Token.SEMICOLON);
         }
     }
-    
-    private void parseListadeIds () {
+
+    private void parseListadeIds() {
         accept(Token.ID);
         while (currentToken.getKind() == Token.COMMA) {
             acceptIt();
             accept(Token.ID);
         }
     }
-    
-    private void parseLiteral () {
+
+    private void parseLiteral() {
         switch (currentToken.getKind()) {
             case Token.TRUE:
             case Token.FALSE:
@@ -243,11 +268,15 @@ public class Parser {
                 parseFloatLit();
                 break;
             default:
-                //report a systatic error    
+                System.out.println("SYNTAX ERROR! - "
+                        + "LINE: " + currentToken.getLine()
+                        + " COLUMN: " + currentToken.getColumn()
+                        + " - true | false | int-lit | float-lit");
+            //report a systatic error    
         }
     }
-    
-    private void parseOpAd () {
+
+    private void parseOpAd() {
         switch (currentToken.getKind()) {
             case Token.OP_AD_AD:
             case Token.OP_AD_OR:
@@ -255,11 +284,15 @@ public class Parser {
                 acceptIt();
                 break;
             default:
-                //report a systatic error    
+                System.out.println("SYNTAX ERROR! - "
+                        + "LINE: " + currentToken.getLine()
+                        + " COLUMN: " + currentToken.getColumn()
+                        + " - + | - | or");
+            //report a systatic error    
         }
     }
-    
-    private void parseOpMul () {
+
+    private void parseOpMul() {
         switch (currentToken.getKind()) {
             case Token.OP_MULT_AND:
             case Token.OP_MULT_DIV:
@@ -267,11 +300,15 @@ public class Parser {
                 acceptIt();
                 break;
             default:
-                //report a systatic error    
-        }         
+                System.out.println("SYNTAX ERROR! - "
+                        + "LINE: " + currentToken.getLine()
+                        + " COLUMN: " + currentToken.getColumn()
+                        + " - / | * | and");
+            //report a systatic error    
+        }
     }
-    
-    private void parseOpRel () {
+
+    private void parseOpRel() {
         switch (currentToken.getKind()) {
             case Token.OP_REL_BIGGEROREQUAL:
             case Token.OP_REL_BIGGERTHEN:
@@ -282,41 +319,45 @@ public class Parser {
                 acceptIt();
                 break;
             default:
-                //report a systatic error    
-        }       
+                System.out.println("SYNTAX ERROR! - "
+                        + "LINE: " + currentToken.getLine()
+                        + " COLUMN: " + currentToken.getColumn()
+                        + " - >= | > | <> | = | <= | <");
+            //report a systatic error    
+        }
     }
-    
-    private void parseOutros () { //Não sei se precisa
-         
+
+    private void parseOutros() { //Não sei se precisa
+
     }
-    
-    private void parsePrograma () {
+
+    private void parsePrograma() {
         accept(Token.PROGRAM);
         parseId();
         accept(Token.SEMICOLON);
         parseCorpo();
         accept(Token.DOT);
     }
-    
-    private void parseSeletor () {
+
+    private void parseSeletor() {
         while (currentToken.getKind() == Token.LEFTBRACKET) {
             acceptIt();
             parseExpressao();
             accept(Token.RIGHTBRACKET);
         }
     }
-    
-    private void parseTermo () {
+
+    private void parseTermo() {
         parseFator();
-        while (currentToken.getKind() == Token.OP_MULT_AND ||
-               currentToken.getKind() == Token.OP_MULT_DIV ||
-               currentToken.getKind() == Token.OP_MULT_MULT) {
+        while (currentToken.getKind() == Token.OP_MULT_AND
+                || currentToken.getKind() == Token.OP_MULT_DIV
+                || currentToken.getKind() == Token.OP_MULT_MULT) {
             parseOpMul();
             parseFator();
-        }        
+        }
     }
-    
-    private void parseTipo () {
+
+    private void parseTipo() {
         switch (currentToken.getKind()) {
             case Token.ARRAY:
                 parseTipoAgregado();
@@ -327,11 +368,15 @@ public class Parser {
                 parseTipoSimples();
                 break;
             default:
-                //report a systatic error 
+                System.out.println("SYNTAX ERROR! - "
+                        + "LINE: " + currentToken.getLine()
+                        + " COLUMN: " + currentToken.getColumn()
+                        + " - array | integer | real | boolean");
+            //report a systatic error 
         }
     }
-    
-    private void parseTipoAgregado () {
+
+    private void parseTipoAgregado() {
         accept(Token.ARRAY);
         accept(Token.LEFTBRACKET);
         parseLiteral(); //Errado? o correto seria <int-lit>?
@@ -341,8 +386,8 @@ public class Parser {
         accept(Token.OF);
         parseTipo();
     }
-    
-    private void parseTipoSimples () {
+
+    private void parseTipoSimples() {
         switch (currentToken.getKind()) {
             case Token.INTEGER:
             case Token.REAL:
@@ -350,16 +395,20 @@ public class Parser {
                 acceptIt();
                 break;
             default:
-                //report a systatic error    
+                System.out.println("SYNTAX ERROR! - "
+                        + "LINE: " + currentToken.getLine()
+                        + " COLUMN: " + currentToken.getColumn()
+                        + " - integer | real | boolean");
+            //report a systatic error    
         }
     }
-    
-    private void parseVariavel () {
+
+    private void parseVariavel() {
         accept(Token.ID);
         parseSeletor();
     }
-    
-    private void parseVazio () { //Não sei se precisa
-        
+
+    private void parseVazio() { //Não sei se precisa
+
     }
 }
