@@ -26,8 +26,11 @@ public class Parser {
         if (currentToken.getKind() == expectedKind) {
             currentToken = scanner.scan();
         } else {
-            //System.out.println("SYNTAX ERROR!");
-            //report a systatic error
+            System.out.println("(Accept) SYNTAX ERROR! - "
+                    + "LINE: " + currentToken.getLine()
+                    + " COLUMN: " + currentToken.getColumn()
+                    + " - A Token of type \"" + Token.spellings[expectedKind]
+                    + "\" was expected and not token " + "\"" + currentToken.getSpelling() + "\"");
         }
     }
 
@@ -100,6 +103,7 @@ public class Parser {
         parseExpressao();
         accept(Token.THEN);
         parseComando();
+        //System.out.println("Kind: " + Token.spellings[currentToken.getKind()]);
         if (currentToken.getKind() == Token.ELSE) {
             acceptIt();
             parseComando();
@@ -110,7 +114,7 @@ public class Parser {
     }
 
     private void parseCorpo() {
-        parseDeclaracao();
+        parseDeclaracoes();
         parseComandoComposto();
     }
 
@@ -119,9 +123,11 @@ public class Parser {
             parseDeclaracaoDeVariavel();
         } else {
             System.out.println("SYNTAX ERROR! - "
-                        + "LINE: " + currentToken.getLine()
-                        + " COLUMN: " + (currentToken.getColumn() - 2)
-                        + " - var");
+                    + "LINE: " + currentToken.getLine()
+                    + " COLUMN: " + (currentToken.getColumn() - 1)
+                    + " - A Token of type \"" + Token.spellings[Token.VAR]
+                    + "\" was expected and not token " + "\""
+                    + currentToken.getSpelling() + "\"");
         }
     }
 
@@ -133,10 +139,19 @@ public class Parser {
     }
 
     private void parseDeclaracoes() {
+        //f (currentToken.getKind() == Token.VAR) {
         while (currentToken.getKind() == Token.VAR) {
             parseDeclaracao();
             accept(Token.SEMICOLON);
         }
+        /*} else {
+            System.out.println("SYNTAX ERROR! - "
+                    + "LINE: " + currentToken.getLine()
+                    + " COLUMN: " + (currentToken.getColumn() - 1)
+                    + " - A Token of type \"" + Token.spellings[Token.VAR] 
+                    + "\" was expected and not token " + "\"" 
+                    + currentToken.getSpelling() + "\"");
+        }*/
     }
 
     private void parseDigito() { //Não sei se precisa
@@ -194,7 +209,14 @@ public class Parser {
                 System.out.println("SYNTAX ERROR! - "
                         + "LINE: " + currentToken.getLine()
                         + " COLUMN: " + currentToken.getColumn()
-                        + " - id | true | false | int-lit | float-lit | \"(\"");
+                        + " - A Token of type \"" + Token.spellings[Token.ID] + "\""
+                        + " | \"" + Token.spellings[Token.TRUE] + "\""
+                        + " | \"" + Token.spellings[Token.FALSE] + "\""
+                        + " | \"" + Token.spellings[Token.INT_LIT] + "\""
+                        + " | \"" + Token.spellings[Token.FLOAT_LIT] + "\""
+                        + " | \"" + Token.spellings[Token.LEFTPARENTHESIS] + "\""
+                        + " was expected and not token " + "\""
+                        + currentToken.getSpelling() + "\"");
             //report a systatic error
         }
     }

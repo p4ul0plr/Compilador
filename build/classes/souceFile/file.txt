@@ -1,1 +1,8 @@
-va: boolean
+program programa1; 
+    
+
+    va a : integer;
+    begin 
+
+    end
+.
