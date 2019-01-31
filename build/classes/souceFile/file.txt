@@ -1,8 +1,7 @@
 program programa1; 
     
-
-    va a : integer;
     begin 
-
+        if a >   then
+            
     end
 .

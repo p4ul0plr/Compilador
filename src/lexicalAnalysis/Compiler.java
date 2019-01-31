@@ -35,12 +35,8 @@ public class Compiler {
 //        LeitorArquivo arq = new LeitorArquivo();
 //        System.out.println(""+arq.read("/tmp/arquivo.txt"));
         SourceFile sourceFile = new SourceFile("/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt");
-        if (sourceFile.toString().equals(EOT)) {
-            //System.out.println("vazio");
-        } else {
-            Parser parser = new Parser(sourceFile);
-            parser.parse();
-        }
+        Parser parser = new Parser(sourceFile);
+        parser.parse();
         /*Scanner scanner = new Scanner(sourceFile);
         Token token;
         while (scanner.getCurrentChar() != EOT) {
