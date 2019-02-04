@@ -9,6 +9,8 @@ package abstractSyntaxTrees;
  *
  * @author paulo
  */
-public class NodeOpAd {
-    public char opAd;
+public class NodeTermoComplemento {
+    public NodeOpMul nodeOpMul;
+    public NodeFator nodeFator;
+    public NodeTermoComplemento next;
 }

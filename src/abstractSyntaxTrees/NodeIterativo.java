@@ -10,6 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeIterativo extends NodeComando {
-    NodeExpressao nodeExpressao;
-    NodeComando nodeComando;
+    public NodeExpressao nodeExpressao;
+    public NodeComando nodeComando;
 }

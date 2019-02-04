@@ -10,5 +10,5 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeOpRel {
-    
+    public char opRel;
 }

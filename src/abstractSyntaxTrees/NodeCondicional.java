@@ -10,6 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeCondicional extends NodeComando {
-    NodeExpressao nodeExpressao;
-    NodeComando nodeComando;
+    public NodeExpressao nodeExpressao;
+    public NodeComando nodeComandoIf, nodeComandoElse;
 }

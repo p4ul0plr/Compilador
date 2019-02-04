@@ -10,5 +10,5 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeIntLit extends NodeLiteral {
-    
+    public char intLiteral;
 }

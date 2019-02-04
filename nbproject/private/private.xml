@@ -3,12 +3,40 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="4"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeTipoSimples.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Compiler.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeListaDeIds.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeAtribuicao.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeTipo.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeComando.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeListaDeComandos.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeLiteral.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeDeclaracoes.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeComandoComposto.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeId.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeDeclaracao.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeFloatLit.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/AST.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Token.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeSeletor.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/souceFile/SourceFile.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Scanner.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/syntaxAnalisys/Parser.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Compiler.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeTipoAgregado.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeBoolLit.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeIntLit.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeTermo.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeOpRel.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/syntaxAnalisys/Parser.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeExpressaoSimples.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodePrograma.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeIterativo.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeCondicional.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeVariavel.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeDeclaracaoDeVariavel.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeExpressao.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeFator.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/NodeCorpo.java</file>
         </group>
     </open-files>
 </project-private>

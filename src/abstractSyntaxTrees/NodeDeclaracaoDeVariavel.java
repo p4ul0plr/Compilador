@@ -10,6 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeDeclaracaoDeVariavel {
-    NodeListaDeIds nodeListaDeIds;
-    NodeTipo nodeTipo;
+    public NodeListaDeIds nodeListaDeIds;
+    public NodeTipo nodeTipo;
 }

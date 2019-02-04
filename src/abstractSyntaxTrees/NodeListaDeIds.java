@@ -10,5 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeListaDeIds {
-    NodeId nodeId;
+    public NodeId nodeId;
+    public NodeListaDeIds next;
 }

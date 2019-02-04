@@ -10,6 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeTipoAgregado extends NodeTipo {
-    NodeLiteral nodeLiteral1, nodeLiteral2;
-    NodeTipo nodeTipo;
+    public NodeLiteral nodeLiteral1, nodeLiteral2;
+    public NodeTipo nodeTipo;
 }

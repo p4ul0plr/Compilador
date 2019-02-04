@@ -10,6 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeCorpo {
-    NodeDeclaracoes nodeDeclaracoes;
-    NodeComandoComposto nodeComandoComposto;
+    public NodeDeclaracoes nodeDeclaracoes;
+    public NodeComandoComposto nodeComandoComposto;
 }

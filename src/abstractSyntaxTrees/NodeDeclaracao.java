@@ -10,5 +10,5 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeDeclaracao {
-    NodeDeclaracaoDeVariavel nodeDeclaracaoDeVariavel;
+    public NodeDeclaracaoDeVariavel nodeDeclaracaoDeVariavel;
 }

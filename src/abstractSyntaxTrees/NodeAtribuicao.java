@@ -10,6 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeAtribuicao extends NodeComando {
-    NodeVariavel nodeVariavel;
-    NodeExpressao nodeExpressao;
+    public NodeVariavel nodeVariavel;
+    public NodeExpressao nodeExpressao;
 }

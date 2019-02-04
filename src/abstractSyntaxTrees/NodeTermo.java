@@ -10,6 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeTermo {
-    NodeFator nodeFator;
-    
+    public NodeFator nodeFator;
+    public NodeTermoComplemento nodeTermoComplemento;
 }

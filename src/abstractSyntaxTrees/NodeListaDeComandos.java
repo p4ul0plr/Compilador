@@ -10,5 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeListaDeComandos {
-    NodeComando nodeComando;
+    public NodeComando nodeComando;
+    public NodeListaDeComandos next;
 }

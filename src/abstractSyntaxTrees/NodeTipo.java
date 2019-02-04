@@ -10,6 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public abstract class NodeTipo {
-    NodeTipoAgregado nodeTipoAgregado;
-    NodeTipoSimples nodeTipoSimples;
+//    public NodeTipoAgregado nodeTipoAgregado;
+//    public NodeTipoSimples nodeTipoSimples;
 }

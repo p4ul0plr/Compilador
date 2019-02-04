@@ -10,5 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeSeletor {
-    NodeExpressao nodeExpressao;
+    public NodeExpressao nodeExpressao;
+    public NodeSeletor next;
 }

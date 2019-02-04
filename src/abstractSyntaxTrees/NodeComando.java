@@ -10,8 +10,8 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public abstract class NodeComando {
-    NodeAtribuicao nodeAtribuicao;
-    NodeCondicional nodeCondicional;
-    NodeIterativo nodeIterativo;
-    NodeComandoComposto nodeComandoComposto;
+//    public NodeAtribuicao nodeAtribuicao;
+//    public NodeCondicional nodeCondicional;
+//    public NodeIterativo nodeIterativo;
+//    public NodeComandoComposto nodeComandoComposto;
 }

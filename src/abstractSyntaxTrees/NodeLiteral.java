@@ -10,7 +10,7 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public abstract class NodeLiteral extends NodeFator {
-    NodeBoolLit nodeBoolLit;
-    NodeIntLit intLit;
-    NodeFloatLit floatLit;
+//    NodeBoolLit nodeBoolLit;
+//    NodeIntLit intLit;
+//    NodeFloatLit floatLit;
 }

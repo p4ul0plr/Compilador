@@ -10,5 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeExpressao {
-    NodeExpressaoSimples nodeExpressaoSimples;
+    public NodeExpressaoSimples nodeExpressaoSimples1, nodeExpressaoSimples2;
+    public NodeOpAd nodeOpAd;
 }

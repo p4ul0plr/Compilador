@@ -10,6 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeVariavel extends NodeFator {
-    NodeId nodeId;
-    NodeSeletor nodeSeletor;
+    public NodeId nodeId;
+    public NodeSeletor nodeSeletor;
 }

@@ -10,5 +10,5 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeTipoSimples extends NodeTipo {
-    
+    public char tipoSimples;
 }

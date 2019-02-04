@@ -10,5 +10,5 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeComandoComposto extends NodeComando {
-    NodeListaDeComandos nodeListaDeComandos;
+    public NodeListaDeComandos nodeListaDeComandos;
 }

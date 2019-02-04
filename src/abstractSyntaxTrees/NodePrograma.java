@@ -10,6 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodePrograma extends AST {
-    NodeId nodeId;
-    NodeCorpo nodeCorpo;
+    public NodeId nodeId;
+    public NodeCorpo nodeCorpo;
 }

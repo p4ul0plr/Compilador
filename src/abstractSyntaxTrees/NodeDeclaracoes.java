@@ -10,5 +10,7 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeDeclaracoes {
-    NodeDeclaracao nodeDeclaracao;
+    public NodeDeclaracao nodeDeclaracao;
+    public NodeDeclaracoes next;
+    
 }

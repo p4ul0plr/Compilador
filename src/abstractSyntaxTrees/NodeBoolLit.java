@@ -10,5 +10,5 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeBoolLit extends NodeLiteral {
-    
+    public char booleano;
 }
