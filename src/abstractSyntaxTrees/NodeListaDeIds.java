@@ -10,6 +10,16 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeListaDeIds {
+
     public NodeId nodeId;
     public NodeListaDeIds next;
+    
+    public NodeListaDeIds(NodeId nodeId, NodeListaDeIds next) {
+        this.nodeId = nodeId;
+        this.next = next;
+    }
+
+    public void visit(Visitor v) {
+        v.visitListaDeIds(this);
+    }
 }

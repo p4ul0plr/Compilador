@@ -10,6 +10,17 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodePrograma extends AST {
+    
     public NodeId nodeId;
     public NodeCorpo nodeCorpo;
+    
+    public NodePrograma(NodeId nodeId, NodeCorpo nodeCorpo) {
+        this.nodeId = nodeId;
+        this.nodeCorpo = nodeCorpo;
+    }
+    
+    @Override
+    public void visit(Visitor v) {
+        v.visitPrograma(this);
+    }
 }

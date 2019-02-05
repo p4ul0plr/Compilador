@@ -10,5 +10,15 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeTipoSimples extends NodeTipo {
+
     public char tipoSimples;
+    
+    public NodeTipoSimples(char tipoSimples) {
+        this.tipoSimples = tipoSimples;
+    }
+    
+    @Override
+    public void visit(Visitor v) {
+        v.visitTipoSimples(this);
+    }
 }

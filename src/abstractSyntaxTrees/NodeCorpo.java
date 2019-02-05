@@ -10,6 +10,16 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeCorpo {
+    
     public NodeDeclaracoes nodeDeclaracoes;
     public NodeComandoComposto nodeComandoComposto;
+    
+    public NodeCorpo(NodeDeclaracoes nodeDeclaracoes, NodeComandoComposto nodeComandoComposto) {
+        this.nodeDeclaracoes = nodeDeclaracoes;
+        this.nodeComandoComposto = nodeComandoComposto;
+    }
+    
+    public void visit(Visitor v) {
+        v.visitCorpo(this);
+    }
 }

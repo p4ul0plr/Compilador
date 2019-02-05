@@ -10,5 +10,14 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeOpRel {
+
     public char opRel;
+    
+    public NodeOpRel(char opRel) {
+        this.opRel = opRel;
+    }
+
+    public void visit(Visitor v) {
+        v.visitOpRel(this);
+    }
 }

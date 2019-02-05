@@ -10,5 +10,15 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeComandoComposto extends NodeComando {
+    
     public NodeListaDeComandos nodeListaDeComandos;
+    
+    public NodeComandoComposto(NodeListaDeComandos nodeListaDeComandos) {
+        this.nodeListaDeComandos = nodeListaDeComandos;
+    }
+    
+    @Override
+    public void visit(Visitor v) {
+        v.visitComandoComposto(this);
+    }
 }

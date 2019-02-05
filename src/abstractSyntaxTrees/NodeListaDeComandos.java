@@ -10,6 +10,16 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeListaDeComandos {
+
     public NodeComando nodeComando;
     public NodeListaDeComandos next;
+    
+    public NodeListaDeComandos(NodeComando nodeComando, NodeListaDeComandos next) {
+        this.nodeComando = nodeComando;
+        this.next = next;
+    }
+    
+    public void visit(Visitor v) {
+        v.visitListaDeComandos(this);
+    }
 }

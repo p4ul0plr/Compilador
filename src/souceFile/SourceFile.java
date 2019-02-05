@@ -27,7 +27,7 @@ public class SourceFile {
 //    private InputStreamReader isr = null;
 //    public BufferedReader br = null;
     public File sourceFile;
-    public  FileInputStream source;
+    public FileInputStream source;
     //public int currentLine;
 
     public SourceFile(String path) {
@@ -76,8 +76,6 @@ public class SourceFile {
 //    public void setCurrentLine(int currentLine) {
 //        this.currentLine = currentLine;
 //    }
-
-    
 //    public char readCurrentChar() {
 //        try {
 //            char currentChar = (char) -1;
@@ -92,10 +90,9 @@ public class SourceFile {
 //            return EOT;
 //        }
 //    }
-
     public char readCurrentChar() {
         try {
-            int c =  source.read();
+            int c = source.read();
             if (c == -1) {
                 c = EOT;
             } else if (c == EOL) {

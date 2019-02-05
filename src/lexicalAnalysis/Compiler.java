@@ -1,14 +1,14 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package lexicalAnalysis;
 
 import souceFile.SourceFile;
 import java.io.IOException;
 import syntaxAnalisys.Parser;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author paulo
@@ -16,7 +16,6 @@ import syntaxAnalisys.Parser;
 public class Compiler {
 
     /**
-     * @param args the command line arguments
      */
     public static final char EOT = '\u0000';
 

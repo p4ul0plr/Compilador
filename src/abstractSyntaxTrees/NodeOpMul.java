@@ -10,5 +10,14 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeOpMul {
+
     public char opMul;
+    
+    public NodeOpMul(char opMul) {
+        this.opMul = opMul;
+    }
+
+    public void visit(Visitor v) {
+        v.visitOpMul(this);
+    }
 }

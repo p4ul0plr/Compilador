@@ -10,6 +10,16 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeSeletor {
+
     public NodeExpressao nodeExpressao;
     public NodeSeletor next;
+    
+    public NodeSeletor(NodeExpressao nodeExpressao, NodeSeletor next) {
+        this.nodeExpressao = nodeExpressao;
+        this.next = next;
+    }
+
+    public void visit(Visitor v) {
+        v.visitSeletor(next);
+    }
 }

@@ -10,6 +10,17 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeExpressao {
+
     public NodeExpressaoSimples nodeExpressaoSimples1, nodeExpressaoSimples2;
     public NodeOpAd nodeOpAd;
+
+    public NodeExpressao(NodeExpressaoSimples nodeExpressaoSimples1, NodeExpressaoSimples nodeExpressaoSimples2, NodeOpAd nodeOpAd) {
+        this.nodeExpressaoSimples1 = nodeExpressaoSimples1;
+        this.nodeExpressaoSimples2 = nodeExpressaoSimples2;
+        this.nodeOpAd = nodeOpAd;
+    }
+
+    public void visit(Visitor v) {
+        v.visitExpressao(this);
+    }
 }

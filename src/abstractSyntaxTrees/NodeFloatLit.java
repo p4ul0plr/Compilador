@@ -10,5 +10,15 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeFloatLit extends NodeLiteral {
+
     public char floatLiteral;
+
+    public NodeFloatLit(char floatLiteral) {
+        this.floatLiteral = floatLiteral;
+    }
+
+    @Override
+    public void visit(Visitor v) {
+        v.visitFloatLit(this);
+    }
 }

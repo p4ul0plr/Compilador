@@ -10,6 +10,17 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeAtribuicao extends NodeComando {
+
     public NodeVariavel nodeVariavel;
     public NodeExpressao nodeExpressao;
+
+    public NodeAtribuicao(NodeVariavel nodeVariavel, NodeExpressao nodeExpressao) {
+        this.nodeVariavel = nodeVariavel;
+        this.nodeExpressao = nodeExpressao;
+    }
+
+    public void visit(Visitor v) {
+        v.visitAtribuicao(this);
+
+    }
 }

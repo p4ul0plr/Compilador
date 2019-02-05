@@ -10,5 +10,14 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeOpAd {
+
     public char opAd;
+    
+    public NodeOpAd(char opAd) {
+        this.opAd = opAd;
+    }
+
+    public void visit(Visitor v) {
+        v.visitOpAd(this);
+    }
 }

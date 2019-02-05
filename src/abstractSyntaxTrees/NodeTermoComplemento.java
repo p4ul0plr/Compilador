@@ -10,7 +10,18 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeTermoComplemento {
+
     public NodeOpMul nodeOpMul;
     public NodeFator nodeFator;
     public NodeTermoComplemento next;
+    
+    public NodeTermoComplemento(NodeOpMul nodeOpMul, NodeFator nodeFator, NodeTermoComplemento next) {
+        this.nodeOpMul = nodeOpMul;
+        this.nodeFator = nodeFator;
+        this.next = next;
+    }
+    
+    public void visit(Visitor v) {
+        v.visitTermoComplemento(next);
+    }
 }

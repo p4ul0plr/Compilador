@@ -10,6 +10,16 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeDeclaracaoDeVariavel {
+    
     public NodeListaDeIds nodeListaDeIds;
     public NodeTipo nodeTipo;
+    
+    public NodeDeclaracaoDeVariavel(NodeListaDeIds nodeListaDeIds, NodeTipo nodeTipo) {
+        this.nodeListaDeIds = nodeListaDeIds;
+        this.nodeTipo = nodeTipo;
+    }
+    
+    public void visit(Visitor v) {
+        v.visitDeclaracaoDeVariavel(this);
+    }
 }

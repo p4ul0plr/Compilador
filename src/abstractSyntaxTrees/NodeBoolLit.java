@@ -10,5 +10,14 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeBoolLit extends NodeLiteral {
+
     public char booleano;
+
+    public NodeBoolLit(char booleano) {
+        this.booleano = booleano;
+    }
+
+    public void visit(Visitor v) {
+        v.visitBoolLit(this);
+    }
 }

@@ -10,6 +10,18 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeTipoAgregado extends NodeTipo {
+    
     public NodeLiteral nodeLiteral1, nodeLiteral2;
     public NodeTipo nodeTipo;
+    
+    public NodeTipoAgregado(NodeLiteral nodeLiteral1, NodeLiteral nodeLiteral2, NodeTipo nodeTipo) {
+        this.nodeLiteral1 = nodeLiteral1;
+        this.nodeLiteral2 = nodeLiteral2;
+        this.nodeTipo = nodeTipo;
+    }
+    
+    @Override
+    public void visit(Visitor v) {
+        v.visitTipoAgregado(this);
+    }
 }

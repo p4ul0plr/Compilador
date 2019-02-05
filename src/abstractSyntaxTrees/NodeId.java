@@ -10,5 +10,14 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public class NodeId {
+    
     public char identificador;
+    
+    public NodeId(char identificador) {
+        this.identificador = identificador;
+    }
+    
+    public void visit(Visitor v) {
+        v.visitId(this);
+    }
 }

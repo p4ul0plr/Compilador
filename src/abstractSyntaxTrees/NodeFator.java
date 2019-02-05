@@ -10,7 +10,6 @@ package abstractSyntaxTrees;
  * @author paulo
  */
 public abstract class NodeFator {
-//    public NodeVariavel nodeVariavel;
-//    public NodeLiteral nodeLiteral;
-//    public NodeExpressao nodeExpressao;
+
+    public abstract void visit(Visitor v);
 }

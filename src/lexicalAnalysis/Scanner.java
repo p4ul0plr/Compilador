@@ -54,7 +54,7 @@ public class Scanner {
     public void setAux(int aux) {
         this.aux = aux;
     }
-    
+
     public char getCurrentChar() {
         return currentChar;
     }
@@ -163,7 +163,7 @@ public class Scanner {
             if (c == i) {
                 return true;
             }
-        }       
+        }
         return false;
     }
 
@@ -189,9 +189,9 @@ public class Scanner {
         column = aux + contVoidSpace;
         aux = endColumn;
         contVoidSpace = 1;
-        
+
     }
-     
+
     public Token scan() {
         while (currentChar == '!' || currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == '\r') {
             //calculateTheNumberOfColumns();
