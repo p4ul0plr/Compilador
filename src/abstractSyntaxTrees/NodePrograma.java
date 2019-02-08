@@ -18,6 +18,10 @@ public class NodePrograma extends AST {
         this.nodeId = nodeId;
         this.nodeCorpo = nodeCorpo;
     }
+
+    public NodePrograma() {
+
+    }
     
     @Override
     public void visit(Visitor v) {

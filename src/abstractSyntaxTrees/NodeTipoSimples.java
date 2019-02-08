@@ -11,10 +11,14 @@ package abstractSyntaxTrees;
  */
 public class NodeTipoSimples extends NodeTipo {
 
-    public char tipoSimples;
+    public String tipoSimples;
     
-    public NodeTipoSimples(char tipoSimples) {
+    public NodeTipoSimples(String tipoSimples) {
         this.tipoSimples = tipoSimples;
+    }
+
+    public NodeTipoSimples() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     @Override

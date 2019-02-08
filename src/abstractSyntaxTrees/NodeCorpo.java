@@ -18,6 +18,10 @@ public class NodeCorpo {
         this.nodeDeclaracoes = nodeDeclaracoes;
         this.nodeComandoComposto = nodeComandoComposto;
     }
+
+    public NodeCorpo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public void visit(Visitor v) {
         v.visitCorpo(this);

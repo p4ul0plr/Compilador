@@ -11,9 +11,9 @@ package abstractSyntaxTrees;
  */
 public class NodeBoolLit extends NodeLiteral {
 
-    public char booleano;
+    public String booleano;
 
-    public NodeBoolLit(char booleano) {
+    public NodeBoolLit(String booleano) {
         this.booleano = booleano;
     }
 

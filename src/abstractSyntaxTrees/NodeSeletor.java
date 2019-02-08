@@ -19,6 +19,10 @@ public class NodeSeletor {
         this.next = next;
     }
 
+    public NodeSeletor() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public void visit(Visitor v) {
         v.visitSeletor(next);
     }

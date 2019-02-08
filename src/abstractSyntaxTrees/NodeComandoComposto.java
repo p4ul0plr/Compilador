@@ -16,6 +16,10 @@ public class NodeComandoComposto extends NodeComando {
     public NodeComandoComposto(NodeListaDeComandos nodeListaDeComandos) {
         this.nodeListaDeComandos = nodeListaDeComandos;
     }
+
+    public NodeComandoComposto() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     @Override
     public void visit(Visitor v) {

@@ -19,6 +19,10 @@ public class NodeAtribuicao extends NodeComando {
         this.nodeExpressao = nodeExpressao;
     }
 
+    public NodeAtribuicao() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public void visit(Visitor v) {
         v.visitAtribuicao(this);
 

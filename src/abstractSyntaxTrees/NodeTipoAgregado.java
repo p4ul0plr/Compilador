@@ -19,6 +19,10 @@ public class NodeTipoAgregado extends NodeTipo {
         this.nodeLiteral2 = nodeLiteral2;
         this.nodeTipo = nodeTipo;
     }
+
+    public NodeTipoAgregado() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     @Override
     public void visit(Visitor v) {

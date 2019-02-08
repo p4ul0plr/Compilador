@@ -5,6 +5,28 @@
  */
 package syntaxAnalisys;
 
+import abstractSyntaxTrees.NodeAtribuicao;
+import abstractSyntaxTrees.NodeBoolLit;
+import abstractSyntaxTrees.NodeComando;
+import abstractSyntaxTrees.NodeComandoComposto;
+import abstractSyntaxTrees.NodeCondicional;
+import abstractSyntaxTrees.NodeCorpo;
+import abstractSyntaxTrees.NodeDeclaracao;
+import abstractSyntaxTrees.NodeDeclaracaoDeVariavel;
+import abstractSyntaxTrees.NodeDeclaracoes;
+import abstractSyntaxTrees.NodeExpressao;
+import abstractSyntaxTrees.NodeId;
+import abstractSyntaxTrees.NodeIterativo;
+import abstractSyntaxTrees.NodeListaDeComandos;
+import abstractSyntaxTrees.NodeListaDeIds;
+import abstractSyntaxTrees.NodeLiteral;
+import abstractSyntaxTrees.NodePrograma;
+import abstractSyntaxTrees.NodeSeletor;
+import abstractSyntaxTrees.NodeTermo;
+import abstractSyntaxTrees.NodeTipo;
+import abstractSyntaxTrees.NodeTipoAgregado;
+import abstractSyntaxTrees.NodeTipoSimples;
+import abstractSyntaxTrees.NodeVariavel;
 import lexicalAnalysis.Scanner;
 import lexicalAnalysis.Token;
 import souceFile.SourceFile;
@@ -64,17 +86,21 @@ public class Parser {
         }
     }
 
-    private void parseAtribuicao() {
-        parseVariavel();
+    private NodeAtribuicao parseAtribuicao() {
+        NodeAtribuicao a = new NodeAtribuicao();
+        a.nodeVariavel = parseVariavel();
         accept(Token.ASSIGNMENT);
-        parseExpressao();
+        a.nodeExpressao = parseExpressao();
+        return a;
     }
 
-    private void parseBoolLit() {
+    private NodeBoolLit parseBoolLit() {
+        NodeBoolLit b = null;
         switch (currentToken.getKind()) {
             case Token.TRUE:
             case Token.FALSE:
                 acceptIt();
+                b = new NodeBoolLit(currentToken.spelling);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -86,21 +112,23 @@ public class Parser {
                         + currentToken.getSpelling() + "\"");
             //report a systatic error
         }
+        return b;
     }
 
-    private void parseComando() {
+    private NodeComando parseComando() {
+        NodeComando c = null;
         switch (currentToken.getKind()) {
             case Token.ID:
-                parseAtribuicao();
+                c = parseAtribuicao();
                 break;
             case Token.IF:
-                parseCondicional();
+                c = parseCondicional();
                 break;
             case Token.WHILE:
-                parseIterativo();
+                c = parseIterativo();
                 break;
             case Token.BEGIN:
-                parseComandoComposto();
+                c = parseComandoComposto();
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -114,37 +142,44 @@ public class Parser {
                         + currentToken.getSpelling() + "\"");
             //report a systatic error
         }
+        return c;
     }
 
-    private void parseComandoComposto() {
+    private NodeComandoComposto parseComandoComposto() {
+        NodeComandoComposto c = new NodeComandoComposto();
         accept(Token.BEGIN);
-        parseListaDeComandos();
+        c.nodeListaDeComandos = parseListaDeComandos();
         accept(Token.END);
+        return c;
     }
 
-    private void parseCondicional() {
+    private NodeCondicional parseCondicional() {
+        NodeCondicional c = new NodeCondicional();
         accept(Token.IF);
-        parseExpressao();
+        c.nodeComandoIf = parseComando();
         accept(Token.THEN);
-        parseComando();
+        c.nodeExpressao = parseExpressao();
         //System.out.println("Kind: " + Token.spellings[currentToken.getKind()]);
         if (currentToken.getKind() == Token.ELSE) {
             acceptIt();
-            parseComando();
+            c.nodeComandoElse = parseComando();
         } else {
+            c.nodeComandoElse = null;
             //report a systatic error
         }
+        return c;
 
     }
 
-    private void parseCorpo() {
-        parseDeclaracoes();
-        parseComandoComposto();
+    private NodeCorpo parseCorpo() {
+        NodeCorpo c = new NodeCorpo();
+        c.nodeDeclaracoes = parseDeclaracoes();
+        c.nodeComandoComposto = parseComandoComposto();
+        return c;
     }
 
-    private void parseDeclaracao() {
+    private NodeDeclaracao parseDeclaracao() {
         //if (currentToken.getKind() == Token.VAR) {
-        parseDeclaracaoDeVariavel();
         /*} else {
             System.out.println("SYNTAX ERROR! - "
                     + "LINE: " + currentToken.getLine()
@@ -153,20 +188,32 @@ public class Parser {
                     + "\" was expected and not token " + "\""
                     + currentToken.getSpelling() + "\"");
         }*/
+        return new NodeDeclaracao(parseDeclaracaoDeVariavel());
     }
 
-    private void parseDeclaracaoDeVariavel() {
+    private NodeDeclaracaoDeVariavel parseDeclaracaoDeVariavel() {
+        NodeDeclaracaoDeVariavel d = new NodeDeclaracaoDeVariavel();
         accept(Token.VAR);
-        parseListadeIds();
+        d.nodeListaDeIds = parseListadeIds();
         accept(Token.COLON);
-        parseTipo();
+        d.nodeTipo = parseTipo();
+        return d;
     }
 
-    private void parseDeclaracoes() {
+    private NodeDeclaracoes parseDeclaracoes() {
+        NodeDeclaracoes d, first, last;
+        first = null;
+        last = null;
         //f (currentToken.getKind() == Token.VAR) {
         while (currentToken.getKind() == Token.VAR) {
-            parseDeclaracao();
             accept(Token.SEMICOLON);
+            d = new NodeDeclaracoes(parseDeclaracao(), null);
+            if (first == null) {
+                first = d;
+            } else {
+                last.next = d;
+            }
+            last = d;
         }
         /*} else {
             System.out.println("SYNTAX ERROR! - "
@@ -176,6 +223,7 @@ public class Parser {
                     + "\" was expected and not token " + "\"" 
                     + currentToken.getSpelling() + "\"");
         }*/
+        return first;
     }
 
     private void parseDigito() { //Não sei se precisa
@@ -186,7 +234,7 @@ public class Parser {
 //        }
     }
 
-    private void parseExpressao() {
+    private NodeExpressao parseExpressao() {
         parseExpressaoSimples();
         switch (currentToken.getKind()) {
             case Token.OP_REL_BIGGEROREQUAL:
@@ -201,6 +249,7 @@ public class Parser {
             default:
             //report a systatic erro    
         }
+        return null;
     }
 
     private void parseExpressaoSimples() {
@@ -264,26 +313,29 @@ public class Parser {
         accept(Token.FLOAT_LIT);
     }
 
-    private void parseId() { //Não sei se precisa
+    private NodeId parseId() { //Não sei se precisa
+        NodeId i;
         accept(Token.ID);
+        return new NodeId(Token.spellings[Token.ID]);
     }
 
     private void parseIntLit() {  //Não sei se precisa
         accept(Token.INT_LIT);
     }
 
-    private void parseIterativo() {
+    private NodeIterativo parseIterativo() {
         accept(Token.WHILE);
         parseExpressao();
         accept(Token.DO);
         parseComando();
+        return null;
     }
 
     private void parseLetra() { //Não sei se precisa
 
     }
 
-    private void parseListaDeComandos() {
+    private NodeListaDeComandos parseListaDeComandos() {
         while (currentToken.getKind() == Token.ID
                 || currentToken.getKind() == Token.IF
                 || currentToken.getKind() == Token.WHILE
@@ -291,17 +343,26 @@ public class Parser {
             parseComando();
             accept(Token.SEMICOLON);
         }
+        return null;
     }
 
-    private void parseListadeIds() {
+    private NodeListaDeIds parseListadeIds() {
+        NodeListaDeIds l, first, last;
         accept(Token.ID);
+        l = new NodeListaDeIds(new NodeId(Token.spellings[Token.ID]), null);
+        first = l;
+        last = l;
         while (currentToken.getKind() == Token.COMMA) {
             acceptIt();
             accept(Token.ID);
+            l = new NodeListaDeIds(new NodeId(Token.spellings[Token.ID]), null);
+            last.next = l;
+            last = l;
         }
+        return first;
     }
 
-    private void parseLiteral() {
+    private NodeLiteral parseLiteral() {
         switch (currentToken.getKind()) {
             case Token.TRUE:
             case Token.FALSE:
@@ -325,6 +386,7 @@ public class Parser {
                         + currentToken.getSpelling() + "\"");
             //report a systatic error    
         }
+        return null;
     }
 
     private void parseOpAd() {
@@ -397,23 +459,35 @@ public class Parser {
 
     }
 
-    private void parsePrograma() {
+    private NodePrograma parsePrograma() {
+        NodePrograma p = new NodePrograma(); //Deletar o construtor
         accept(Token.PROGRAM);
-        parseId();
+        p.nodeId = parseId();
         accept(Token.SEMICOLON);
-        parseCorpo();
+        p.nodeCorpo = parseCorpo();
         accept(Token.DOT);
+        return p;
     }
 
-    private void parseSeletor() {
+    private NodeSeletor parseSeletor() {
+        NodeSeletor s, first, last;
+        first = null;
+        last = null;
         while (currentToken.getKind() == Token.LEFTBRACKET) {
             acceptIt();
-            parseExpressao();
+            s = new NodeSeletor(parseExpressao(), null);
             accept(Token.RIGHTBRACKET);
+            if (first == null) {
+                first = s;
+            } else {
+                last.next = s;
+            }
+            last = s;
         }
+        return first;
     }
 
-    private void parseTermo() {
+    private void parseTermo() { //Voltar aqui em algum momento para encarrar isso!!!
         parseFator();
         while (currentToken.getKind() == Token.OP_MULT_AND
                 || currentToken.getKind() == Token.OP_MULT_DIV
@@ -423,15 +497,16 @@ public class Parser {
         }
     }
 
-    private void parseTipo() {
+    private NodeTipo parseTipo() {
+        NodeTipo t = null;
         switch (currentToken.getKind()) {
             case Token.ARRAY:
-                parseTipoAgregado();
+                t = parseTipoAgregado();
                 break;
             case Token.INTEGER:
             case Token.REAL:
             case Token.BOOLEAN:
-                parseTipoSimples();
+                t = parseTipoSimples();
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -445,25 +520,30 @@ public class Parser {
                         + currentToken.getSpelling() + "\"");
             //report a systatic error 
         }
+        return t;
     }
 
-    private void parseTipoAgregado() {
+    private NodeTipoAgregado parseTipoAgregado() {
+        NodeTipoAgregado tA = new NodeTipoAgregado();
         accept(Token.ARRAY);
         accept(Token.LEFTBRACKET);
-        parseLiteral(); //Errado? o correto seria <int-lit>?
+        tA.nodeLiteral1 = parseLiteral(); //Errado? o correto seria <int-lit>?
         accept(Token.DOTDOT);
-        parseLiteral(); //Errado? o correto seria <int-lit>?
+        tA.nodeLiteral2 = parseLiteral(); //Errado? o correto seria <int-lit>?
         accept(Token.RIGHTBRACKET);
         accept(Token.OF);
-        parseTipo();
+        tA.nodeTipo = parseTipo();
+        return tA;
     }
 
-    private void parseTipoSimples() {
+    private NodeTipoSimples parseTipoSimples() {
+        NodeTipoSimples tS = null;
         switch (currentToken.getKind()) {
             case Token.INTEGER:
             case Token.REAL:
             case Token.BOOLEAN:
                 acceptIt();
+                tS = new NodeTipoSimples(currentToken.spelling);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -476,11 +556,12 @@ public class Parser {
                         + currentToken.getSpelling() + "\"");
             //report a systatic error    
         }
+        return tS;
     }
 
-    private void parseVariavel() {
+    private NodeVariavel parseVariavel() {
         accept(Token.ID);
-        parseSeletor();
+        return new NodeVariavel(new NodeId(Token.spellings[Token.ID]), parseSeletor());
     }
 
     private void parseVazio() { //Não sei se precisa
