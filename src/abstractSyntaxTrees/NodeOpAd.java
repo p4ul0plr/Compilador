@@ -11,9 +11,9 @@ package abstractSyntaxTrees;
  */
 public class NodeOpAd {
 
-    public char opAd;
+    public String opAd;
     
-    public NodeOpAd(char opAd) {
+    public NodeOpAd(String opAd) {
         this.opAd = opAd;
     }
 

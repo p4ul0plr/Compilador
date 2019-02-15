@@ -15,14 +15,23 @@ import abstractSyntaxTrees.NodeDeclaracao;
 import abstractSyntaxTrees.NodeDeclaracaoDeVariavel;
 import abstractSyntaxTrees.NodeDeclaracoes;
 import abstractSyntaxTrees.NodeExpressao;
+import abstractSyntaxTrees.NodeExpressaoSimples;
+import abstractSyntaxTrees.NodeExpressaoSimplesComplemento;
+import abstractSyntaxTrees.NodeFator;
+import abstractSyntaxTrees.NodeFloatLit;
 import abstractSyntaxTrees.NodeId;
+import abstractSyntaxTrees.NodeIntLit;
 import abstractSyntaxTrees.NodeIterativo;
 import abstractSyntaxTrees.NodeListaDeComandos;
 import abstractSyntaxTrees.NodeListaDeIds;
 import abstractSyntaxTrees.NodeLiteral;
+import abstractSyntaxTrees.NodeOpAd;
+import abstractSyntaxTrees.NodeOpMul;
+import abstractSyntaxTrees.NodeOpRel;
 import abstractSyntaxTrees.NodePrograma;
 import abstractSyntaxTrees.NodeSeletor;
 import abstractSyntaxTrees.NodeTermo;
+import abstractSyntaxTrees.NodeTermoComplemento;
 import abstractSyntaxTrees.NodeTipo;
 import abstractSyntaxTrees.NodeTipoAgregado;
 import abstractSyntaxTrees.NodeTipoSimples;
@@ -235,7 +244,8 @@ public class Parser {
     }
 
     private NodeExpressao parseExpressao() {
-        parseExpressaoSimples();
+        NodeExpressao e = new NodeExpressao();
+        e.nodeExpressaoSimples1 = parseExpressaoSimples();
         switch (currentToken.getKind()) {
             case Token.OP_REL_BIGGEROREQUAL:
             case Token.OP_REL_BIGGERTHEN:
@@ -243,39 +253,53 @@ public class Parser {
             case Token.OP_REL_EQUAL:
             case Token.OP_REL_LESSOREQUAL:
             case Token.OP_REL_LESSTHEN:
-                parseOpRel();
-                parseExpressaoSimples();
+                e.nodeOpRel = parseOpRel();
+                e.nodeExpressaoSimples2 = parseExpressaoSimples();
                 break;
             default:
+                e.nodeExpressaoSimples2 = null;
+                e.nodeOpRel = null;
             //report a systatic erro    
         }
         return null;
     }
 
-    private void parseExpressaoSimples() {
-        parseTermo();
+    private NodeExpressaoSimples parseExpressaoSimples() {
+        NodeExpressaoSimples eS = new NodeExpressaoSimples();
+        NodeExpressaoSimplesComplemento eSC, first, last;
+        eS.nodeTermo = parseTermo();
+        first  = null;
+        last = null;
         while (currentToken.getKind() == Token.OP_AD_AD
                 || currentToken.getKind() == Token.OP_AD_OR
                 || currentToken.getKind() == Token.OP_AD_SUB) {
-            parseOpAd();
-            parseTermo();
+            eSC = new NodeExpressaoSimplesComplemento(parseOpAd(), parseTermo(), null);
+            if (first == null) {
+                first = eSC;
+            } else {
+                last.next = eSC;
+            }
+            last = eSC;
         }
+        eS.nodeExpressaoSimplesComplemento = first;
+        return eS;
     }
 
-    private void parseFator() {
+    private NodeFator parseFator() {
+        NodeFator f = null;
         switch (currentToken.getKind()) {
             case Token.ID:
-                parseVariavel();
+                f = parseVariavel();
                 break;
             case Token.TRUE:
             case Token.FALSE:
             case Token.INT_LIT:
             case Token.FLOAT_LIT:
-                parseLiteral();
+                f = parseLiteral();
                 break;
             case Token.LEFTPARENTHESIS:
                 acceptIt();
-                parseExpressao();
+                f = parseExpressao();
                 accept(Token.RIGHTPARENTHESIS);
                 break;
             default:
@@ -292,9 +316,10 @@ public class Parser {
                         + currentToken.getSpelling() + "\"");
             //report a systatic error
         }
+        return f;
     }
 
-    private void parseFloatLit() { //Não sei se precisa
+    private NodeFloatLit parseFloatLit() { //Não sei se precisa
 //        switch(currentToken.getKind()) {
 //            case Token.INT_LIT:
 //                acceptIt();
@@ -311,24 +336,26 @@ public class Parser {
 //                //report a systatic error
 //        }
         accept(Token.FLOAT_LIT);
+        return new NodeFloatLit(Token.spellings[Token.FLOAT_LIT]);
     }
 
     private NodeId parseId() { //Não sei se precisa
-        NodeId i;
         accept(Token.ID);
         return new NodeId(Token.spellings[Token.ID]);
     }
 
-    private void parseIntLit() {  //Não sei se precisa
+    private NodeIntLit parseIntLit() {  //Não sei se precisa
         accept(Token.INT_LIT);
+        return new NodeIntLit(Token.spellings[Token.INT_LIT]);
     }
 
     private NodeIterativo parseIterativo() {
+        NodeIterativo i = new NodeIterativo();
         accept(Token.WHILE);
-        parseExpressao();
+        i.nodeExpressao = parseExpressao();
         accept(Token.DO);
-        parseComando();
-        return null;
+        i.nodeComando = parseComando();
+        return i;
     }
 
     private void parseLetra() { //Não sei se precisa
@@ -336,14 +363,23 @@ public class Parser {
     }
 
     private NodeListaDeComandos parseListaDeComandos() {
+        NodeListaDeComandos lC , first, last;
+        first = null;
+        last = null;
         while (currentToken.getKind() == Token.ID
                 || currentToken.getKind() == Token.IF
                 || currentToken.getKind() == Token.WHILE
                 || currentToken.getKind() == Token.BEGIN) {
-            parseComando();
+            lC = new NodeListaDeComandos(parseComando(), null);
+            if (first == null) {
+                first = lC;
+            } else {
+                last.next = lC;
+            }
+            last = lC;
             accept(Token.SEMICOLON);
         }
-        return null;
+        return first;
     }
 
     private NodeListaDeIds parseListadeIds() {
@@ -363,16 +399,17 @@ public class Parser {
     }
 
     private NodeLiteral parseLiteral() {
+        NodeLiteral l = null;
         switch (currentToken.getKind()) {
             case Token.TRUE:
             case Token.FALSE:
-                parseBoolLit();
+                l = parseBoolLit();
                 break;
             case Token.INT_LIT:
-                parseIntLit();
+                l = parseIntLit();
                 break;
             case Token.FLOAT_LIT:
-                parseFloatLit();
+                l = parseFloatLit();
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -386,15 +423,17 @@ public class Parser {
                         + currentToken.getSpelling() + "\"");
             //report a systatic error    
         }
-        return null;
+        return l;
     }
 
-    private void parseOpAd() {
+    private NodeOpAd parseOpAd() {
+        NodeOpAd o = null;
         switch (currentToken.getKind()) {
             case Token.OP_AD_AD:
             case Token.OP_AD_OR:
             case Token.OP_AD_SUB:
                 acceptIt();
+                o = new NodeOpAd(currentToken.spelling);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -407,14 +446,17 @@ public class Parser {
                         + currentToken.getSpelling() + "\"");
             //report a systatic error    
         }
+        return o;
     }
 
-    private void parseOpMul() {
+    private NodeOpMul parseOpMul() {
+        NodeOpMul o = null;
         switch (currentToken.getKind()) {
             case Token.OP_MULT_AND:
             case Token.OP_MULT_DIV:
             case Token.OP_MULT_MULT:
                 acceptIt();
+                o = new NodeOpMul(currentToken.spelling);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -427,9 +469,11 @@ public class Parser {
                         + currentToken.getSpelling() + "\"");
             //report a systatic error    
         }
+        return o;
     }
 
-    private void parseOpRel() {
+    private NodeOpRel parseOpRel() {
+        NodeOpRel o = null;
         switch (currentToken.getKind()) {
             case Token.OP_REL_BIGGEROREQUAL:
             case Token.OP_REL_BIGGERTHEN:
@@ -438,6 +482,7 @@ public class Parser {
             case Token.OP_REL_LESSOREQUAL:
             case Token.OP_REL_LESSTHEN:
                 acceptIt();
+                o = new NodeOpRel(currentToken.spelling);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -453,6 +498,7 @@ public class Parser {
                         + currentToken.getSpelling() + "\"");
             //report a systatic error    
         }
+        return o;
     }
 
     private void parseOutros() { //Não sei se precisa
@@ -487,14 +533,25 @@ public class Parser {
         return first;
     }
 
-    private void parseTermo() { //Voltar aqui em algum momento para encarrar isso!!!
-        parseFator();
+    private NodeTermo parseTermo() { //Voltar aqui em algum momento para encarrar isso!!!
+        NodeTermo t = new NodeTermo();
+        NodeTermoComplemento tC, first, last;
+        t.nodeFator = parseFator();
+        first = null;
+        last = null;
         while (currentToken.getKind() == Token.OP_MULT_AND
                 || currentToken.getKind() == Token.OP_MULT_DIV
                 || currentToken.getKind() == Token.OP_MULT_MULT) {
-            parseOpMul();
-            parseFator();
+            tC = new NodeTermoComplemento(parseOpMul(), parseFator(), null);
+            if (first == null) {
+                first = tC;
+            } else {
+                last.next = tC;
+            }
+            last = tC;
         }
+        t.nodeTermoComplemento = first;
+        return t;
     }
 
     private NodeTipo parseTipo() {

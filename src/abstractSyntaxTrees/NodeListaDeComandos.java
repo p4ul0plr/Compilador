@@ -18,7 +18,7 @@ public class NodeListaDeComandos {
         this.nodeComando = nodeComando;
         this.next = next;
     }
-    
+
     public void visit(Visitor v) {
         v.visitListaDeComandos(this);
     }

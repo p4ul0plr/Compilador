@@ -21,6 +21,10 @@ public class NodeExpressaoSimplesComplemento {
         this.next = next;
     }
 
+    public NodeExpressaoSimplesComplemento() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public void visit(Visitor v) {
         v.visitExpressaoSimplesComplemento(next);
     }

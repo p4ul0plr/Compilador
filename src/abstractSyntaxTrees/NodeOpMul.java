@@ -11,9 +11,9 @@ package abstractSyntaxTrees;
  */
 public class NodeOpMul {
 
-    public char opMul;
+    public String opMul;
     
-    public NodeOpMul(char opMul) {
+    public NodeOpMul(String opMul) {
         this.opMul = opMul;
     }
 

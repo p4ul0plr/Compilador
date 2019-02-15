@@ -11,9 +11,9 @@ package abstractSyntaxTrees;
  */
 public class NodeIntLit extends NodeLiteral {
 
-    public char intLiteral;
+    public String intLiteral;
     
-    public NodeIntLit(char intLiteral) {
+    public NodeIntLit(String intLiteral) {
         this.intLiteral = intLiteral;
     }
     
