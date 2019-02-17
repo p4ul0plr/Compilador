@@ -14,15 +14,6 @@ public class NodeDeclaracaoDeVariavel {
     public NodeListaDeIds nodeListaDeIds;
     public NodeTipo nodeTipo;
     
-    public NodeDeclaracaoDeVariavel(NodeListaDeIds nodeListaDeIds, NodeTipo nodeTipo) {
-        this.nodeListaDeIds = nodeListaDeIds;
-        this.nodeTipo = nodeTipo;
-    }
-
-    public NodeDeclaracaoDeVariavel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     public void visit(Visitor v) {
         v.visitDeclaracaoDeVariavel(this);
     }

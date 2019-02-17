@@ -14,15 +14,7 @@ public class NodeAtribuicao extends NodeComando {
     public NodeVariavel nodeVariavel;
     public NodeExpressao nodeExpressao;
 
-    public NodeAtribuicao(NodeVariavel nodeVariavel, NodeExpressao nodeExpressao) {
-        this.nodeVariavel = nodeVariavel;
-        this.nodeExpressao = nodeExpressao;
-    }
-
-    public NodeAtribuicao() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    @Override
     public void visit(Visitor v) {
         v.visitAtribuicao(this);
 

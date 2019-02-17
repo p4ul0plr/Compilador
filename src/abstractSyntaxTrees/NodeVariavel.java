@@ -14,11 +14,6 @@ public class NodeVariavel extends NodeFator {
     public NodeId nodeId;
     public NodeSeletor nodeSeletor;
     
-    public NodeVariavel(NodeId nodeId, NodeSeletor nodeSeletor) {
-        this.nodeId = nodeId;
-        this.nodeSeletor = nodeSeletor;
-    }
-    
     @Override
     public void visit(Visitor v) {
         v.visitVariavel(this);

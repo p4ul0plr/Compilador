@@ -165,9 +165,9 @@ public class Parser {
     private NodeCondicional parseCondicional() {
         NodeCondicional c = new NodeCondicional();
         accept(Token.IF);
-        c.nodeComandoIf = parseComando();
-        accept(Token.THEN);
         c.nodeExpressao = parseExpressao();
+        accept(Token.THEN);
+        c.nodeComandoIf = parseComando();
         //System.out.println("Kind: " + Token.spellings[currentToken.getKind()]);
         if (currentToken.getKind() == Token.ELSE) {
             acceptIt();
@@ -215,8 +215,8 @@ public class Parser {
         last = null;
         //f (currentToken.getKind() == Token.VAR) {
         while (currentToken.getKind() == Token.VAR) {
-            accept(Token.SEMICOLON);
             d = new NodeDeclaracoes(parseDeclaracao(), null);
+            accept(Token.SEMICOLON);
             if (first == null) {
                 first = d;
             } else {
@@ -261,7 +261,7 @@ public class Parser {
                 e.nodeOpRel = null;
             //report a systatic erro    
         }
-        return null;
+        return e;
     }
 
     private NodeExpressaoSimples parseExpressaoSimples() {
@@ -273,7 +273,10 @@ public class Parser {
         while (currentToken.getKind() == Token.OP_AD_AD
                 || currentToken.getKind() == Token.OP_AD_OR
                 || currentToken.getKind() == Token.OP_AD_SUB) {
-            eSC = new NodeExpressaoSimplesComplemento(parseOpAd(), parseTermo(), null);
+            eSC = new NodeExpressaoSimplesComplemento();
+            eSC.nodeOpAd = parseOpAd();
+            eSC.nodeTermo = parseTermo();
+            eSC.next = null;
             if (first == null) {
                 first = eSC;
             } else {
@@ -370,14 +373,16 @@ public class Parser {
                 || currentToken.getKind() == Token.IF
                 || currentToken.getKind() == Token.WHILE
                 || currentToken.getKind() == Token.BEGIN) {
-            lC = new NodeListaDeComandos(parseComando(), null);
+            lC = new NodeListaDeComandos();
+            lC.nodeComando = parseComando();
+            accept(Token.SEMICOLON);
+            lC.next = null;
             if (first == null) {
                 first = lC;
             } else {
                 last.next = lC;
             }
             last = lC;
-            accept(Token.SEMICOLON);
         }
         return first;
     }
@@ -521,8 +526,10 @@ public class Parser {
         last = null;
         while (currentToken.getKind() == Token.LEFTBRACKET) {
             acceptIt();
-            s = new NodeSeletor(parseExpressao(), null);
+            s = new NodeSeletor();
+            s.nodeExpressao = parseExpressao();
             accept(Token.RIGHTBRACKET);
+            s.next = null;
             if (first == null) {
                 first = s;
             } else {
@@ -542,7 +549,10 @@ public class Parser {
         while (currentToken.getKind() == Token.OP_MULT_AND
                 || currentToken.getKind() == Token.OP_MULT_DIV
                 || currentToken.getKind() == Token.OP_MULT_MULT) {
-            tC = new NodeTermoComplemento(parseOpMul(), parseFator(), null);
+            tC = new NodeTermoComplemento();
+            tC.nodeOpMul = parseOpMul();
+            tC.nodeFator = parseFator();
+            tC.next = null;
             if (first == null) {
                 first = tC;
             } else {
@@ -617,8 +627,11 @@ public class Parser {
     }
 
     private NodeVariavel parseVariavel() {
+        NodeVariavel v = new NodeVariavel();
         accept(Token.ID);
-        return new NodeVariavel(new NodeId(Token.spellings[Token.ID]), parseSeletor());
+        v.nodeId = new NodeId(Token.spellings[Token.ID]);
+        v.nodeSeletor = parseSeletor();
+        return v;
     }
 
     private void parseVazio() { //Não sei se precisa

@@ -14,15 +14,6 @@ public class NodeTermo {
     public NodeFator nodeFator;
     public NodeTermoComplemento nodeTermoComplemento;
     
-    public NodeTermo(NodeFator nodeFator, NodeTermoComplemento nodeTermoComplemento) {
-        this.nodeFator = nodeFator;
-        this.nodeTermoComplemento = nodeTermoComplemento;
-    }
-
-    public NodeTermo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void visit(Visitor v) {
         v.visitTermo(this);
     }

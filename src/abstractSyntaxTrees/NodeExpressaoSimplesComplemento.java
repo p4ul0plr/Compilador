@@ -15,16 +15,6 @@ public class NodeExpressaoSimplesComplemento {
     public NodeTermo nodeTermo;
     public NodeExpressaoSimplesComplemento next;
     
-    public NodeExpressaoSimplesComplemento(NodeOpAd nodeOpAd, NodeTermo nodeTermo, NodeExpressaoSimplesComplemento next) {
-        this.nodeOpAd = nodeOpAd;
-        this.nodeTermo = nodeTermo;
-        this.next = next;
-    }
-
-    public NodeExpressaoSimplesComplemento() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void visit(Visitor v) {
         v.visitExpressaoSimplesComplemento(next);
     }
