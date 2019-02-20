@@ -85,14 +85,14 @@ public class Parser {
         currentToken = scanner.scan();
     }
 
-    public void parse() {
+    public NodePrograma parse() {
         currentToken = scanner.scan();
-        parsePrograma();
-        if (currentToken.getKind() != Token.EOT) {
+        return parsePrograma();
+        /*if (currentToken.getKind() != Token.EOT) {
             //report a systatic error
         } else {
             //report a systatic error
-        }
+        }*/
     }
 
     private NodeAtribuicao parseAtribuicao() {

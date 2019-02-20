@@ -5,6 +5,8 @@
  */
 package lexicalAnalysis;
 
+import TreeDrawer.Printer;
+import abstractSyntaxTrees.NodePrograma;
 import souceFile.SourceFile;
 import java.io.IOException;
 import syntaxAnalisys.Parser;
@@ -35,7 +37,10 @@ public class Compiler {
 //        System.out.println(""+arq.read("/tmp/arquivo.txt"));
         SourceFile sourceFile = new SourceFile("/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt");
         Parser parser = new Parser(sourceFile);
-        parser.parse();
+        Printer printer = new Printer();
+        NodePrograma nodePrograma;
+        nodePrograma = parser.parse();
+        printer.print(nodePrograma);
         /*Scanner scanner = new Scanner(sourceFile);
         Token token;
         while (scanner.getCurrentChar() != EOT) {

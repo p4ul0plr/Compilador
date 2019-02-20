@@ -44,6 +44,8 @@ import abstractSyntaxTrees.Visitor;
  */
 public class Printer implements Visitor {
 
+    private int i = 0;
+    
     @Override
     public void visitAtribuicao(NodeAtribuicao nodeAtribuicao) {
         if (nodeAtribuicao != null) {
@@ -63,7 +65,11 @@ public class Printer implements Visitor {
 
     @Override
     public void visitComandoComposto(NodeComandoComposto nodeComandoComposto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodeComandoComposto != null) {
+            System.out.println("begin ");
+            nodeComandoComposto.nodeListaDeComandos.visit(this);
+            System.out.println("end ");
+        }
     }
 
     @Override
@@ -73,7 +79,20 @@ public class Printer implements Visitor {
 
     @Override
     public void visitCorpo(NodeCorpo nodeCorpo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodeCorpo != null) {
+            if (nodeCorpo.nodeDeclaracoes != null) {
+                i++;
+                indent();
+                nodeCorpo.nodeDeclaracoes.visit(this);
+                i--;
+            }
+            if (nodeCorpo.nodeComandoComposto != null) {
+                i++;
+                indent();
+                nodeCorpo.nodeComandoComposto.visit(this);
+                i--;
+            }
+        }
     }
 
     @Override
@@ -118,7 +137,9 @@ public class Printer implements Visitor {
 
     @Override
     public void visitId(NodeId nodeId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodeId != null) {
+            System.out.println(nodeId.identificador);
+        }
     }
 
     @Override
@@ -133,7 +154,9 @@ public class Printer implements Visitor {
 
     @Override
     public void visitListaDeComandos(NodeListaDeComandos nodeListaDeComandos) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodeListaDeComandos != null) {
+            
+        }
     }
 
     @Override
@@ -163,7 +186,17 @@ public class Printer implements Visitor {
 
     @Override
     public void visitPrograma(NodePrograma nodePrograma) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodePrograma != null) {
+            System.out.println("programa ");
+            if (nodePrograma.nodeId != null) {
+                nodePrograma.nodeId.visit(this);
+            }
+            System.out.println("; ");
+            if (nodePrograma.nodeCorpo != null) {
+                nodePrograma.nodeCorpo.visit(this);
+            }
+            System.out.println(".");
+        }
     }
 
     @Override
@@ -200,10 +233,16 @@ public class Printer implements Visitor {
     public void visitVariavel(NodeVariavel nodeVariavel) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public void print (NodePrograma nodePrograma) {
+
+    public void print(NodePrograma nodePrograma) {
         System.out.println("---> Imprimindo a arvore");
         nodePrograma.visit(this);
     }
-    
+
+    public void indent() {
+        for (int j = 0; j < i; j++) {
+            System.out.print("|");
+        }
+    }
+
 }
