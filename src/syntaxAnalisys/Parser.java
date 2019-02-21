@@ -436,13 +436,14 @@ public class Parser {
     }
 
     private NodeOpAd parseOpAd() {
+        StringBuffer opAd = scanner.getCurrentSpelling();
         NodeOpAd o = null;
         switch (currentToken.getKind()) {
             case Token.OP_AD_AD:
             case Token.OP_AD_OR:
             case Token.OP_AD_SUB:
                 acceptIt();
-                o = new NodeOpAd(currentToken.spelling);
+                o = new NodeOpAd(opAd);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -459,13 +460,14 @@ public class Parser {
     }
 
     private NodeOpMul parseOpMul() {
+        StringBuffer opMul = scanner.getCurrentSpelling();
         NodeOpMul o = null;
         switch (currentToken.getKind()) {
             case Token.OP_MULT_AND:
             case Token.OP_MULT_DIV:
             case Token.OP_MULT_MULT:
                 acceptIt();
-                o = new NodeOpMul(currentToken.spelling);
+                o = new NodeOpMul(opMul);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -482,6 +484,7 @@ public class Parser {
     }
 
     private NodeOpRel parseOpRel() {
+        StringBuffer opRel = scanner.getCurrentSpelling();
         NodeOpRel o = null;
         switch (currentToken.getKind()) {
             case Token.OP_REL_BIGGEROREQUAL:
@@ -491,7 +494,7 @@ public class Parser {
             case Token.OP_REL_LESSOREQUAL:
             case Token.OP_REL_LESSTHEN:
                 acceptIt();
-                o = new NodeOpRel(currentToken.spelling);
+                o = new NodeOpRel(opRel);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "

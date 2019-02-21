@@ -49,7 +49,13 @@ public class Printer implements Visitor {
     @Override
     public void visitAtribuicao(NodeAtribuicao nodeAtribuicao) {
         if (nodeAtribuicao != null) {
-            nodeAtribuicao.nodeVariavel.visit(this);
+            if (nodeAtribuicao.nodeVariavel != null) {
+                nodeAtribuicao.nodeVariavel.visit(this);
+            }
+            System.out.println("");
+            if (nodeAtribuicao.nodeExpressao != null) {
+                nodeAtribuicao.nodeExpressao.visit(this);
+            }
         }
     }
 
@@ -76,7 +82,17 @@ public class Printer implements Visitor {
 
     @Override
     public void visitCondicional(NodeCondicional nodeCondicional) {
-
+        if (nodeCondicional != null) {
+            if (nodeCondicional.nodeExpressao != null) {
+                nodeCondicional.nodeExpressao.visit(this);
+            }
+            if (nodeCondicional.nodeComandoIf != null) {
+                nodeCondicional.nodeComandoIf.visit(this);
+            }
+            if (nodeCondicional.nodeComandoElse != null) {
+                nodeCondicional.nodeComandoElse.visit(this);
+            }
+        }
     }
 
     @Override
@@ -87,7 +103,7 @@ public class Printer implements Visitor {
                 nodeCorpo.nodeDeclaracoes.visit(this);
             }
             if (nodeCorpo.nodeComandoComposto != null) {
-                //nodeCorpo.nodeComandoComposto.visit(this);
+                nodeCorpo.nodeComandoComposto.visit(this);
             }
         }
     }
@@ -122,28 +138,61 @@ public class Printer implements Visitor {
                 indent();
                 nodeDeclaracoes.next.visit(this);
                 i--;
-            } 
+            }
         }
     }
 
     @Override
     public void visitExpressao(NodeExpressao nodeExpressao) {
+        if (nodeExpressao != null) {
+            if (nodeExpressao.nodeExpressaoSimples1 != null) {
+                nodeExpressao.nodeExpressaoSimples1.visit(this);
+            }
+            if (nodeExpressao.nodeOpRel != null) {
+                nodeExpressao.nodeOpRel.visit(this);
+            }
+            if (nodeExpressao.nodeExpressaoSimples2 != null) {
+                nodeExpressao.nodeExpressaoSimples2.visit(this);
+            }
+            System.out.println("");
 
+        }
     }
 
     @Override
     public void visitExpressaoSimples(NodeExpressaoSimples nodeExpressaoSimples) {
-
+        if (nodeExpressaoSimples != null) {
+            if (nodeExpressaoSimples.nodeTermo != null) {
+                nodeExpressaoSimples.nodeTermo.visit(this);
+            }
+            if (nodeExpressaoSimples.nodeExpressaoSimplesComplemento != null) {
+                nodeExpressaoSimples.nodeExpressaoSimplesComplemento.visit(this);
+            }
+        }
     }
 
     @Override
     public void visitExpressaoSimplesComplemento(NodeExpressaoSimplesComplemento nodeExpressaoSimplesComplemento) {
-
+        if (nodeExpressaoSimplesComplemento != null) {
+            if (nodeExpressaoSimplesComplemento.nodeOpAd != null) {
+                nodeExpressaoSimplesComplemento.nodeOpAd.visit(this);
+            }
+            if (nodeExpressaoSimplesComplemento.nodeTermo != null) {
+                nodeExpressaoSimplesComplemento.nodeTermo.visit(this);
+            }
+            if (nodeExpressaoSimplesComplemento.next != null) {
+                nodeExpressaoSimplesComplemento.next.visit(this);
+            }
+        }
     }
 
     @Override
     public void visitFator(NodeFator nodeFator) {
-
+        if (nodeFator != null) {
+            if (nodeFator != null) {
+                nodeFator.visit(this);
+            }
+        }
     }
 
     @Override
@@ -170,12 +219,19 @@ public class Printer implements Visitor {
 
     @Override
     public void visitIterativo(NodeIterativo nodeIterativo) {
-
+        if (nodeIterativo != null) {
+            if (nodeIterativo.nodeExpressao != null) {
+                nodeIterativo.nodeExpressao.visit(this);
+            }
+            if (nodeIterativo.nodeComando != null) {
+                nodeIterativo.nodeComando.visit(this);
+            }
+        }
     }
 
     @Override
     public void visitListaDeComandos(NodeListaDeComandos nodeListaDeComandos) {
-         if (nodeListaDeComandos != null) {
+        if (nodeListaDeComandos != null) {
             nodeListaDeComandos.nodeComando.visit(this);
             if (nodeListaDeComandos.next != null) {
                 i++;
@@ -194,9 +250,9 @@ public class Printer implements Visitor {
                 System.out.print(nodeListaDeIds.nodeId.identificador + " ");
             }
             if (nodeListaDeIds.next != null) {
-                i++;
+                //i++;
                 nodeListaDeIds.next.visit(this);
-                i--;
+                //i--;
             }
         }
     }
@@ -210,17 +266,32 @@ public class Printer implements Visitor {
 
     @Override
     public void visitOpAd(NodeOpAd nodeOpAd) {
-
+        if (nodeOpAd != null) {
+            i++;
+            indent();
+            System.out.println(nodeOpAd.opAd);
+            i--;
+        }
     }
 
     @Override
     public void visitOpMul(NodeOpMul nodeOpMul) {
-
+        if (nodeOpMul != null) {
+            i++;
+            indent();
+            System.out.println(nodeOpMul.opMul);
+            i--;
+        }
     }
 
     @Override
     public void visitOpRel(NodeOpRel nodeOpRel) {
-
+        if (nodeOpRel != null) {
+            i++;
+            indent();
+            System.out.println(nodeOpRel.opRel);
+            i--;
+        }
     }
 
     @Override
@@ -239,17 +310,42 @@ public class Printer implements Visitor {
 
     @Override
     public void visitSeletor(NodeSeletor nodeSeletor) {
+        if (nodeSeletor != null) {
+            if (nodeSeletor.nodeExpressao != null) {
+                nodeSeletor.nodeExpressao.visit(this);
+            }
+            if (nodeSeletor.next != null) {
+                nodeSeletor.next.visit(this);
+            }
+        }
 
     }
 
     @Override
     public void visitTermo(NodeTermo nodeTermo) {
-
+        if (nodeTermo != null) {
+            if (nodeTermo.nodeFator != null) {
+                nodeTermo.nodeFator.visit(this);
+            }
+            if (nodeTermo.nodeTermoComplemento != null) {
+                nodeTermo.nodeTermoComplemento.visit(this);
+            }
+        }
     }
 
     @Override
     public void visitTermoComplemento(NodeTermoComplemento nodeTermoComplemento) {
-
+        if (nodeTermoComplemento != null) {
+            if (nodeTermoComplemento.nodeOpMul != null) {
+                nodeTermoComplemento.nodeOpMul.visit(this);
+            }
+            if (nodeTermoComplemento.nodeFator != null) {
+                nodeTermoComplemento.nodeFator.visit(this);
+            }
+            if (nodeTermoComplemento.next != null) {
+                nodeTermoComplemento.next.visit(this);
+            }
+        }
     }
 
     @Override
@@ -283,7 +379,14 @@ public class Printer implements Visitor {
 
     @Override
     public void visitVariavel(NodeVariavel nodeVariavel) {
-
+        if (nodeVariavel != null) {
+            if (nodeVariavel.nodeId != null) {
+                nodeVariavel.nodeId.visit(this);
+            }
+            if (nodeVariavel.nodeSeletor != null) {
+                nodeVariavel.nodeSeletor.visit(this);
+            }
+        }
     }
 
     public void print(NodePrograma nodePrograma) {

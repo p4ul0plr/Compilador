@@ -6,12 +6,15 @@ program teste ;
     var i : integer;
     var a : integer;
     var b : integer;
-    var c : integer;
-    var d : integer;
+    var c : real;
+    var d : boolean;
 
 begin
 
-!   i := 1;
+!    i := 1;
+!    a := 2;
+!    b := a;
+    c := i * a + b;
 
 !   while(i <= 100) do
 !    begin

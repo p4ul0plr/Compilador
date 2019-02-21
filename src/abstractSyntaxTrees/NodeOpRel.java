@@ -11,9 +11,9 @@ package abstractSyntaxTrees;
  */
 public class NodeOpRel {
 
-    public String opRel;
+    public StringBuffer opRel;
     
-    public NodeOpRel(String opRel) {
+    public NodeOpRel(StringBuffer opRel) {
         this.opRel = opRel;
     }
 
