@@ -37,20 +37,23 @@ public class Compiler {
 //        System.out.println(""+arq.read("/tmp/arquivo.txt"));
         SourceFile sourceFile = new SourceFile("/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt");
         Parser parser = new Parser(sourceFile);
-        Printer printer = new Printer();
-        NodePrograma nodePrograma;
-        nodePrograma = parser.parse();
-        printer.print(nodePrograma);
-        /*Scanner scanner = new Scanner(sourceFile);
+        /*/ ---------------- IMPRIMINDO TOKENS ------------------
+        System.out.println("---------------- IMPRIMINDO TOKENS ------------------");
         Token token;
-        while (scanner.getCurrentChar() != EOT) {
-            token = scanner.scan();
+        while (parser.scanner.getCurrentChar() != EOT) {
+            token = parser.scanner.scan();
             System.out.println("Spelling: " + token.getSpelling() 
                     + "   Kind: " + token.getKind() 
                     + "   Column: " + token.getColumn() 
                     + "   Line: " + token.getLine());
 
-        }*/
+        }
+        System.out.println("---------------- IMPRIMINDO TOKENS ------------------");
+        // ---------------- IMPRIMINDO TOKENS ------------------*/
+        Printer printer = new Printer();
+        NodePrograma nodePrograma;
+        nodePrograma = parser.parse();
+        printer.print(nodePrograma);
 
         //System.out.println("" + sourceFile.readCurrentChar());
         //System.out.println("" + scanner.scanToken());

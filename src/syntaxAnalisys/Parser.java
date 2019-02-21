@@ -213,7 +213,7 @@ public class Parser {
         NodeDeclaracoes d, first, last;
         first = null;
         last = null;
-        //f (currentToken.getKind() == Token.VAR) {
+        //i f (currentToken.getKind() == Token.VAR) {
         while (currentToken.getKind() == Token.VAR) {
             d = new NodeDeclaracoes(parseDeclaracao(), null);
             accept(Token.SEMICOLON);
@@ -268,7 +268,7 @@ public class Parser {
         NodeExpressaoSimples eS = new NodeExpressaoSimples();
         NodeExpressaoSimplesComplemento eSC, first, last;
         eS.nodeTermo = parseTermo();
-        first  = null;
+        first = null;
         last = null;
         while (currentToken.getKind() == Token.OP_AD_AD
                 || currentToken.getKind() == Token.OP_AD_OR
@@ -343,8 +343,9 @@ public class Parser {
     }
 
     private NodeId parseId() { //Não sei se precisa
+        StringBuffer identificador = scanner.getCurrentSpelling();
         accept(Token.ID);
-        return new NodeId(Token.spellings[Token.ID]);
+        return new NodeId(identificador);
     }
 
     private NodeIntLit parseIntLit() {  //Não sei se precisa
@@ -366,7 +367,7 @@ public class Parser {
     }
 
     private NodeListaDeComandos parseListaDeComandos() {
-        NodeListaDeComandos lC , first, last;
+        NodeListaDeComandos lC, first, last;
         first = null;
         last = null;
         while (currentToken.getKind() == Token.ID
@@ -388,15 +389,17 @@ public class Parser {
     }
 
     private NodeListaDeIds parseListadeIds() {
+        StringBuffer identificador = scanner.getCurrentSpelling();
         NodeListaDeIds l, first, last;
         accept(Token.ID);
-        l = new NodeListaDeIds(new NodeId(Token.spellings[Token.ID]), null);
+        l = new NodeListaDeIds(new NodeId(identificador), null);
         first = l;
         last = l;
         while (currentToken.getKind() == Token.COMMA) {
             acceptIt();
+            identificador = scanner.getCurrentSpelling();
             accept(Token.ID);
-            l = new NodeListaDeIds(new NodeId(Token.spellings[Token.ID]), null);
+            l = new NodeListaDeIds(new NodeId(identificador), null);
             last.next = l;
             last = l;
         }
@@ -604,13 +607,14 @@ public class Parser {
     }
 
     private NodeTipoSimples parseTipoSimples() {
+        StringBuffer tipoSimples = scanner.getCurrentSpelling();
         NodeTipoSimples tS = null;
         switch (currentToken.getKind()) {
             case Token.INTEGER:
             case Token.REAL:
             case Token.BOOLEAN:
                 acceptIt();
-                tS = new NodeTipoSimples(currentToken.spelling);
+                tS = new NodeTipoSimples(tipoSimples);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -627,9 +631,10 @@ public class Parser {
     }
 
     private NodeVariavel parseVariavel() {
+        StringBuffer identificador = scanner.getCurrentSpelling();
         NodeVariavel v = new NodeVariavel();
         accept(Token.ID);
-        v.nodeId = new NodeId(Token.spellings[Token.ID]);
+        v.nodeId = new NodeId(identificador);
         v.nodeSeletor = parseSeletor();
         return v;
     }

@@ -16,6 +16,6 @@ public class NodeExpressaoSimplesComplemento {
     public NodeExpressaoSimplesComplemento next;
     
     public void visit(Visitor v) {
-        v.visitExpressaoSimplesComplemento(next);
+        v.visitExpressaoSimplesComplemento(this);
     }
 }

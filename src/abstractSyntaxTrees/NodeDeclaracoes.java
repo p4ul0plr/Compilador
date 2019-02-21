@@ -20,7 +20,7 @@ public class NodeDeclaracoes {
     }
 
     public void visit(Visitor v) {
-        v.visitDeclaracoes(next);
+        v.visitDeclaracoes(this);
     }
 
 }

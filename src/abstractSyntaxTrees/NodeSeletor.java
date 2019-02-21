@@ -15,6 +15,6 @@ public class NodeSeletor {
     public NodeSeletor next;
     
     public void visit(Visitor v) {
-        v.visitSeletor(next);
+        v.visitSeletor(this);
     }
 }

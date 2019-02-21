@@ -11,9 +11,9 @@ package abstractSyntaxTrees;
  */
 public class NodeId {
     
-    public String identificador;
+    public StringBuffer identificador;
     
-    public NodeId(String identificador) {
+    public NodeId(StringBuffer identificador) {
         this.identificador = identificador;
     }
    

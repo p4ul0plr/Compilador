@@ -16,6 +16,6 @@ public class NodeTermoComplemento {
     public NodeTermoComplemento next;
     
     public void visit(Visitor v) {
-        v.visitTermoComplemento(next);
+        v.visitTermoComplemento(this);
     }
 }
