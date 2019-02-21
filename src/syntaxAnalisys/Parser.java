@@ -349,8 +349,9 @@ public class Parser {
     }
 
     private NodeIntLit parseIntLit() {  //Não sei se precisa
+        StringBuffer intLiteral = scanner.getCurrentSpelling();
         accept(Token.INT_LIT);
-        return new NodeIntLit(Token.spellings[Token.INT_LIT]);
+        return new NodeIntLit(intLiteral);
     }
 
     private NodeIterativo parseIterativo() {
