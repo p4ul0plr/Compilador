@@ -2,13 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="4"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Token.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Scanner.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/syntaxAnalisys/Parser.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Compiler.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/TreeDrawer/Printer.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

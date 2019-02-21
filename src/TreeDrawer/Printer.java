@@ -118,9 +118,9 @@ public class Printer implements Visitor {
             if (nodeDeclaracoes.next != null) {
                 i++;
                 indent();
-                nodeDeclaracoes.visit(this);
+                nodeDeclaracoes.next.visit(this);
                 i--;
-            }
+            } 
         }
     }
 
@@ -185,7 +185,7 @@ public class Printer implements Visitor {
         //System.out.println("visitListaDeIds");
         if (nodeListaDeIds != null) {
             if (nodeListaDeIds.nodeId != null) {
-                System.out.println(nodeListaDeIds.nodeId.identificador);
+                System.out.print(nodeListaDeIds.nodeId.identificador);
             }
             if (nodeListaDeIds.next != null) {
                 i++;
@@ -273,9 +273,9 @@ public class Printer implements Visitor {
     }
 
     public void indent() {
-        System.out.print (i + " ");
+        //System.out.print (i + " ");
         for (int j = 0; j < i; j++) {
-            System.out.print("|");
+            System.out.print("|   ");
         }
     }
 
