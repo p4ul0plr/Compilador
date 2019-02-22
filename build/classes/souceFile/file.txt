@@ -1,8 +1,8 @@
 program teste ;
 
-   var cache : array [1 .. 100] of integer;
-   var v1 : array [1 .. 100] of array [1 .. 100] of real;
-   var v2, v3, v4 : array [0 .. 10] of boolean;
+ !  var cache : array [1 .. 100] of integer;
+ !  var v1 : array [1 .. 100] of array [1 .. 100] of real;
+!   var v2, v3, v4 : array [0 .. 10] of boolean;
 !    var i : integer;
 !    var a : integer;
 !    var b : integer;
@@ -11,9 +11,9 @@ program teste ;
 
 begin
 
-   a := b + c * d;
-    b := 2;
-    c := a;
+   a := b + b > d * d;
+!    b := 2;
+!    c := a;
 !    A := B + C * D;
 
 !   while(i <= 100) do
