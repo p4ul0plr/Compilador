@@ -11,7 +11,7 @@ program teste ;
 
 begin
 
-   a := b + b > d * d;
+  a := b * c + d;
 !    b := 2;
 !    c := a;
 !    A := B + C * D;

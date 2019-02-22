@@ -145,29 +145,31 @@ public class Printer implements Visitor {
 
     @Override
     public void visitExpressao(NodeExpressao nodeExpressao) {
+        i++;
+        indent();
         if (nodeExpressao != null) {
-            if (nodeExpressao.nodeExpressaoSimples1 != null) {
-                nodeExpressao.nodeExpressaoSimples1.visit(this);
-            }
             if (nodeExpressao.nodeOpRel != null) {
                 nodeExpressao.nodeOpRel.visit(this);
+            }
+            if (nodeExpressao.nodeExpressaoSimples1 != null) {
+                nodeExpressao.nodeExpressaoSimples1.visit(this);
             }
             if (nodeExpressao.nodeExpressaoSimples2 != null) {
                 nodeExpressao.nodeExpressaoSimples2.visit(this);
             }
             System.out.println("");
-
         }
+        i--;
     }
 
     @Override
     public void visitExpressaoSimples(NodeExpressaoSimples nodeExpressaoSimples) {
         if (nodeExpressaoSimples != null) {
-            if (nodeExpressaoSimples.nodeTermo != null) {
-                nodeExpressaoSimples.nodeTermo.visit(this);
-            }
             if (nodeExpressaoSimples.nodeExpressaoSimplesComplemento != null) {
                 nodeExpressaoSimples.nodeExpressaoSimplesComplemento.visit(this);
+            }
+            if (nodeExpressaoSimples.nodeTermo != null) {
+                nodeExpressaoSimples.nodeTermo.visit(this);
             }
         }
     }
@@ -175,14 +177,17 @@ public class Printer implements Visitor {
     @Override
     public void visitExpressaoSimplesComplemento(NodeExpressaoSimplesComplemento nodeExpressaoSimplesComplemento) {
         if (nodeExpressaoSimplesComplemento != null) {
-            if (nodeExpressaoSimplesComplemento.nodeOpAd != null) {
-                nodeExpressaoSimplesComplemento.nodeOpAd.visit(this);
-            }
             if (nodeExpressaoSimplesComplemento.nodeTermo != null) {
                 nodeExpressaoSimplesComplemento.nodeTermo.visit(this);
             }
+            if (nodeExpressaoSimplesComplemento.nodeOpAd != null) {
+                nodeExpressaoSimplesComplemento.nodeOpAd.visit(this);
+            }
             if (nodeExpressaoSimplesComplemento.next != null) {
+                i++;
+                indent();
                 nodeExpressaoSimplesComplemento.next.visit(this);
+                i--;
             }
         }
     }
@@ -328,11 +333,11 @@ public class Printer implements Visitor {
     @Override
     public void visitTermo(NodeTermo nodeTermo) {
         if (nodeTermo != null) {
-            if (nodeTermo.nodeFator != null) {
-                nodeTermo.nodeFator.visit(this);
-            }
             if (nodeTermo.nodeTermoComplemento != null) {
                 nodeTermo.nodeTermoComplemento.visit(this);
+            }
+            if (nodeTermo.nodeFator != null) {
+                nodeTermo.nodeFator.visit(this);
             }
         }
     }
@@ -340,11 +345,11 @@ public class Printer implements Visitor {
     @Override
     public void visitTermoComplemento(NodeTermoComplemento nodeTermoComplemento) {
         if (nodeTermoComplemento != null) {
-            if (nodeTermoComplemento.nodeOpMul != null) {
-                nodeTermoComplemento.nodeOpMul.visit(this);
-            }
             if (nodeTermoComplemento.nodeFator != null) {
                 nodeTermoComplemento.nodeFator.visit(this);
+            }
+            if (nodeTermoComplemento.nodeOpMul != null) {
+                nodeTermoComplemento.nodeOpMul.visit(this);
             }
             if (nodeTermoComplemento.next != null) {
                 nodeTermoComplemento.next.visit(this);
@@ -383,6 +388,8 @@ public class Printer implements Visitor {
 
     @Override
     public void visitVariavel(NodeVariavel nodeVariavel) {
+        i++;
+        indent();
         if (nodeVariavel != null) {
             if (nodeVariavel.nodeId != null) {
                 nodeVariavel.nodeId.visit(this);
@@ -391,6 +398,8 @@ public class Printer implements Visitor {
                 nodeVariavel.nodeSeletor.visit(this);
             }
         }
+        System.out.println("");
+        i--;
     }
 
     public void print(NodePrograma nodePrograma) {
