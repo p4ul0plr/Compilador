@@ -54,6 +54,7 @@ public class Printer implements Visitor {
             }
             System.out.println("");
             if (nodeAtribuicao.nodeExpressao != null) {
+                indent();
                 nodeAtribuicao.nodeExpressao.visit(this);
             }
         }
@@ -213,7 +214,10 @@ public class Printer implements Visitor {
     @Override
     public void visitIntLit(NodeIntLit nodeIntLit) {
         if (nodeIntLit != null) {
+            //i++;
+            //indent();
             System.out.print(nodeIntLit.intLiteral + " ");
+            //i--;
         }
     }
 
@@ -299,7 +303,7 @@ public class Printer implements Visitor {
         //System.out.println("visitPrograma");
         if (nodePrograma != null) {
             if (nodePrograma.nodeId != null) {
-                nodePrograma.nodeId.visit(this);
+                //nodePrograma.nodeId.visit(this);
                 System.out.println("");
             }
             if (nodePrograma.nodeCorpo != null) {
