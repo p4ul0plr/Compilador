@@ -42,9 +42,14 @@ import abstractSyntaxTrees.Visitor;
  *
  * @author paulo
  */
-public class Checker implements Visitor{
+public class Checker implements Visitor {
 
     IdentificationTable t = new IdentificationTable();
+
+    public void Check(NodePrograma nodePrograma) {
+        System.out.println("---> Iniciando identificacao de nomes");
+        nodePrograma.visit(this);
+    }
 
     @Override
     public void visitAtribuicao(NodeAtribuicao nodeAtribuicao) {
@@ -58,12 +63,16 @@ public class Checker implements Visitor{
 
     @Override
     public void visitComando(NodeComando nodeComando) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodeComando != null) {
+            nodeComando.visit(this);
+        }
     }
 
     @Override
     public void visitComandoComposto(NodeComandoComposto nodeComandoComposto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodeComandoComposto != null) {
+            nodeComandoComposto.nodeListaDeComandos.visit(this);
+        }
     }
 
     @Override
@@ -73,7 +82,14 @@ public class Checker implements Visitor{
 
     @Override
     public void visitCorpo(NodeCorpo nodeCorpo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodeCorpo != null) {
+            if (nodeCorpo.nodeDeclaracoes != null) {
+                nodeCorpo.nodeDeclaracoes.visit(this);
+            }
+            if (nodeCorpo.nodeComandoComposto != null) {
+                nodeCorpo.nodeComandoComposto.visit(this);
+            }
+        }
     }
 
     @Override
@@ -99,7 +115,14 @@ public class Checker implements Visitor{
 
     @Override
     public void visitDeclaracoes(NodeDeclaracoes nodeDeclaracoes) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodeDeclaracoes != null) {
+            if (nodeDeclaracoes.nodeDeclaracao != null) {
+                nodeDeclaracoes.nodeDeclaracao.visit(this);
+            }
+            if (nodeDeclaracoes.next != null) {
+                nodeDeclaracoes.next.visit(this);
+            }
+        }
     }
 
     @Override
@@ -129,7 +152,9 @@ public class Checker implements Visitor{
 
     @Override
     public void visitId(NodeId nodeId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodeId != null) {
+            t.enter(nodeId.identificador);
+        }
     }
 
     @Override
@@ -144,15 +169,25 @@ public class Checker implements Visitor{
 
     @Override
     public void visitListaDeComandos(NodeListaDeComandos nodeListaDeComandos) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodeListaDeComandos != null) {
+            if (nodeListaDeComandos.nodeComando != null) {
+                nodeListaDeComandos.nodeComando.visit(this);
+            }
+            if (nodeListaDeComandos.next != null) {
+                nodeListaDeComandos.next.visit(this);
+            }
+        }
     }
 
     @Override
     public void visitListaDeIds(NodeListaDeIds nodeListaDeIds) {
         if (nodeListaDeIds != null) {
             if (nodeListaDeIds.nodeId != null) {
-                t.enter(nodeListaDeIds.nodeId.identificador);
+                nodeListaDeIds.nodeId.visit(this);
             }
+        }
+        if (nodeListaDeIds.next != null) {
+            nodeListaDeIds.next.visit(this);
         }
     }
 
@@ -178,7 +213,11 @@ public class Checker implements Visitor{
 
     @Override
     public void visitPrograma(NodePrograma nodePrograma) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodePrograma != null) {
+            if (nodePrograma.nodeCorpo != null) {
+                nodePrograma.nodeCorpo.visit(this);
+            }
+        }
     }
 
     @Override
@@ -198,7 +237,7 @@ public class Checker implements Visitor{
 
     @Override
     public void visitTipo(NodeTipo nodeTipo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override

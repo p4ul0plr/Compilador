@@ -9,6 +9,7 @@ import TreeDrawer.Printer;
 import abstractSyntaxTrees.NodePrograma;
 import souceFile.SourceFile;
 import java.io.IOException;
+import syntaxAnalisys.Checker;
 import syntaxAnalisys.Parser;
 
 /**
@@ -51,9 +52,12 @@ public class Compiler {
         System.out.println("---------------- IMPRIMINDO TOKENS ------------------");
         // ---------------- IMPRIMINDO TOKENS ------------------*/
         Printer printer = new Printer();
+        Checker checker = new Checker();
         NodePrograma nodePrograma;
         nodePrograma = parser.parse();
         printer.print(nodePrograma);
+        //checker.Check(nodePrograma);
+        
 
         //System.out.println("" + sourceFile.readCurrentChar());
         //System.out.println("" + scanner.scanToken());

@@ -46,6 +46,18 @@ public class Printer implements Visitor {
 
     public int i = 0;
 
+    public void print(NodePrograma nodePrograma) {
+        System.out.println("---> Imprimindo a arvore");
+        nodePrograma.visit(this);
+    }
+
+    public void indent() {
+        //System.out.print(i + " ");
+        for (int j = 0; j < i; j++) {
+            System.out.print("|");
+        }
+    }
+
     @Override
     public void visitAtribuicao(NodeAtribuicao nodeAtribuicao) {
         if (nodeAtribuicao != null) {
@@ -145,8 +157,10 @@ public class Printer implements Visitor {
     public void visitDeclaracoes(NodeDeclaracoes nodeDeclaracoes) {
         //System.out.println("visitDeclaracoes");
         if (nodeDeclaracoes != null) {
-            System.out.println("");
-            nodeDeclaracoes.nodeDeclaracao.visit(this);
+            if (nodeDeclaracoes.nodeDeclaracao != null) {
+                System.out.println("");
+                nodeDeclaracoes.nodeDeclaracao.visit(this);
+            }
             if (nodeDeclaracoes.next != null) {
                 i++;
                 //indent();
@@ -439,17 +453,4 @@ public class Printer implements Visitor {
             i--;
         }
     }
-
-    public void print(NodePrograma nodePrograma) {
-        System.out.println("---> Imprimindo a arvore");
-        nodePrograma.visit(this);
-    }
-
-    public void indent() {
-        //System.out.print(i + " ");
-        for (int j = 0; j < i; j++) {
-            System.out.print("|");
-        }
-    }
-
 }
