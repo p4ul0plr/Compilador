@@ -5,37 +5,37 @@
  */
 package syntaxAnalisys;
 
-import abstractSyntaxTrees.NodeAtribuicao;
-import abstractSyntaxTrees.NodeBoolLit;
-import abstractSyntaxTrees.NodeComando;
-import abstractSyntaxTrees.NodeComandoComposto;
-import abstractSyntaxTrees.NodeCondicional;
-import abstractSyntaxTrees.NodeCorpo;
-import abstractSyntaxTrees.NodeDeclaracao;
-import abstractSyntaxTrees.NodeDeclaracaoDeVariavel;
-import abstractSyntaxTrees.NodeDeclaracoes;
-import abstractSyntaxTrees.NodeExpressao;
-import abstractSyntaxTrees.NodeExpressaoSimples;
-import abstractSyntaxTrees.NodeExpressaoSimplesComplemento;
-import abstractSyntaxTrees.NodeFator;
-import abstractSyntaxTrees.NodeFloatLit;
-import abstractSyntaxTrees.NodeId;
-import abstractSyntaxTrees.NodeIntLit;
-import abstractSyntaxTrees.NodeIterativo;
-import abstractSyntaxTrees.NodeListaDeComandos;
-import abstractSyntaxTrees.NodeListaDeIds;
-import abstractSyntaxTrees.NodeLiteral;
-import abstractSyntaxTrees.NodeOpAd;
-import abstractSyntaxTrees.NodeOpMul;
-import abstractSyntaxTrees.NodeOpRel;
-import abstractSyntaxTrees.NodePrograma;
-import abstractSyntaxTrees.NodeSeletor;
-import abstractSyntaxTrees.NodeTermo;
-import abstractSyntaxTrees.NodeTermoComplemento;
-import abstractSyntaxTrees.NodeTipo;
-import abstractSyntaxTrees.NodeTipoAgregado;
-import abstractSyntaxTrees.NodeTipoSimples;
-import abstractSyntaxTrees.NodeVariavel;
+import abstractSyntaxTree.NodeAtribuicao;
+import abstractSyntaxTree.NodeBoolLit;
+import abstractSyntaxTree.NodeComando;
+import abstractSyntaxTree.NodeComandoComposto;
+import abstractSyntaxTree.NodeCondicional;
+import abstractSyntaxTree.NodeCorpo;
+import abstractSyntaxTree.NodeDeclaracao;
+import abstractSyntaxTree.NodeDeclaracaoDeVariavel;
+import abstractSyntaxTree.NodeDeclaracoes;
+import abstractSyntaxTree.NodeExpressao;
+import abstractSyntaxTree.NodeExpressaoSimples;
+import abstractSyntaxTree.NodeExpressaoSimplesComplemento;
+import abstractSyntaxTree.NodeFator;
+import abstractSyntaxTree.NodeFloatLit;
+import abstractSyntaxTree.NodeId;
+import abstractSyntaxTree.NodeIntLit;
+import abstractSyntaxTree.NodeIterativo;
+import abstractSyntaxTree.NodeListaDeComandos;
+import abstractSyntaxTree.NodeListaDeIds;
+import abstractSyntaxTree.NodeLiteral;
+import abstractSyntaxTree.NodeOpAd;
+import abstractSyntaxTree.NodeOpMul;
+import abstractSyntaxTree.NodeOpRel;
+import abstractSyntaxTree.NodePrograma;
+import abstractSyntaxTree.NodeSeletor;
+import abstractSyntaxTree.NodeTermo;
+import abstractSyntaxTree.NodeTermoComplemento;
+import abstractSyntaxTree.NodeTipo;
+import abstractSyntaxTree.NodeTipoAgregado;
+import abstractSyntaxTree.NodeTipoSimples;
+import abstractSyntaxTree.NodeVariavel;
 import lexicalAnalysis.Scanner;
 import lexicalAnalysis.Token;
 import souceFile.SourceFile;
@@ -104,12 +104,13 @@ public class Parser {
     }
 
     private NodeBoolLit parseBoolLit() {
+        String boolLit = scanner.getCurrentSpelling().toString();
         NodeBoolLit b = null;
         switch (currentToken.getKind()) {
             case Token.TRUE:
             case Token.FALSE:
                 acceptIt();
-                b = new NodeBoolLit(currentToken.spelling);
+                b = new NodeBoolLit(boolLit);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -338,18 +339,19 @@ public class Parser {
 //            default:
 //                //report a systatic error
 //        }
+        String floatLiteral = scanner.getCurrentSpelling().toString();
         accept(Token.FLOAT_LIT);
-        return new NodeFloatLit(Token.spellings[Token.FLOAT_LIT]);
+        return new NodeFloatLit(floatLiteral);
     }
 
     private NodeId parseId() { //Não sei se precisa
-        StringBuffer identificador = scanner.getCurrentSpelling();
+        String identificador = scanner.getCurrentSpelling().toString();
         accept(Token.ID);
         return new NodeId(identificador);
     }
 
     private NodeIntLit parseIntLit() {  //Não sei se precisa
-        StringBuffer intLiteral = scanner.getCurrentSpelling();
+        String intLiteral = scanner.getCurrentSpelling().toString();
         accept(Token.INT_LIT);
         return new NodeIntLit(intLiteral);
     }
@@ -390,7 +392,7 @@ public class Parser {
     }
 
     private NodeListaDeIds parseListadeIds() {
-        StringBuffer identificador = scanner.getCurrentSpelling();
+        String identificador = scanner.getCurrentSpelling().toString();
         NodeListaDeIds l, first, last;
         accept(Token.ID);
         l = new NodeListaDeIds(new NodeId(identificador), null);
@@ -398,7 +400,7 @@ public class Parser {
         last = l;
         while (currentToken.getKind() == Token.COMMA) {
             acceptIt();
-            identificador = scanner.getCurrentSpelling();
+            identificador = scanner.getCurrentSpelling().toString();
             accept(Token.ID);
             l = new NodeListaDeIds(new NodeId(identificador), null);
             last.next = l;
@@ -635,7 +637,7 @@ public class Parser {
     }
 
     private NodeVariavel parseVariavel() {
-        StringBuffer identificador = scanner.getCurrentSpelling();
+        String identificador = scanner.getCurrentSpelling().toString();
         NodeVariavel v = new NodeVariavel();
         accept(Token.ID);
         v.nodeId = new NodeId(identificador);

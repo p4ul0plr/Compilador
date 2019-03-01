@@ -6,6 +6,9 @@
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/syntaxAnalisys/IdentificationTable.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTrees/Visitor.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/syntaxAnalisys/Checker.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/syntaxAnalisys/Parser.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Compiler.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/TreeDrawer/Printer.java</file>
         </group>
     </open-files>

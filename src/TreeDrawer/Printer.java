@@ -5,38 +5,38 @@
  */
 package TreeDrawer;
 
-import abstractSyntaxTrees.NodeAtribuicao;
-import abstractSyntaxTrees.NodeBoolLit;
-import abstractSyntaxTrees.NodeComando;
-import abstractSyntaxTrees.NodeComandoComposto;
-import abstractSyntaxTrees.NodeCondicional;
-import abstractSyntaxTrees.NodeCorpo;
-import abstractSyntaxTrees.NodeDeclaracao;
-import abstractSyntaxTrees.NodeDeclaracaoDeVariavel;
-import abstractSyntaxTrees.NodeDeclaracoes;
-import abstractSyntaxTrees.NodeExpressao;
-import abstractSyntaxTrees.NodeExpressaoSimples;
-import abstractSyntaxTrees.NodeExpressaoSimplesComplemento;
-import abstractSyntaxTrees.NodeFator;
-import abstractSyntaxTrees.NodeFloatLit;
-import abstractSyntaxTrees.NodeId;
-import abstractSyntaxTrees.NodeIntLit;
-import abstractSyntaxTrees.NodeIterativo;
-import abstractSyntaxTrees.NodeListaDeComandos;
-import abstractSyntaxTrees.NodeListaDeIds;
-import abstractSyntaxTrees.NodeLiteral;
-import abstractSyntaxTrees.NodeOpAd;
-import abstractSyntaxTrees.NodeOpMul;
-import abstractSyntaxTrees.NodeOpRel;
-import abstractSyntaxTrees.NodePrograma;
-import abstractSyntaxTrees.NodeSeletor;
-import abstractSyntaxTrees.NodeTermo;
-import abstractSyntaxTrees.NodeTermoComplemento;
-import abstractSyntaxTrees.NodeTipo;
-import abstractSyntaxTrees.NodeTipoAgregado;
-import abstractSyntaxTrees.NodeTipoSimples;
-import abstractSyntaxTrees.NodeVariavel;
-import abstractSyntaxTrees.Visitor;
+import abstractSyntaxTree.NodeAtribuicao;
+import abstractSyntaxTree.NodeBoolLit;
+import abstractSyntaxTree.NodeComando;
+import abstractSyntaxTree.NodeComandoComposto;
+import abstractSyntaxTree.NodeCondicional;
+import abstractSyntaxTree.NodeCorpo;
+import abstractSyntaxTree.NodeDeclaracao;
+import abstractSyntaxTree.NodeDeclaracaoDeVariavel;
+import abstractSyntaxTree.NodeDeclaracoes;
+import abstractSyntaxTree.NodeExpressao;
+import abstractSyntaxTree.NodeExpressaoSimples;
+import abstractSyntaxTree.NodeExpressaoSimplesComplemento;
+import abstractSyntaxTree.NodeFator;
+import abstractSyntaxTree.NodeFloatLit;
+import abstractSyntaxTree.NodeId;
+import abstractSyntaxTree.NodeIntLit;
+import abstractSyntaxTree.NodeIterativo;
+import abstractSyntaxTree.NodeListaDeComandos;
+import abstractSyntaxTree.NodeListaDeIds;
+import abstractSyntaxTree.NodeLiteral;
+import abstractSyntaxTree.NodeOpAd;
+import abstractSyntaxTree.NodeOpMul;
+import abstractSyntaxTree.NodeOpRel;
+import abstractSyntaxTree.NodePrograma;
+import abstractSyntaxTree.NodeSeletor;
+import abstractSyntaxTree.NodeTermo;
+import abstractSyntaxTree.NodeTermoComplemento;
+import abstractSyntaxTree.NodeTipo;
+import abstractSyntaxTree.NodeTipoAgregado;
+import abstractSyntaxTree.NodeTipoSimples;
+import abstractSyntaxTree.NodeVariavel;
+import abstractSyntaxTree.Visitor;
 
 /**
  *
@@ -47,7 +47,7 @@ public class Printer implements Visitor {
     public int i = 0;
 
     public void print(NodePrograma nodePrograma) {
-        System.out.println("---> Imprimindo a arvore");
+        System.out.println("---> Imprimindo a arvore\n");
         nodePrograma.visit(this);
     }
 
@@ -77,6 +77,7 @@ public class Printer implements Visitor {
     @Override
     public void visitBoolLit(NodeBoolLit nodeBoolLit) {
         if (nodeBoolLit != null) {
+            indent();
             System.out.print(nodeBoolLit.booleano);
         }
     }
@@ -238,6 +239,7 @@ public class Printer implements Visitor {
     @Override
     public void visitFloatLit(NodeFloatLit nodeFloatLit) {
         if (nodeFloatLit != null) {
+            indent();
             System.out.println(nodeFloatLit.floatLiteral);
         }
     }
