@@ -5,6 +5,7 @@
  */
 package contextAnalysis;
 
+import abstractSyntaxTree.NodeVariavel;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  */
 public class IdentificationTable {
 
-    public ArrayList<String> identificadores = new ArrayList<>();
+    private final ArrayList<String> identificadores = new ArrayList<>();
     //private static int i = 0;
     //private boolean naoEstaContido = true;
 
@@ -47,7 +48,9 @@ public class IdentificationTable {
         //i++;
     }
 
-    public void retrieve() {
-
+    public void retrieve(String id) {
+        if (!this.identificadores.contains(id)) {
+            System.out.println("Identificador " + id + " não declarado!");
+        }
     }
 }

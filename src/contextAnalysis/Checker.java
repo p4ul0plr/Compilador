@@ -44,17 +44,23 @@ import abstractSyntaxTree.Visitor;
  */
 public class Checker implements Visitor {
 
-    public IdentificationTable t = new IdentificationTable();
+    private final IdentificationTable t = new IdentificationTable();
+    private boolean fechaDeclaracoes = false;
 
     public void Check(NodePrograma nodePrograma) {
-        System.out.println("---> Iniciando identificacao de nomes");
+        System.out.println("---> Iniciando identificacao de nomes\n");
         nodePrograma.visit(this);
     }
 
     @Override
     public void visitAtribuicao(NodeAtribuicao nodeAtribuicao) {
         if (nodeAtribuicao != null) {
-            
+            if (nodeAtribuicao.nodeVariavel != null) {
+                nodeAtribuicao.nodeVariavel.visit(this);
+            }
+            if (nodeAtribuicao.nodeExpressao != null) {
+
+            }
         }
     }
 
@@ -73,6 +79,7 @@ public class Checker implements Visitor {
     @Override
     public void visitComandoComposto(NodeComandoComposto nodeComandoComposto) {
         if (nodeComandoComposto != null) {
+            fechaDeclaracoes = true;
             nodeComandoComposto.nodeListaDeComandos.visit(this);
         }
     }
@@ -80,7 +87,7 @@ public class Checker implements Visitor {
     @Override
     public void visitCondicional(NodeCondicional nodeCondicional) {
         if (nodeCondicional != null) {
-            
+
         }
     }
 
@@ -91,7 +98,7 @@ public class Checker implements Visitor {
                 nodeCorpo.nodeDeclaracoes.visit(this);
             }
             if (nodeCorpo.nodeComandoComposto != null) {
-                //nodeCorpo.nodeComandoComposto.visit(this);
+                nodeCorpo.nodeComandoComposto.visit(this);
             }
         }
     }
@@ -157,7 +164,11 @@ public class Checker implements Visitor {
     @Override
     public void visitId(NodeId nodeId) {
         if (nodeId != null) {
-            t.enter(new String(nodeId.identificador));
+            if (fechaDeclaracoes) {
+                t.retrieve(nodeId.identificador);
+            } else {
+                t.enter(nodeId.identificador);
+            }
         }
     }
 
@@ -169,7 +180,7 @@ public class Checker implements Visitor {
     @Override
     public void visitIterativo(NodeIterativo nodeIterativo) {
         if (nodeIterativo != null) {
-            
+
         }
     }
 
@@ -251,20 +262,27 @@ public class Checker implements Visitor {
     @Override
     public void visitTipoAgregado(NodeTipoAgregado nodeTipoAgregado) {
         if (nodeTipoAgregado != null) {
-            
+
         }
     }
 
     @Override
     public void visitTipoSimples(NodeTipoSimples nodeTipoSimples) {
         if (nodeTipoSimples != null) {
-            
+
         }
     }
 
     @Override
     public void visitVariavel(NodeVariavel nodeVariavel) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (nodeVariavel != null) {
+            if (nodeVariavel.nodeId != null) {
+                nodeVariavel.nodeId.visit(this);
+            }
+            if (nodeVariavel.nodeSeletor != null) {
+                //nodeVariavel.nodeSeletor.visit(this);
+            }
+        }
     }
 
 }
