@@ -40,7 +40,7 @@ public class IdentificationTable {
         }*/
 
         if (this.identificadores.contains(id)) {
-            System.out.println("Identificador " + id + " já foi declarado!\n");
+            System.out.println("Identificador " + id + " já foi declarado!");
         } else {
             this.identificadores.add(id);
             //System.out.println(this.identificadores.get(i));

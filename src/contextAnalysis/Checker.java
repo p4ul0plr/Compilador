@@ -219,7 +219,12 @@ public class Checker implements Visitor {
     @Override
     public void visitIterativo(NodeIterativo nodeIterativo) {
         if (nodeIterativo != null) {
-
+            if (nodeIterativo.nodeExpressao != null) {
+                nodeIterativo.nodeExpressao.visit(this);
+            }
+            if (nodeIterativo.nodeComando != null) {
+                nodeIterativo.nodeComando.visit(this);
+            }
         }
     }
 
