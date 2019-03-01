@@ -4,16 +4,17 @@ program teste ;
     var v1 : array [1 ..100] of array [1 ..100] of real;
     var v2, v3, v4 : array [0 .. 10] of boolean;
     var i, b : integer;
-    var i : integer;
+    var a, A : integer;
     var e : integer;
     var c : real;
-    var d : boolean;
+    var d, x, amor : boolean;
+    var fib : integer;
 
 begin
     
-    z := 1.444 + .12 + 123. * 12353;
+    amor := 1.444 + .12 + 123. * 12353;
     x := true;
-    a := b * c + d + e;
+    a := b * c + d + e + z - q;
     b[1] := 2;
     b := 2;
     c := a;
