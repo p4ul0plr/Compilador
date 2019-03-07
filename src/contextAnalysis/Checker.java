@@ -37,6 +37,7 @@ import abstractSyntaxTree.NodeTipoAgregado;
 import abstractSyntaxTree.NodeTipoSimples;
 import abstractSyntaxTree.NodeVariavel;
 import abstractSyntaxTree.Visitor;
+import lexicalAnalysis.Token;
 
 /**
  *
@@ -206,9 +207,9 @@ public class Checker implements Visitor {
     public void visitId(NodeId nodeId) {
         if (nodeId != null) {
             if (fechaDeclaracoes) {
-                t.retrieve(nodeId.identificador);
+                t.retrieve(new Token(Token.ID, nodeId.spelling, nodeId.line, nodeId.column));
             } else {
-                t.enter(nodeId.identificador);
+                t.enter(new Token(Token.ID, nodeId.spelling, nodeId.line, nodeId.column));
             }
         }
     }

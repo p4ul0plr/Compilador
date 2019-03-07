@@ -249,7 +249,7 @@ public class Printer implements Visitor {
         //System.out.println("visitId");
         if (nodeId != null) {
             indent();
-            System.out.print(nodeId.identificador);
+            System.out.print(nodeId.spelling);
         }
     }
 
@@ -299,7 +299,7 @@ public class Printer implements Visitor {
         if (nodeListaDeIds != null) {
             if (nodeListaDeIds.nodeId != null) {
                 indent();
-                System.out.print(nodeListaDeIds.nodeId.identificador);
+                System.out.print(nodeListaDeIds.nodeId.spelling);
                 System.out.println("");
             }
             if (nodeListaDeIds.next != null) {

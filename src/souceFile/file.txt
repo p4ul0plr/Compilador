@@ -9,7 +9,7 @@ program teste ;
     var e : integer;
     var c : real;
     var d, x, amor : boolean;
-    var fib : integer;
+    !var fib : integer;
 
 begin
     

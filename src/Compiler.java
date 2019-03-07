@@ -10,6 +10,7 @@ import abstractSyntaxTree.NodePrograma;
 import souceFile.SourceFile;
 import java.io.IOException;
 import contextAnalysis.Checker;
+import lexicalAnalysis.Token;
 import syntaxAnalisys.Parser;
 
 /**

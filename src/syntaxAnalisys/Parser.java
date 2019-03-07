@@ -345,9 +345,11 @@ public class Parser {
     }
 
     private NodeId parseId() { //Não sei se precisa
+        int column;
         String identificador = scanner.getCurrentSpelling().toString();
+        column = currentToken.getColumn();
         accept(Token.ID);
-        return new NodeId(identificador);
+        return new NodeId(Token.ID,identificador, currentToken.getLine(), column);
     }
 
     private NodeIntLit parseIntLit() {  //Não sei se precisa
@@ -392,17 +394,20 @@ public class Parser {
     }
 
     private NodeListaDeIds parseListadeIds() {
+        int column;
         String identificador = scanner.getCurrentSpelling().toString();
         NodeListaDeIds l, first, last;
+        column = currentToken.getColumn();
         accept(Token.ID);
-        l = new NodeListaDeIds(new NodeId(identificador), null);
+        l = new NodeListaDeIds(new NodeId(Token.ID,identificador, currentToken.getLine(), column), null);
         first = l;
         last = l;
         while (currentToken.getKind() == Token.COMMA) {
             acceptIt();
             identificador = scanner.getCurrentSpelling().toString();
+            column = currentToken.getColumn();
             accept(Token.ID);
-            l = new NodeListaDeIds(new NodeId(identificador), null);
+            l = new NodeListaDeIds(new NodeId(Token.ID,identificador, currentToken.getLine(), column), null);
             last.next = l;
             last = l;
         }
@@ -637,10 +642,12 @@ public class Parser {
     }
 
     private NodeVariavel parseVariavel() {
+        int column;
         String identificador = scanner.getCurrentSpelling().toString();
         NodeVariavel v = new NodeVariavel();
+        column = currentToken.getColumn();
         accept(Token.ID);
-        v.nodeId = new NodeId(identificador);
+        v.nodeId = new NodeId(Token.ID,identificador, currentToken.getLine(), column);
         v.nodeSeletor = parseSeletor();
         return v;
     }

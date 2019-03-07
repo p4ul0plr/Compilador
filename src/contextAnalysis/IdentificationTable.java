@@ -5,8 +5,8 @@
  */
 package contextAnalysis;
 
-import abstractSyntaxTree.NodeVariavel;
 import java.util.ArrayList;
+import lexicalAnalysis.Token;
 
 /**
  *
@@ -14,43 +14,62 @@ import java.util.ArrayList;
  */
 public class IdentificationTable {
 
-    private final ArrayList<String> identificadores = new ArrayList<>();
-    //private static int i = 0;
-    //private boolean naoEstaContido = true;
+    private final ArrayList<Token> identificadores = new ArrayList<>();
+    private static int i = 0;
+    private boolean naoEstaContido = true;
 
-    public void enter(String id) {
-        /*if (!identificadores.isEmpty()) {
-            for (StringBuffer identificadore : identificadores) {
+    public void enter(Token id) {
+        if (!identificadores.isEmpty()) {
+            /*for (StringBuffer identificadore : identificadores) {
                 if (id.equals(identificadore)) {
                     System.out.println("Identificador " + id + " já foi declarado!");
                     naoEstaContido = false;
                 }
+            }*/
+            for (int j = 0; j < identificadores.size(); j++) {
+                if (id.spelling.equals(identificadores.get(j).spelling)) {
+                    System.out.println("CONTEXT ERROR! -"
+                            + " LINE: " + id.getLine()
+                            + " COLUMN: " + id.getColumn()
+                            + " Identificador " + id.getSpelling() + " já foi declarado!");
+                    naoEstaContido = false;
+                }
             }
-            //for (int j = 0; j < identificadores.size() + 1; j++) {
-            //    if (id.equals(identificadores.get(j))) {
-            //        System.out.println("Identificador " + id + " já foi declarado!");
-            //        naoEstaContido = false;
-            //    }
-            //}
         }
         if (naoEstaContido) {
             identificadores.add(i, id);
-            System.out.println(identificadores.get(i));
+            //System.out.println(identificadores.get(i));
             i++;
-        }*/
-
-        if (this.identificadores.contains(id)) {
+        }
+        naoEstaContido = true;
+        /*if (this.identificadores.contains(id)) {
             System.out.println("Identificador " + id + " já foi declarado!");
         } else {
             this.identificadores.add(id);
             //System.out.println(this.identificadores.get(i));
-        }
+        }*/
         //i++;
     }
 
-    public void retrieve(String id) {
-        if (!this.identificadores.contains(id)) {
+    public void retrieve(Token id) {
+        /*if (!this.identificadores.contains(id)) {
             System.out.println("Identificador " + id + " não declarado!");
+        }*/
+        if (!identificadores.isEmpty()) {
+            for (int j = 0; j < identificadores.size(); j++) {
+                if (!id.spelling.equals(identificadores.get(j).spelling)) {
+                    naoEstaContido = true;
+                } else {
+                    naoEstaContido = false;
+                    break;
+                }
+            }
+            if (naoEstaContido) {
+                System.out.println("CONTEXT ERROR! -"
+                        + " LINE: " + id.getLine()
+                        + " COLUMN: " + id.getColumn()
+                        + " Identificador " + id.getSpelling() + " não declarado!");
+            }
         }
     }
 }
