@@ -11,12 +11,22 @@ package abstractSyntaxTree;
  */
 public class NodeBoolLit extends NodeLiteral {
 
+    public byte kind;
     public String booleano;
+    public int line;
+    public int column;
 
     public NodeBoolLit(String booleano) {
         this.booleano = booleano;
     }
 
+    public NodeBoolLit(byte kind, String booleano, int line, int column) {
+        this.kind = kind;
+        this.booleano = booleano;
+        this.line = line;
+        this.column = column;
+    }
+    
     @Override
     public void visit(Visitor v) {
         v.visitBoolLit(this);

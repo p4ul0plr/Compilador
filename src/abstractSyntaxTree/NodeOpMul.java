@@ -5,16 +5,22 @@
  */
 package abstractSyntaxTree;
 
+import lexicalAnalysis.Token;
+
 /**
  *
  * @author paulo
  */
-public class NodeOpMul {
+public class NodeOpMul extends Token {
 
-    public StringBuffer opMul;
+    /*public String opMul;
     
-    public NodeOpMul(StringBuffer opMul) {
+    public NodeOpMul(String opMul) {
         this.opMul = opMul;
+    }*/
+
+    public NodeOpMul(byte kind, String spelling, int line, int column) {
+        super(kind, spelling, line, column);
     }
 
     public void visit(Visitor v) {

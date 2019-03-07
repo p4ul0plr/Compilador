@@ -31,7 +31,7 @@ public class IdentificationTable {
                     System.out.println("CONTEXT ERROR! -"
                             + " LINE: " + id.getLine()
                             + " COLUMN: " + id.getColumn()
-                            + " Identificador " + id.getSpelling() + " já foi declarado!");
+                            + " - Identifier  " + id.getSpelling() + " already declared!");
                     naoEstaContido = false;
                 }
             }
@@ -68,7 +68,7 @@ public class IdentificationTable {
                 System.out.println("CONTEXT ERROR! -"
                         + " LINE: " + id.getLine()
                         + " COLUMN: " + id.getColumn()
-                        + " Identificador " + id.getSpelling() + " não declarado!");
+                        + " - Identifier " + id.getSpelling() + " not declared!");
             }
         }
     }

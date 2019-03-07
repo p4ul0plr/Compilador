@@ -323,7 +323,7 @@ public class Printer implements Visitor {
         if (nodeOpAd != null) {
             //i++;
             indent();
-            System.out.println(nodeOpAd.opAd);
+            System.out.println(nodeOpAd.spelling);
             //i--;
         }
     }
@@ -333,7 +333,7 @@ public class Printer implements Visitor {
         if (nodeOpMul != null) {
             //i++;
             indent();
-            System.out.println(nodeOpMul.opMul);
+            System.out.println(nodeOpMul.spelling);
             //i--;
         }
     }
@@ -343,7 +343,7 @@ public class Printer implements Visitor {
         if (nodeOpRel != null) {
             //i++;
             indent();
-            System.out.println(nodeOpRel.opRel);
+            System.out.println(nodeOpRel.spelling);
             //i--;
         }
     }

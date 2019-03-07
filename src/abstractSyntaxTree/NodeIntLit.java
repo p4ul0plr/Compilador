@@ -11,10 +11,20 @@ package abstractSyntaxTree;
  */
 public class NodeIntLit extends NodeLiteral {
 
+    public byte kind;
     public String intLiteral;
+    public int line;
+    public int column;
     
     public NodeIntLit(String intLiteral) {
         this.intLiteral = intLiteral;
+    }
+
+    public NodeIntLit(byte kind, String intLiteral, int line, int column) {
+        this.kind = kind;
+        this.intLiteral = intLiteral;
+        this.line = line;
+        this.column = column;
     }
     
     @Override
