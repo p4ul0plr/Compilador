@@ -37,7 +37,6 @@ import abstractSyntaxTree.NodeTipoAgregado;
 import abstractSyntaxTree.NodeTipoSimples;
 import abstractSyntaxTree.NodeVariavel;
 import abstractSyntaxTree.Visitor;
-import lexicalAnalysis.Token;
 
 /**
  *
@@ -47,6 +46,8 @@ public class Checker implements Visitor {
 
     private final IdentificationTable t = new IdentificationTable();
     private boolean fechaDeclaracoes = false;
+    private boolean ehTipoAgregado = false;
+    private String indiceMenor = null, indiceMaior = null;
 
     public void Check(NodePrograma nodePrograma) {
         System.out.println("---> Iniciando identificacao de nomes\n");
@@ -214,7 +215,18 @@ public class Checker implements Visitor {
 
     @Override
     public void visitIntLit(NodeIntLit nodeIntLit) {
-
+        if (nodeIntLit != null) {
+            if (ehTipoAgregado) {
+                if (indiceMenor == null) {
+                    indiceMenor = nodeIntLit.intLiteral;
+                } else if(indiceMaior == null) {
+                    indiceMaior = nodeIntLit.intLiteral;
+                } else {
+                    indiceMenor = nodeIntLit.intLiteral;
+                    indiceMaior = null;
+                }
+            }
+        }
     }
 
     @Override
@@ -333,6 +345,7 @@ public class Checker implements Visitor {
     @Override
     public void visitTipoAgregado(NodeTipoAgregado nodeTipoAgregado) {
         if (nodeTipoAgregado != null) {
+            ehTipoAgregado = true;
             if (nodeTipoAgregado.nodeTipo != null) {
                 nodeTipoAgregado.nodeTipo.visit(this);
             }
@@ -340,16 +353,23 @@ public class Checker implements Visitor {
                 if (nodeTipoAgregado.nodeLiteral1 instanceof NodeIntLit) {
                     nodeTipoAgregado.nodeLiteral1.visit(this);
                 } else {
-                    System.out.println("CONTEXT ERROR! - Index 1 invalid - An index of type <int-lit> was expected");
+                    System.out.println("CONTEXT ERROR! - Index 1 invalid - An index of type <int-lit> was expected.");
+                    System.exit(0);
                 }
             }
             if (nodeTipoAgregado.nodeLiteral2 != null) {
                 if (nodeTipoAgregado.nodeLiteral2 instanceof NodeIntLit) {
                     nodeTipoAgregado.nodeLiteral2.visit(this);
                 } else {
-                    System.out.println("CONTEXT ERROR! - Index 2 invalid - An index of type <int-lit> was expected");
+                    System.out.println("CONTEXT ERROR! - Index 2 invalid - An index of type <int-lit> was expected.");
+                    System.exit(0);
                 }
             }
+            if (Integer.parseInt(indiceMenor) >= Integer.parseInt(indiceMaior)) {
+                System.out.println("CONTEXT ERROR! - Index 1 should be lower than index 2.");
+            }
+            //System.out.println("indiceMenor: " + indiceMenor + "\nindiceMaior: " + indiceMaior);
+            ehTipoAgregado = false;
         }
     }
 
