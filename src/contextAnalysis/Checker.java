@@ -37,6 +37,7 @@ import abstractSyntaxTree.NodeTipoAgregado;
 import abstractSyntaxTree.NodeTipoSimples;
 import abstractSyntaxTree.NodeVariavel;
 import abstractSyntaxTree.Visitor;
+import lexicalAnalysis.Token;
 
 /**
  *
@@ -332,7 +333,23 @@ public class Checker implements Visitor {
     @Override
     public void visitTipoAgregado(NodeTipoAgregado nodeTipoAgregado) {
         if (nodeTipoAgregado != null) {
-
+            if (nodeTipoAgregado.nodeTipo != null) {
+                nodeTipoAgregado.nodeTipo.visit(this);
+            }
+            if (nodeTipoAgregado.nodeLiteral1 != null) {
+                if (nodeTipoAgregado.nodeLiteral1 instanceof NodeIntLit) {
+                    nodeTipoAgregado.nodeLiteral1.visit(this);
+                } else {
+                    System.out.println("CONTEXT ERROR! - Index 1 invalid - An index of type <int-lit> was expected");
+                }
+            }
+            if (nodeTipoAgregado.nodeLiteral2 != null) {
+                if (nodeTipoAgregado.nodeLiteral2 instanceof NodeIntLit) {
+                    nodeTipoAgregado.nodeLiteral2.visit(this);
+                } else {
+                    System.out.println("CONTEXT ERROR! - Index 2 invalid - An index of type <int-lit> was expected");
+                }
+            }
         }
     }
 
