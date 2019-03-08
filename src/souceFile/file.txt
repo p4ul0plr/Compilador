@@ -1,8 +1,8 @@
 program teste ;
 
-    var cache : array [101 ..100] of integer;
-    var v1 : array [102 ..100] of array [1 ..100] of real;
-    var v2, v3, v4 : array [0 .. 1] of boolean;
+    var cache : array [1 ..100] of integer;
+    var v1 : array [1 ..100] of array [1 ..100] of real;
+    var v2, v3, v4 : array [0 ..1] of boolean;
     var i, i, b : integer;
     var i, i, b : integer;
     var a, A : integer;
@@ -13,7 +13,7 @@ program teste ;
 
 begin
     
-    amor := 1.444 + .12 + 123. * 12353;
+    amor := 1.444 + .12 + 123. * 12353 + 1548.3146469798 - .1;
     x := true;
     a := b * c + d + e + z - q;
     b[1] := 2;

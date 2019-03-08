@@ -5,6 +5,9 @@
  */
 package lexicalAnalysis;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import souceFile.SourceFile;
 
 /**
@@ -23,6 +26,8 @@ public class Scanner {
     private int contVoidSpace = 1;
     private int line = 0;
     private int aux = 0;
+    private boolean flag = false;
+    private char p1, p2;
 
     public Scanner(SourceFile source) {
         sourceFile = source;
@@ -200,14 +205,21 @@ public class Scanner {
         currentSpelling = new StringBuffer("");
         currentKind = scanToken();
         Token token = new Token(currentKind, currentSpelling.toString(), line, column);
-        /*System.out.println("Spelling: " + token.getSpelling() 
-                    + "   Kind: " + token.getKind() 
-                    + "   Column: " + token.getColumn() 
-                    + "   Line: " + token.getLine());*/
+        /*System.out.println("Spelling: " + token.getSpelling()
+                + "   Kind: " + token.getKind()
+                + "   Column: " + token.getColumn()
+                + "   Line: " + token.getLine());*/
         return token;
     }
 
     private byte scanToken() {
+//        if (flag) {
+//            currentSpelling.append('.');
+//            currentSpelling.append('.');
+//            currentChar = sourceFile.readCurrentChar();
+//            flag = false;
+//            return Token.DOTDOT;
+//        }
         if (isLetter(currentChar)) {
             takeIt();
             while (isLetter(currentChar) || isDigit(currentChar)) {
@@ -235,6 +247,15 @@ public class Scanner {
         } else if (isDigit(currentChar)) {
             takeIt();
             if (currentChar == '.') {
+//                try {
+//                    if (sourceFile.source.read() == '.') {
+//                        flag = true;
+//                        calculateTheNumberOfColumns();
+//                        return Token.INT_LIT;
+//                    }
+//                } catch (IOException ex) {
+//                    //Logger.getLogger(Scanner.class.getName()).log(Level.SEVERE, null, ex);
+//                }
                 takeIt();
                 while (isDigit(currentChar)) {
                     takeIt();
@@ -249,10 +270,26 @@ public class Scanner {
             while (isDigit(currentChar)) {
                 takeIt();
                 if (currentChar == '.') {
+//                    try {
+//                        if (sourceFile.source.read() == '.') {
+//                            flag = true;
+//                            calculateTheNumberOfColumns();
+//                            return Token.INT_LIT;
+//                        }
+//                    } catch (IOException ex) {
+//                        //Logger.getLogger(Scanner.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
                     takeIt();
                     if (!isDigit(currentChar)) {
                         calculateTheNumberOfColumns();
                         return Token.FLOAT_LIT;
+                    }
+                    while (isDigit(currentChar)) {
+                        takeIt();
+                        if (!isDigit(currentChar)) {
+                            calculateTheNumberOfColumns();
+                            return Token.FLOAT_LIT;
+                        }
                     }
                 }
             }
