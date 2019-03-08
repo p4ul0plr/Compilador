@@ -353,9 +353,11 @@ public class Parser {
     }
 
     private NodeIntLit parseIntLit() {  //Não sei se precisa
+        int column;
         String intLiteral = scanner.getCurrentSpelling().toString();
+        column = currentToken.getColumn();
         accept(Token.INT_LIT);
-        return new NodeIntLit(intLiteral);
+        return new NodeIntLit(Token.INT_LIT, intLiteral, currentToken.getLine(), column);
     }
 
     private NodeIterativo parseIterativo() {

@@ -31,7 +31,7 @@ public class IdentificationTable {
                     System.out.println("CONTEXT ERROR! -"
                             + " LINE: " + id.getLine()
                             + " COLUMN: " + id.getColumn()
-                            + " - Identifier  " + id.getSpelling() + " already declared!");
+                            + " - Identifier " + id.getSpelling() + " already declared!");
                     naoEstaContido = false;
                 }
             }

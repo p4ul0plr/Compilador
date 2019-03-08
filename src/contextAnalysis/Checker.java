@@ -47,8 +47,8 @@ public class Checker implements Visitor {
 
     private final IdentificationTable t = new IdentificationTable();
     private boolean fechaDeclaracoes = false;
-    private boolean ehTipoAgregado = false;
-    private String indiceMenor = null, indiceMaior = null;
+    //private boolean ehTipoAgregado = false;
+    //private String indiceMenor = null, indiceMaior = null;
 
     public void Check(NodePrograma nodePrograma) {
         System.out.println("---> Iniciando identificacao de nomes\n");
@@ -217,7 +217,7 @@ public class Checker implements Visitor {
     @Override
     public void visitIntLit(NodeIntLit nodeIntLit) {
         if (nodeIntLit != null) {
-            if (ehTipoAgregado) {
+            /*if (ehTipoAgregado) {
                 if (indiceMenor == null) {
                     indiceMenor = nodeIntLit.intLiteral;
                 } else if(indiceMaior == null) {
@@ -226,7 +226,7 @@ public class Checker implements Visitor {
                     indiceMenor = nodeIntLit.intLiteral;
                     indiceMaior = null;
                 }
-            }
+            }*/
         }
     }
 
@@ -345,14 +345,17 @@ public class Checker implements Visitor {
 
     @Override
     public void visitTipoAgregado(NodeTipoAgregado nodeTipoAgregado) {
+        NodeIntLit indiceMenorS = null, indiceMaiorS;
+        int indiceMenorI = 0, indiceMaiorI = 0;
         if (nodeTipoAgregado != null) {
-            ehTipoAgregado = true;
+            //ehTipoAgregado = true;
             if (nodeTipoAgregado.nodeTipo != null) {
                 nodeTipoAgregado.nodeTipo.visit(this);
             }
             if (nodeTipoAgregado.nodeLiteral1 != null) {
                 if (nodeTipoAgregado.nodeLiteral1 instanceof NodeIntLit) {
-                    nodeTipoAgregado.nodeLiteral1.visit(this);
+                    indiceMenorS = ((NodeIntLit)nodeTipoAgregado.nodeLiteral1);
+                    indiceMenorI = Integer.parseInt(indiceMenorS.getIntLiteral());
                 } else {
                     System.out.println("CONTEXT ERROR! - Index 1 invalid - An index of type <int-lit> was expected.");
                     System.exit(0);
@@ -360,17 +363,22 @@ public class Checker implements Visitor {
             }
             if (nodeTipoAgregado.nodeLiteral2 != null) {
                 if (nodeTipoAgregado.nodeLiteral2 instanceof NodeIntLit) {
-                    nodeTipoAgregado.nodeLiteral2.visit(this);
+                    indiceMaiorS = ((NodeIntLit)nodeTipoAgregado.nodeLiteral2);
+                    indiceMaiorI = Integer.parseInt(indiceMaiorS.getIntLiteral());
                 } else {
                     System.out.println("CONTEXT ERROR! - Index 2 invalid - An index of type <int-lit> was expected.");
                     System.exit(0);
                 }
             }
-            if (Integer.parseInt(indiceMenor) >= Integer.parseInt(indiceMaior)) {
-                System.out.println("CONTEXT ERROR! - Index 1 should be lower than index 2.");
+            if (indiceMenorI >= indiceMaiorI) {
+                System.out.println("CONTEXT ERROR! -"
+                        + " LINE: " + indiceMenorS.getLine()
+                        + " COLUMN: " + indiceMenorS.getColumn()
+                        + " Index \"" + indiceMenorI + "\""
+                        + " should be lower than index \"" + indiceMaiorI + "\".");
             }
             //System.out.println("indiceMenor: " + indiceMenor + "\nindiceMaior: " + indiceMaior);
-            ehTipoAgregado = false;
+            //ehTipoAgregado = false;
         }
     }
 
