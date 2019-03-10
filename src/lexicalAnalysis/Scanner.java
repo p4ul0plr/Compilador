@@ -204,16 +204,16 @@ public class Scanner {
         }
         currentSpelling = new StringBuffer("");
         currentKind = scanToken();
-        if (currentKind == -1) {
+        /*if (currentKind == -1) {
             System.out.print("Token inválido! = ");
         } else {
             System.out.print("Token válido = ");
-        }
+        }*/
         Token token = new Token(currentKind, currentSpelling.toString(), line, column);
-        System.out.println("Spelling: " + token.getSpelling()
+        /*System.out.println("Spelling: " + token.getSpelling()
                 + "   Kind: " + token.getKind()
                 + "   Column: " + token.getColumn()
-                + "   Line: " + token.getLine());
+                + "   Line: " + token.getLine());*/
         return token;
     }
 

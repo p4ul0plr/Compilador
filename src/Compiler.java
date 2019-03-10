@@ -40,7 +40,7 @@ public class Compiler {
         String cadeias_aceitas = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/cadeias_aceitas.txt";
         String cadeias_recusadas = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/cadeias_recusadas.txt";
         String file = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt";
-        SourceFile sourceFile = new SourceFile(file);
+        SourceFile sourceFile = new SourceFile(cadeias_recusadas);
         Parser parser = new Parser(sourceFile);
         /*/ ---------------- IMPRIMINDO TOKENS ------------------
         System.out.println("---------------- IMPRIMINDO TOKENS ------------------");
@@ -59,8 +59,8 @@ public class Compiler {
         Checker checker = new Checker();
         NodePrograma nodePrograma;
         nodePrograma = parser.parse();
-        printer.print(nodePrograma);
-        checker.Check(nodePrograma);
+        /*printer.print(nodePrograma);
+        checker.Check(nodePrograma);*/
         
         /*StringBuffer a = new StringBuffer();
         StringBuffer b = new StringBuffer();

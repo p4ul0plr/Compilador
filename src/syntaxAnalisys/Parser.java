@@ -73,11 +73,12 @@ public class Parser {
         if (currentToken.getKind() == expectedKind) {
             currentToken = scanner.scan();
         } else {
-            System.out.println("(Accept) SYNTAX ERROR! - "
+            System.out.println("SYNTAX ERROR! - "
                     + "LINE: " + currentToken.getLine()
                     + " COLUMN: " + currentToken.getColumn()
                     + " - A Token of type \"" + Token.spellings[expectedKind]
                     + "\" was expected and not token " + "\"" + currentToken.getSpelling() + "\"");
+            System.exit(0);
         }
     }
 
