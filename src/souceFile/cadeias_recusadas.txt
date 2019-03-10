@@ -1,0 +1,5 @@
+program cadeias_recusadas;
+    var a : integer;
+begin~{
+    a := ?aa´;
+} end .

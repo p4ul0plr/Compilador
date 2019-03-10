@@ -1,0 +1,10 @@
+program cadeiasAceitas;
+    var a, b : integer;
+    var c : boolean;
+begin
+    if (a > b) then
+        c := true
+    else
+        c := false;
+end .
+    

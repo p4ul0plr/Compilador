@@ -37,7 +37,10 @@ public class Compiler {
 //        System.out.println("" + scanner.isGraphic('@'));
 //        LeitorArquivo arq = new LeitorArquivo();
 //        System.out.println(""+arq.read("/tmp/arquivo.txt"));
-        SourceFile sourceFile = new SourceFile("/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt");
+        String cadeias_aceitas = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/cadeias_aceitas.txt";
+        String cadeias_recusadas = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/cadeias_recusadas.txt";
+        String file = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt";
+        SourceFile sourceFile = new SourceFile(file);
         Parser parser = new Parser(sourceFile);
         /*/ ---------------- IMPRIMINDO TOKENS ------------------
         System.out.println("---------------- IMPRIMINDO TOKENS ------------------");
