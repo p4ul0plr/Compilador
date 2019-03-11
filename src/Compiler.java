@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-
 import TreeDrawer.Printer;
 import abstractSyntaxTree.NodePrograma;
 import souceFile.SourceFile;
 import java.io.IOException;
 import contextAnalysis.Checker;
+import java.util.Scanner;
 import lexicalAnalysis.Token;
 import syntaxAnalisys.Parser;
 
@@ -37,32 +37,99 @@ public class Compiler {
 //        System.out.println("" + scanner.isGraphic('@'));
 //        LeitorArquivo arq = new LeitorArquivo();
 //        System.out.println(""+arq.read("/tmp/arquivo.txt"));
-        String cadeias_aceitas = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/cadeias_aceitas.txt";
-        String cadeias_recusadas = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/cadeias_recusadas.txt";
-        String file = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt";
-        SourceFile sourceFile = new SourceFile(cadeias_recusadas);
+        Scanner ler = new Scanner(System.in);
+        String programaFonte;
+        int opcao;
+        System.out.print("Caminho do programa fonte: ");
+        programaFonte = ler.nextLine();
+        SourceFile sourceFile = new SourceFile(programaFonte);
+        do {
+            System.out.println("Selecione até que etapa da compilação gostaria de executar: ");
+            System.out.println("1 - Análise Léxica");
+            System.out.println("2 - Análise Sintática");
+            System.out.println("3 - Impressão da Árvore");
+            System.out.println("4 - Análise de Contexto");
+            System.out.println("5 - Geração de Código");
+            System.out.println("6 - Sair");
+            System.out.print("Opção: ");
+            opcao = Integer.parseInt(ler.nextLine());
+        } while (opcao < 1 || opcao > 6);
         Parser parser = new Parser(sourceFile);
-        /*/ ---------------- IMPRIMINDO TOKENS ------------------
-        System.out.println("---------------- IMPRIMINDO TOKENS ------------------");
-        Token token;
-        while (parser.scanner.getCurrentChar() != EOT) {
-            token = parser.scanner.scan();
-            System.out.println("Spelling: " + token.getSpelling() 
-                    + "   Kind: " + token.getKind() 
-                    + "   Column: " + token.getColumn() 
-                    + "   Line: " + token.getLine());
-
+        NodePrograma nodePrograma;
+        switch (opcao) {
+            case 1:
+                System.out.println("################################################################");
+                System.out.println("####################### ANÁLISE LÉXICA #########################");
+                System.out.println("################################################################");
+                Token token;
+                while (parser.scanner.getCurrentChar() != EOT) {
+                    token = parser.scanner.scan();
+                    if (parser.scanner.getCurrentKind() == -1) {
+                        System.out.print("Token inválido! = ");
+                    } else {
+                        System.out.print("Token válido = ");
+                    }
+                    System.out.println("Spelling: " + token.getSpelling()
+                            + "   Kind: " + token.getKind()
+                            + "   Column: " + token.getColumn()
+                            + "   Line: " + token.getLine());
+                }
+                break;
+            case 2:
+                System.out.println("################################################################");
+                System.out.println("####################### ANÁLISE SINTÁTICA ######################");
+                System.out.println("################################################################");
+                parser.parse();
+                break;
+            case 3:
+                System.out.println("################################################################");
+                System.out.println("#################### IMPRESSÃO DA ÁRVORE #######################");
+                System.out.println("################################################################");
+                Printer printer = new Printer();
+                nodePrograma = parser.parse();
+                printer.print(nodePrograma);
+                break;
+            case 4:
+                System.out.println("################################################################");
+                System.out.println("#################### ANÁLISE DE CONTEXTO #######################");
+                System.out.println("################################################################");
+                Checker checker = new Checker();
+                nodePrograma = parser.parse();
+                checker.Check(nodePrograma);
+                break;
+            case 5:
+                System.out.println("################################################################");
+                System.out.println("###################### GERAÇÃO DE CÓDIGO #######################");
+                System.out.println("################################################################");
+                break;
+            case 6:
+                System.exit(1);
         }
-        System.out.println("---------------- IMPRIMINDO TOKENS ------------------");
-        // ---------------- IMPRIMINDO TOKENS ------------------*/
-        Printer printer = new Printer();
+//        String cadeias_aceitas = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/cadeias_aceitas.txt";
+//        String cadeias_recusadas = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/cadeias_recusadas.txt";
+//        String file = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt";
+        /*/ -- -- -- -- -- -- -- --IMPRIMINDO 
+                TOKENS------------------
+                System.out.println("---------------- IMPRIMINDO TOKENS ------------------");
+                Token token;
+                while (parser.scanner.getCurrentChar() != EOT) {
+                    token = parser.scanner.scan();
+                    System.out.println("Spelling: " + token.getSpelling()
+                            + "   Kind: " + token.getKind()
+                            + "   Column: " + token.getColumn()
+                            + "   Line: " + token.getLine());
+
+                }
+                System.out.println("---------------- IMPRIMINDO TOKENS ------------------");
+            // ---------------- IMPRIMINDO TOKENS ------------------*/
+ /*Printer printer = new Printer();
         Checker checker = new Checker();
         NodePrograma nodePrograma;
-        nodePrograma = parser.parse();
-        /*printer.print(nodePrograma);
+        nodePrograma = parser.parse();*/
+ /*printer.print(nodePrograma);
         checker.Check(nodePrograma);*/
-        
-        /*StringBuffer a = new StringBuffer();
+
+ /*StringBuffer a = new StringBuffer();
         StringBuffer b = new StringBuffer();
         a.append("a");
         b.append("a");
@@ -73,14 +140,13 @@ public class Compiler {
         if (aa.equals(bb.toString())) {
             System.out.println("Elementos iguais!");
         }*/
-        /*String id = "i";
+ /*String id = "i";
         //checker.t.identificadores.add(id);
         if (checker.t.identificadores.contains(id)) {
             System.out.println("Identificador " + id + " já foi declarado!");
         } else {
             checker.t.identificadores.add(id);
         }*/
-
         //System.out.println("" + sourceFile.readCurrentChar());
         //System.out.println("" + scanner.scanToken());
 //        StringBuffer currentSpelling = new StringBuffer("teste");

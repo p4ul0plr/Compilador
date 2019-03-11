@@ -216,7 +216,7 @@ public class Scanner {
                 + "   Line: " + token.getLine());*/
         return token;
     }
-
+    
     private byte scanToken() {
 //        if (flag) {
 //            currentSpelling.append('.');

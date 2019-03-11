@@ -58,6 +58,7 @@ public class SourceFile {
             openFile = null;
             reader = null;
             System.out.println(ex.getMessage());
+            System.exit(0);
         }
     }
 
