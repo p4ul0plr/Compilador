@@ -79,6 +79,7 @@ public class Printer implements Visitor {
         if (nodeBoolLit != null) {
             indent();
             System.out.print(nodeBoolLit.booleano);
+            System.out.println("");
         }
     }
 

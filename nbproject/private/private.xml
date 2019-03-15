@@ -5,6 +5,8 @@
         <group>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/souceFile/cadeias_recusadas.txt</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/Compiler.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Token.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/souceFile/SourceFile.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Scanner.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/syntaxAnalisys/Parser.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt</file>
