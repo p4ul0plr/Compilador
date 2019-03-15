@@ -10,7 +10,7 @@ package abstractSyntaxTree;
  * @author paulo
  */
 public abstract class NodeLiteral extends NodeFator {
-
+    
     @Override
     public abstract void visit (Visitor v);
 }

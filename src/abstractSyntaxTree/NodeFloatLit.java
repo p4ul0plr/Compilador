@@ -11,7 +11,6 @@ package abstractSyntaxTree;
  */
 public class NodeFloatLit extends NodeLiteral {
 
-    public byte kind;
     public String floatLiteral;
     public int line;
     public int column;

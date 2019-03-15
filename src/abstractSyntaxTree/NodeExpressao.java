@@ -9,7 +9,7 @@ package abstractSyntaxTree;
  *
  * @author paulo
  */
-public class NodeExpressao extends NodeFator{
+public class NodeExpressao extends NodeFator {
 
     public NodeExpressaoSimples nodeExpressaoSimples1, nodeExpressaoSimples2;
     public NodeOpRel nodeOpRel;

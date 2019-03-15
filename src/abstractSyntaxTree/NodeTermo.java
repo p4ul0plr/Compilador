@@ -13,6 +13,7 @@ public class NodeTermo {
 
     public NodeFator nodeFator;
     public NodeTermoComplemento nodeTermoComplemento;
+    public byte kind;
     
     public void visit(Visitor v) {
         v.visitTermo(this);

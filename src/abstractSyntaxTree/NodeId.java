@@ -11,7 +11,7 @@ import lexicalAnalysis.Token;
  *
  * @author paulo
  */
-public class NodeId extends Token{
+public class NodeId extends Token {
     
     /*public String identificador;
     

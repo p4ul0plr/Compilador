@@ -13,6 +13,7 @@ public class NodeExpressaoSimples {
     
     public NodeTermo nodeTermo;
     public NodeExpressaoSimplesComplemento nodeExpressaoSimplesComplemento;
+    public byte kind;
     
     public void visit(Visitor v) {
         v.visitExpressaoSimples(this);

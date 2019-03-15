@@ -10,6 +10,8 @@ package abstractSyntaxTree;
  * @author paulo
  */
 public abstract class NodeFator {
+    
+    public byte kind;
 
     public abstract void visit(Visitor v);
 }

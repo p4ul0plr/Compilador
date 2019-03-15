@@ -74,12 +74,14 @@ public class Compiler {
                             + "   Column: " + token.getColumn()
                             + "   Line: " + token.getLine());
                 }
+                sourceFile.source.close();
                 break;
             case 2:
                 System.out.println("################################################################");
                 System.out.println("####################### ANÁLISE SINTÁTICA ######################");
                 System.out.println("################################################################");
                 parser.parse();
+                sourceFile.source.close();
                 break;
             case 3:
                 System.out.println("################################################################");
@@ -88,6 +90,7 @@ public class Compiler {
                 Printer printer = new Printer();
                 nodePrograma = parser.parse();
                 printer.print(nodePrograma);
+                sourceFile.source.close();
                 break;
             case 4:
                 System.out.println("################################################################");
@@ -96,14 +99,17 @@ public class Compiler {
                 Checker checker = new Checker();
                 nodePrograma = parser.parse();
                 checker.Check(nodePrograma);
+                sourceFile.source.close();
                 break;
             case 5:
                 System.out.println("################################################################");
                 System.out.println("###################### GERAÇÃO DE CÓDIGO #######################");
                 System.out.println("################################################################");
+                sourceFile.source.close();
                 break;
             case 6:
-                System.exit(1);
+                sourceFile.source.close();
+                System.exit(0);
         }
 //        String cadeias_aceitas = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/cadeias_aceitas.txt";
 //        String cadeias_recusadas = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/cadeias_recusadas.txt";

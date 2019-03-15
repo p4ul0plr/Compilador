@@ -11,7 +11,6 @@ package abstractSyntaxTree;
  */
 public class NodeBoolLit extends NodeLiteral {
 
-    public byte kind;
     public String booleano;
     public int line;
     public int column;

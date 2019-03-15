@@ -44,9 +44,10 @@ import lexicalAnalysis.Token;
  * @author paulo
  */
 public class Checker implements Visitor {
-
+    
     private final IdentificationTable t = new IdentificationTable();
-    private boolean fechaDeclaracoes = false;
+    private byte kindESC;
+    //private boolean fechaDeclaracoes = false;
     //private boolean ehTipoAgregado = false;
     //private String indiceMenor = null, indiceMaior = null;
 
@@ -54,41 +55,54 @@ public class Checker implements Visitor {
         System.out.println("---> Iniciando identificacao de nomes\n");
         nodePrograma.visit(this);
     }
-
+    
     @Override
     public void visitAtribuicao(NodeAtribuicao nodeAtribuicao) {
         if (nodeAtribuicao != null) {
+            byte e1 = -1, e2 = -1;
             if (nodeAtribuicao.nodeVariavel != null) {
                 nodeAtribuicao.nodeVariavel.visit(this);
+                e1 = nodeAtribuicao.nodeVariavel.kind;
             }
             if (nodeAtribuicao.nodeExpressao != null) {
                 nodeAtribuicao.nodeExpressao.visit(this);
+                e2 = nodeAtribuicao.nodeExpressao.kind;
+            }
+            if (e1 == e2 && e1 != -1 && e2 != -1) {
+                nodeAtribuicao.kind = e1;
+            } else {
+                nodeAtribuicao.kind = -1;
+                System.out.println("Error");
+                System.exit(0);
             }
         }
     }
-
+    
     @Override
     public void visitBoolLit(NodeBoolLit nodeBoolLit) {
-
+        if (nodeBoolLit != null) {
+            //nodeBoolLit.kind;
+        }
+        
     }
-
+    
     @Override
     public void visitComando(NodeComando nodeComando) {
         if (nodeComando != null) {
             nodeComando.visit(this);
         }
     }
-
+    
     @Override
     public void visitComandoComposto(NodeComandoComposto nodeComandoComposto) {
         if (nodeComandoComposto != null) {
-            fechaDeclaracoes = true;
+            //fechaDeclaracoes = true;
             if (nodeComandoComposto.nodeListaDeComandos != null) {
                 nodeComandoComposto.nodeListaDeComandos.visit(this);
             }
         }
     }
-
+    
     @Override
     public void visitCondicional(NodeCondicional nodeCondicional) {
         if (nodeCondicional != null) {
@@ -103,7 +117,7 @@ public class Checker implements Visitor {
             }
         }
     }
-
+    
     @Override
     public void visitCorpo(NodeCorpo nodeCorpo) {
         if (nodeCorpo != null) {
@@ -115,7 +129,7 @@ public class Checker implements Visitor {
             }
         }
     }
-
+    
     @Override
     public void visitDeclaracao(NodeDeclaracao nodeDeclaracao) {
         if (nodeDeclaracao != null) {
@@ -124,7 +138,7 @@ public class Checker implements Visitor {
             }
         }
     }
-
+    
     @Override
     public void visitDeclaracaoDeVariavel(NodeDeclaracaoDeVariavel nodeDeclaracaoDeVariavel) {
         if (nodeDeclaracaoDeVariavel != null) {
@@ -136,7 +150,7 @@ public class Checker implements Visitor {
             }
         }
     }
-
+    
     @Override
     public void visitDeclaracoes(NodeDeclaracoes nodeDeclaracoes) {
         if (nodeDeclaracoes != null) {
@@ -148,34 +162,50 @@ public class Checker implements Visitor {
             }
         }
     }
-
+    
     @Override
     public void visitExpressao(NodeExpressao nodeExpressao) {
         if (nodeExpressao != null) {
+            byte e1 = -1, e2 = -1;
             if (nodeExpressao.nodeExpressaoSimples1 != null) {
                 nodeExpressao.nodeExpressaoSimples1.visit(this);
+                e1 = nodeExpressao.nodeExpressaoSimples1.kind;
             }
             if (nodeExpressao.nodeOpRel != null) {
                 nodeExpressao.nodeOpRel.visit(this);
             }
             if (nodeExpressao.nodeExpressaoSimples2 != null) {
                 nodeExpressao.nodeExpressaoSimples2.visit(this);
+                e2 = nodeExpressao.nodeExpressaoSimples1.kind;
+            }
+            if (e1 == e2 && e1 != -1 && e2 != -1) {
+                nodeExpressao.kind = e1;
+            } else {
+                nodeExpressao.kind = -1;
             }
         }
     }
-
+    
     @Override
     public void visitExpressaoSimples(NodeExpressaoSimples nodeExpressaoSimples) {
+        byte e1 = -1, e2 = -1;
         if (nodeExpressaoSimples != null) {
             if (nodeExpressaoSimples.nodeTermo != null) {
                 nodeExpressaoSimples.nodeTermo.visit(this);
+                e1 = nodeExpressaoSimples.nodeTermo.kind;
             }
             if (nodeExpressaoSimples.nodeExpressaoSimplesComplemento != null) {
                 nodeExpressaoSimples.nodeExpressaoSimplesComplemento.visit(this);
+                e1 = nodeExpressaoSimples.nodeTermo.kind;
+            }
+            if (e1 == e2 && e1 != -1 && e2 != -1) {
+                nodeExpressaoSimples.kind = e1;
+            } else {
+                nodeExpressaoSimples.kind = -1;
             }
         }
     }
-
+    
     @Override
     public void visitExpressaoSimplesComplemento(NodeExpressaoSimplesComplemento nodeExpressaoSimplesComplemento) {
         if (nodeExpressaoSimplesComplemento != null) {
@@ -184,36 +214,46 @@ public class Checker implements Visitor {
             }
             if (nodeExpressaoSimplesComplemento.nodeTermo != null) {
                 nodeExpressaoSimplesComplemento.nodeTermo.visit(this);
+                if (nodeExpressaoSimplesComplemento.kind == -2) {
+                    nodeExpressaoSimplesComplemento.kind = nodeExpressaoSimplesComplemento.nodeTermo.kind;
+                } else if (nodeExpressaoSimplesComplemento.kind != nodeExpressaoSimplesComplemento.nodeTermo.kind) {
+                    nodeExpressaoSimplesComplemento.kind = -1;
+                }
+                
             }
             if (nodeExpressaoSimplesComplemento.next != null) {
                 nodeExpressaoSimplesComplemento.next.visit(this);
             }
         }
     }
-
+    
     @Override
     public void visitFator(NodeFator nodeFator) {
         if (nodeFator != null) {
             nodeFator.visit(this);
         }
     }
-
+    
     @Override
     public void visitFloatLit(NodeFloatLit nodeFloatLit) {
-
+        if (nodeFloatLit != null) {
+            
+        }
+        
     }
-
+    
     @Override
     public void visitId(NodeId nodeId) {
         if (nodeId != null) {
-            if (fechaDeclaracoes) {
-                t.retrieve(new Token(Token.ID, nodeId.spelling, nodeId.line, nodeId.column));
-            } else {
-                t.enter(new Token(Token.ID, nodeId.spelling, nodeId.line, nodeId.column));
-            }
+
+//            if (fechaDeclaracoes) {
+//                t.retrieve(new Token(Token.ID, nodeId.spelling, nodeId.line, nodeId.column));
+//            } else {
+//                t.enter(new Token(Token.ID, nodeId.spelling, nodeId.line, nodeId.column));
+//            }
         }
     }
-
+    
     @Override
     public void visitIntLit(NodeIntLit nodeIntLit) {
         if (nodeIntLit != null) {
@@ -229,7 +269,7 @@ public class Checker implements Visitor {
             }*/
         }
     }
-
+    
     @Override
     public void visitIterativo(NodeIterativo nodeIterativo) {
         if (nodeIterativo != null) {
@@ -241,7 +281,7 @@ public class Checker implements Visitor {
             }
         }
     }
-
+    
     @Override
     public void visitListaDeComandos(NodeListaDeComandos nodeListaDeComandos) {
         if (nodeListaDeComandos != null) {
@@ -253,41 +293,42 @@ public class Checker implements Visitor {
             }
         }
     }
-
+    
     @Override
     public void visitListaDeIds(NodeListaDeIds nodeListaDeIds) {
         if (nodeListaDeIds != null) {
             if (nodeListaDeIds.nodeId != null) {
                 nodeListaDeIds.nodeId.visit(this);
+                t.enter(nodeListaDeIds.nodeId);
             }
             if (nodeListaDeIds.next != null) {
                 nodeListaDeIds.next.visit(this);
             }
         }
     }
-
+    
     @Override
     public void visitLiteral(NodeLiteral nodeLiteral) {
         if (nodeLiteral != null) {
             nodeLiteral.visit(this);
         }
     }
-
+    
     @Override
     public void visitOpAd(NodeOpAd nodeOpAd) {
-
+        
     }
-
+    
     @Override
     public void visitOpMul(NodeOpMul nodeOpMul) {
-
+        
     }
-
+    
     @Override
     public void visitOpRel(NodeOpRel nodeOpRel) {
-
+        
     }
-
+    
     @Override
     public void visitPrograma(NodePrograma nodePrograma) {
         if (nodePrograma != null) {
@@ -296,7 +337,7 @@ public class Checker implements Visitor {
             }
         }
     }
-
+    
     @Override
     public void visitSeletor(NodeSeletor nodeSeletor) {
         if (nodeSeletor != null) {
@@ -308,19 +349,27 @@ public class Checker implements Visitor {
             }
         }
     }
-
+    
     @Override
     public void visitTermo(NodeTermo nodeTermo) {
+        byte e1 = -1, e2 = -1;
         if (nodeTermo != null) {
             if (nodeTermo.nodeFator != null) {
                 nodeTermo.nodeFator.visit(this);
+                e1 = nodeTermo.nodeFator.kind;
             }
             if (nodeTermo.nodeTermoComplemento != null) {
                 nodeTermo.nodeTermoComplemento.visit(this);
+                e2 = nodeTermo.nodeFator.kind;
             }
         }
+        if (e1 == e2 && e1 != -1 && e2 != -1) {
+            nodeTermo.kind = e1;
+        } else {
+            nodeTermo.kind = -1;
+        }
     }
-
+    
     @Override
     public void visitTermoComplemento(NodeTermoComplemento nodeTermoComplemento) {
         if (nodeTermoComplemento != null) {
@@ -329,20 +378,25 @@ public class Checker implements Visitor {
             }
             if (nodeTermoComplemento.nodeFator != null) {
                 nodeTermoComplemento.nodeFator.visit(this);
+                if (nodeTermoComplemento.kind == -2) {
+                    nodeTermoComplemento.kind = nodeTermoComplemento.nodeFator.kind;
+                } else if (nodeTermoComplemento.kind != nodeTermoComplemento.nodeFator.kind) {
+                    nodeTermoComplemento.kind = -1;
+                }
             }
             if (nodeTermoComplemento.next != null) {
                 nodeTermoComplemento.next.visit(this);
             }
         }
     }
-
+    
     @Override
     public void visitTipo(NodeTipo nodeTipo) {
         if (nodeTipo != null) {
             nodeTipo.visit(this);
         }
     }
-
+    
     @Override
     public void visitTipoAgregado(NodeTipoAgregado nodeTipoAgregado) {
         NodeIntLit indiceMenorS = null, indiceMaiorS;
@@ -354,7 +408,7 @@ public class Checker implements Visitor {
             }
             if (nodeTipoAgregado.nodeLiteral1 != null) {
                 if (nodeTipoAgregado.nodeLiteral1 instanceof NodeIntLit) {
-                    indiceMenorS = ((NodeIntLit)nodeTipoAgregado.nodeLiteral1);
+                    indiceMenorS = ((NodeIntLit) nodeTipoAgregado.nodeLiteral1);
                     indiceMenorI = Integer.parseInt(indiceMenorS.getIntLiteral());
                 } else {
                     System.out.println("CONTEXT ERROR! - Index 1 invalid - An index of type <int-lit> was expected.");
@@ -363,7 +417,7 @@ public class Checker implements Visitor {
             }
             if (nodeTipoAgregado.nodeLiteral2 != null) {
                 if (nodeTipoAgregado.nodeLiteral2 instanceof NodeIntLit) {
-                    indiceMaiorS = ((NodeIntLit)nodeTipoAgregado.nodeLiteral2);
+                    indiceMaiorS = ((NodeIntLit) nodeTipoAgregado.nodeLiteral2);
                     indiceMaiorI = Integer.parseInt(indiceMaiorS.getIntLiteral());
                 } else {
                     System.out.println("CONTEXT ERROR! - Index 2 invalid - An index of type <int-lit> was expected.");
@@ -381,24 +435,25 @@ public class Checker implements Visitor {
             //ehTipoAgregado = false;
         }
     }
-
+    
     @Override
     public void visitTipoSimples(NodeTipoSimples nodeTipoSimples) {
         if (nodeTipoSimples != null) {
-
+            
         }
     }
-
+    
     @Override
     public void visitVariavel(NodeVariavel nodeVariavel) {
         if (nodeVariavel != null) {
             if (nodeVariavel.nodeId != null) {
                 nodeVariavel.nodeId.visit(this);
+                nodeVariavel.kind = t.retrieve(nodeVariavel.nodeId);
             }
             if (nodeVariavel.nodeSeletor != null) {
                 nodeVariavel.nodeSeletor.visit(this);
             }
         }
     }
-
+    
 }

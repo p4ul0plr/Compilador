@@ -340,9 +340,11 @@ public class Parser {
 //            default:
 //                //report a systatic error
 //        }
+        int column;
         String floatLiteral = scanner.getCurrentSpelling().toString();
+        column = currentToken.getColumn();
         accept(Token.FLOAT_LIT);
-        return new NodeFloatLit(floatLiteral);
+        return new NodeFloatLit(Token.FLOAT_LIT, floatLiteral, currentToken.getLine(), column);
     }
 
     private NodeId parseId() { //Não sei se precisa
