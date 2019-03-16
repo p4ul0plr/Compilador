@@ -110,8 +110,9 @@ public class Parser {
         switch (currentToken.getKind()) {
             case Token.TRUE:
             case Token.FALSE:
+                int column = currentToken.getColumn();
                 acceptIt();
-                b = new NodeBoolLit(boolLit);
+                b = new NodeBoolLit(Token.BOOLEAN, boolLit, currentToken.getLine(), column);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -352,7 +353,7 @@ public class Parser {
         String identificador = scanner.getCurrentSpelling().toString();
         column = currentToken.getColumn();
         accept(Token.ID);
-        return new NodeId(Token.ID,identificador, currentToken.getLine(), column);
+        return new NodeId(Token.ID, identificador, currentToken.getLine(), column);
     }
 
     private NodeIntLit parseIntLit() {  //Não sei se precisa
@@ -404,7 +405,7 @@ public class Parser {
         NodeListaDeIds l, first, last;
         column = currentToken.getColumn();
         accept(Token.ID);
-        l = new NodeListaDeIds(new NodeId(Token.ID,identificador, currentToken.getLine(), column), null);
+        l = new NodeListaDeIds(new NodeId(Token.ID, identificador, currentToken.getLine(), column), null);
         first = l;
         last = l;
         while (currentToken.getKind() == Token.COMMA) {
@@ -412,7 +413,7 @@ public class Parser {
             identificador = scanner.getCurrentSpelling().toString();
             column = currentToken.getColumn();
             accept(Token.ID);
-            l = new NodeListaDeIds(new NodeId(Token.ID,identificador, currentToken.getLine(), column), null);
+            l = new NodeListaDeIds(new NodeId(Token.ID, identificador, currentToken.getLine(), column), null);
             last.next = l;
             last = l;
         }
@@ -629,7 +630,7 @@ public class Parser {
     }
 
     private NodeTipoSimples parseTipoSimples() {
-        StringBuffer tipoSimples = scanner.getCurrentSpelling();
+        String tipoSimples = scanner.getCurrentSpelling().toString();
         NodeTipoSimples tS = null;
         switch (currentToken.getKind()) {
             case Token.INTEGER:
@@ -658,7 +659,7 @@ public class Parser {
         NodeVariavel v = new NodeVariavel();
         column = currentToken.getColumn();
         accept(Token.ID);
-        v.nodeId = new NodeId(Token.ID,identificador, currentToken.getLine(), column);
+        v.nodeId = new NodeId(Token.ID, identificador, currentToken.getLine(), column);
         v.nodeSeletor = parseSeletor();
         return v;
     }

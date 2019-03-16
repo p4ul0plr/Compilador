@@ -11,5 +11,7 @@ package abstractSyntaxTree;
  */
 public abstract class NodeTipo {
 
+    public byte kind;
+    
     public abstract void visit(Visitor v);
 }

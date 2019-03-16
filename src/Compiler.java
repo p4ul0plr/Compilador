@@ -41,7 +41,8 @@ public class Compiler {
         String programaFonte;
         int opcao;
         System.out.print("Caminho do programa fonte: ");
-        programaFonte = ler.nextLine();
+        //programaFonte = ler.nextLine();
+        programaFonte = "/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt";
         SourceFile sourceFile = new SourceFile(programaFonte);
         do {
             System.out.println("Selecione até que etapa da compilação gostaria de executar: ");

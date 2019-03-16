@@ -11,9 +11,9 @@ package abstractSyntaxTree;
  */
 public class NodeTipoSimples extends NodeTipo {
 
-    public StringBuffer tipoSimples;
+    public String tipoSimples;
     
-    public NodeTipoSimples(StringBuffer tipoSimples) {
+    public NodeTipoSimples(String tipoSimples) {
         this.tipoSimples = tipoSimples;
     }
 

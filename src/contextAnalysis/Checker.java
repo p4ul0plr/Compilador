@@ -44,9 +44,8 @@ import lexicalAnalysis.Token;
  * @author paulo
  */
 public class Checker implements Visitor {
-    
+
     private final IdentificationTable t = new IdentificationTable();
-    private byte kindESC;
     //private boolean fechaDeclaracoes = false;
     //private boolean ehTipoAgregado = false;
     //private String indiceMenor = null, indiceMaior = null;
@@ -55,7 +54,7 @@ public class Checker implements Visitor {
         System.out.println("---> Iniciando identificacao de nomes\n");
         nodePrograma.visit(this);
     }
-    
+
     @Override
     public void visitAtribuicao(NodeAtribuicao nodeAtribuicao) {
         if (nodeAtribuicao != null) {
@@ -77,22 +76,23 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitBoolLit(NodeBoolLit nodeBoolLit) {
         if (nodeBoolLit != null) {
+            //System.out.println(nodeBoolLit.kind);
             //nodeBoolLit.kind;
         }
-        
+
     }
-    
+
     @Override
     public void visitComando(NodeComando nodeComando) {
         if (nodeComando != null) {
             nodeComando.visit(this);
         }
     }
-    
+
     @Override
     public void visitComandoComposto(NodeComandoComposto nodeComandoComposto) {
         if (nodeComandoComposto != null) {
@@ -102,7 +102,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitCondicional(NodeCondicional nodeCondicional) {
         if (nodeCondicional != null) {
@@ -117,7 +117,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitCorpo(NodeCorpo nodeCorpo) {
         if (nodeCorpo != null) {
@@ -129,7 +129,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitDeclaracao(NodeDeclaracao nodeDeclaracao) {
         if (nodeDeclaracao != null) {
@@ -138,7 +138,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitDeclaracaoDeVariavel(NodeDeclaracaoDeVariavel nodeDeclaracaoDeVariavel) {
         if (nodeDeclaracaoDeVariavel != null) {
@@ -148,9 +148,11 @@ public class Checker implements Visitor {
             if (nodeDeclaracaoDeVariavel.nodeTipo != null) {
                 nodeDeclaracaoDeVariavel.nodeTipo.visit(this);
             }
+            t.enter(nodeDeclaracaoDeVariavel);
+            //t.imprime();
         }
     }
-    
+
     @Override
     public void visitDeclaracoes(NodeDeclaracoes nodeDeclaracoes) {
         if (nodeDeclaracoes != null) {
@@ -162,7 +164,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitExpressao(NodeExpressao nodeExpressao) {
         if (nodeExpressao != null) {
@@ -177,35 +179,39 @@ public class Checker implements Visitor {
             if (nodeExpressao.nodeExpressaoSimples2 != null) {
                 nodeExpressao.nodeExpressaoSimples2.visit(this);
                 e2 = nodeExpressao.nodeExpressaoSimples1.kind;
-            }
-            if (e1 == e2 && e1 != -1 && e2 != -1) {
-                nodeExpressao.kind = e1;
+                if (e1 == e2 && e1 != -1 && e2 != -1) {
+                    nodeExpressao.kind = e1;
+                } else {
+                    nodeExpressao.kind = -1;
+                }
             } else {
-                nodeExpressao.kind = -1;
+                nodeExpressao.kind = e1;
             }
         }
     }
-    
+
     @Override
     public void visitExpressaoSimples(NodeExpressaoSimples nodeExpressaoSimples) {
-        byte e1 = -1, e2 = -1;
         if (nodeExpressaoSimples != null) {
+            byte t = -1, esc = -1;
             if (nodeExpressaoSimples.nodeTermo != null) {
                 nodeExpressaoSimples.nodeTermo.visit(this);
-                e1 = nodeExpressaoSimples.nodeTermo.kind;
+                t = nodeExpressaoSimples.nodeTermo.kind;
             }
             if (nodeExpressaoSimples.nodeExpressaoSimplesComplemento != null) {
                 nodeExpressaoSimples.nodeExpressaoSimplesComplemento.visit(this);
-                e1 = nodeExpressaoSimples.nodeTermo.kind;
-            }
-            if (e1 == e2 && e1 != -1 && e2 != -1) {
-                nodeExpressaoSimples.kind = e1;
+                esc = nodeExpressaoSimples.nodeTermo.kind;
+                if (t == esc && esc != -1 && esc != -1) {
+                    nodeExpressaoSimples.kind = t;
+                } else {
+                    nodeExpressaoSimples.kind = -1;
+                }
             } else {
-                nodeExpressaoSimples.kind = -1;
+                nodeExpressaoSimples.kind = t;
             }
         }
     }
-    
+
     @Override
     public void visitExpressaoSimplesComplemento(NodeExpressaoSimplesComplemento nodeExpressaoSimplesComplemento) {
         if (nodeExpressaoSimplesComplemento != null) {
@@ -219,33 +225,33 @@ public class Checker implements Visitor {
                 } else if (nodeExpressaoSimplesComplemento.kind != nodeExpressaoSimplesComplemento.nodeTermo.kind) {
                     nodeExpressaoSimplesComplemento.kind = -1;
                 }
-                
+
             }
             if (nodeExpressaoSimplesComplemento.next != null) {
                 nodeExpressaoSimplesComplemento.next.visit(this);
             }
         }
     }
-    
+
     @Override
     public void visitFator(NodeFator nodeFator) {
         if (nodeFator != null) {
             nodeFator.visit(this);
         }
     }
-    
+
     @Override
     public void visitFloatLit(NodeFloatLit nodeFloatLit) {
         if (nodeFloatLit != null) {
-            
+
         }
-        
+
     }
-    
+
     @Override
     public void visitId(NodeId nodeId) {
         if (nodeId != null) {
-
+            
 //            if (fechaDeclaracoes) {
 //                t.retrieve(new Token(Token.ID, nodeId.spelling, nodeId.line, nodeId.column));
 //            } else {
@@ -253,7 +259,7 @@ public class Checker implements Visitor {
 //            }
         }
     }
-    
+
     @Override
     public void visitIntLit(NodeIntLit nodeIntLit) {
         if (nodeIntLit != null) {
@@ -269,7 +275,7 @@ public class Checker implements Visitor {
             }*/
         }
     }
-    
+
     @Override
     public void visitIterativo(NodeIterativo nodeIterativo) {
         if (nodeIterativo != null) {
@@ -281,7 +287,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitListaDeComandos(NodeListaDeComandos nodeListaDeComandos) {
         if (nodeListaDeComandos != null) {
@@ -293,13 +299,13 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitListaDeIds(NodeListaDeIds nodeListaDeIds) {
         if (nodeListaDeIds != null) {
             if (nodeListaDeIds.nodeId != null) {
                 nodeListaDeIds.nodeId.visit(this);
-                t.enter(nodeListaDeIds.nodeId);
+                //t.enter(nodeListaDeIds.nodeId);
             }
             if (nodeListaDeIds.next != null) {
                 nodeListaDeIds.next.visit(this);
@@ -313,22 +319,22 @@ public class Checker implements Visitor {
             nodeLiteral.visit(this);
         }
     }
-    
+
     @Override
     public void visitOpAd(NodeOpAd nodeOpAd) {
-        
+
     }
-    
+
     @Override
     public void visitOpMul(NodeOpMul nodeOpMul) {
-        
+
     }
-    
+
     @Override
     public void visitOpRel(NodeOpRel nodeOpRel) {
-        
+
     }
-    
+
     @Override
     public void visitPrograma(NodePrograma nodePrograma) {
         if (nodePrograma != null) {
@@ -337,7 +343,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitSeletor(NodeSeletor nodeSeletor) {
         if (nodeSeletor != null) {
@@ -349,27 +355,29 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitTermo(NodeTermo nodeTermo) {
-        byte e1 = -1, e2 = -1;
         if (nodeTermo != null) {
+            byte f = -1, tc = -1;
             if (nodeTermo.nodeFator != null) {
                 nodeTermo.nodeFator.visit(this);
-                e1 = nodeTermo.nodeFator.kind;
+                f = nodeTermo.nodeFator.kind;
             }
             if (nodeTermo.nodeTermoComplemento != null) {
                 nodeTermo.nodeTermoComplemento.visit(this);
-                e2 = nodeTermo.nodeFator.kind;
+                tc = nodeTermo.nodeFator.kind;
+                if (f == tc && f != -1 && tc != -1) {
+                    nodeTermo.kind = f;
+                } else {
+                    nodeTermo.kind = -1;
+                }
+            } else {
+                nodeTermo.kind = f;
             }
         }
-        if (e1 == e2 && e1 != -1 && e2 != -1) {
-            nodeTermo.kind = e1;
-        } else {
-            nodeTermo.kind = -1;
-        }
     }
-    
+
     @Override
     public void visitTermoComplemento(NodeTermoComplemento nodeTermoComplemento) {
         if (nodeTermoComplemento != null) {
@@ -389,14 +397,14 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitTipo(NodeTipo nodeTipo) {
         if (nodeTipo != null) {
             nodeTipo.visit(this);
         }
     }
-    
+
     @Override
     public void visitTipoAgregado(NodeTipoAgregado nodeTipoAgregado) {
         NodeIntLit indiceMenorS = null, indiceMaiorS;
@@ -435,25 +443,40 @@ public class Checker implements Visitor {
             //ehTipoAgregado = false;
         }
     }
-    
+
     @Override
     public void visitTipoSimples(NodeTipoSimples nodeTipoSimples) {
         if (nodeTipoSimples != null) {
-            
+            switch (nodeTipoSimples.tipoSimples) {
+                case "integer" :
+                    nodeTipoSimples.kind = 3;
+                    break;
+                case "real" :
+                    nodeTipoSimples.kind = 4;
+                    break;
+                case "boolean" :
+                    nodeTipoSimples.kind = 5;
+                    break;
+                default:
+                    nodeTipoSimples.kind = -1;
+                    break;
+            }
         }
     }
-    
+
     @Override
     public void visitVariavel(NodeVariavel nodeVariavel) {
         if (nodeVariavel != null) {
             if (nodeVariavel.nodeId != null) {
                 nodeVariavel.nodeId.visit(this);
-                nodeVariavel.kind = t.retrieve(nodeVariavel.nodeId);
+                byte kind = t.retrieve(nodeVariavel.nodeId);
+                //System.out.println(kind);
+                nodeVariavel.kind = kind;
             }
             if (nodeVariavel.nodeSeletor != null) {
                 nodeVariavel.nodeSeletor.visit(this);
             }
         }
     }
-    
+
 }
