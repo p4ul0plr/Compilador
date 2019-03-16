@@ -59,9 +59,12 @@ public class Checker implements Visitor {
     public void visitAtribuicao(NodeAtribuicao nodeAtribuicao) {
         if (nodeAtribuicao != null) {
             byte v = -1, e = -1;
+            int line = 0, column = 0;
             if (nodeAtribuicao.nodeVariavel != null) {
                 nodeAtribuicao.nodeVariavel.visit(this);
                 v = nodeAtribuicao.nodeVariavel.kind;
+                line = nodeAtribuicao.nodeVariavel.nodeId.line;
+                //column = nodeAtribuicao.nodeVariavel.nodeId.column; //Problema na contagem de colunas
             }
             if (nodeAtribuicao.nodeExpressao != null) {
                 nodeAtribuicao.nodeExpressao.visit(this);
@@ -73,7 +76,10 @@ public class Checker implements Visitor {
                 nodeAtribuicao.kind = v;
             } else {
                 nodeAtribuicao.kind = -1;
-                System.out.println("Error");
+                System.out.println("CONTEXT ERROR! -"
+                        + " LINE: " + line
+                        + " COLUMN: " + column 
+                        + " - Assignment with incompatible types");
                 System.exit(0);
             }
         }
@@ -172,21 +178,22 @@ public class Checker implements Visitor {
     @Override
     public void visitExpressao(NodeExpressao nodeExpressao) {
         if (nodeExpressao != null) {
-            byte es1 = -1, es2 = -1;
+            byte es1 = -1, es2 = -1, opRel;
             if (nodeExpressao.nodeExpressaoSimples1 != null) {
                 nodeExpressao.nodeExpressaoSimples1.visit(this);
                 es1 = nodeExpressao.nodeExpressaoSimples1.kind;
             }
             if (nodeExpressao.nodeOpRel != null) {
                 nodeExpressao.nodeOpRel.visit(this);
+                opRel = nodeExpressao.nodeOpRel.getKind();
             }
             if (nodeExpressao.nodeExpressaoSimples2 != null) {
                 nodeExpressao.nodeExpressaoSimples2.visit(this);
-                es2 = nodeExpressao.nodeExpressaoSimples1.kind;
-                if (es1 == es2 && es1 != -1 && es2 != -1) {
-                    nodeExpressao.kind = es1;
+                es2 = nodeExpressao.nodeExpressaoSimples2.kind;
+                if (es1 == es2 && es1 != -1 && es2 != -1 && es1 != 5 && es2 != 5) {
+                    nodeExpressao.kind = 5;
                 } else if (es1 == 3 && es2 == 1 || es1 == 4 && es2 == 2 || es1 == 1 && es2 == 3 || es1 == 2 && es2 == 4) {
-                    nodeExpressao.kind = es1;
+                    nodeExpressao.kind = 5;
                 } else {
                     nodeExpressao.kind = -1;
                 }
@@ -211,10 +218,13 @@ public class Checker implements Visitor {
                 esc = e.nodeTermo.kind;
                 do {
                     escAux = e.nodeTermo.kind;
-                    if (esc != escAux && !(esc == 3 && escAux == 1 || esc == 4 && escAux == 2 || esc == 1 && escAux == 3 || esc == 2 && escAux == 4)) {
+                    if (e.nodeOpAd.getKind() == 19) { //Esse trecho limita a operação OR apenas para operandos boolean
+                        if (!(esc == 5 && escAux == 5)) {  
+                            esc = -1;
+                        }                             //O trecho termina aqui                  
+                    } else if (esc != escAux && !(esc == 3 && escAux == 1 || esc == 4 && escAux == 2 || esc == 1 && escAux == 3 || esc == 2 && escAux == 4)) {
                         esc = -1;
                     }
-
                     e = e.next;
                 } while (e != null);
                 //esc = nodeExpressaoSimples.nodeTermo.kind;
@@ -391,7 +401,11 @@ public class Checker implements Visitor {
                 tc = t.nodeFator.kind;
                 do {
                     tcAux = t.nodeFator.kind;
-                    if (tc != tcAux && !(tc == 3 && tcAux == 1 || tc == 4 && tcAux == 2 || tc == 1 && tcAux == 3 || tc == 2 && tcAux == 4)) {
+                    if (t.nodeOpMul.getKind() == 20) { //Esse trecho limita a operação AND apenas para operandos boolean
+                        if (!(tc == 5 && tcAux == 5)) {  
+                            tc = -1;
+                        }                             //O trecho termina aqui                  
+                    } else if (tc != tcAux && !(tc == 3 && tcAux == 1 || tc == 4 && tcAux == 2 || tc == 1 && tcAux == 3 || tc == 2 && tcAux == 4)) {
                         tc = -1;
                     }
 

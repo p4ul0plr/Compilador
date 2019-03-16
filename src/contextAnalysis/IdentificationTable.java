@@ -171,14 +171,21 @@ public class IdentificationTable {
                         + " LINE: " + id.getLine()
                         + " COLUMN: " + id.getColumn()
                         + " - Identifier " + id.getSpelling() + " not declared!");
+                System.exit(0);
             }
         }
+        NodeId nodeId = new NodeId((byte)-1, id.getSpelling(), id.getLine(), id.getColumn());
         return -1;
     }
 
     public void imprime() {
+        System.out.println("Tabela de Identificadores: ");
         for (int j = 0; j < identificadores.size(); j++) {
-            System.out.println("id: " + identificadores.get(j).getSpelling() + " tipo: " + identificadores.get(j).getKind());
+            System.out.println("id: " + identificadores.get(j).getSpelling() 
+                    + " line: " + identificadores.get(j).getLine()
+                    + " column: " + identificadores.get(j).getColumn()
+                    + " tipo: " + identificadores.get(j).getKind());
         }
+        System.out.println("");
     }
 }
