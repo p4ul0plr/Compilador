@@ -96,6 +96,7 @@ public class Checker implements Visitor {
     @Override
     public void visitComandoComposto(NodeComandoComposto nodeComandoComposto) {
         if (nodeComandoComposto != null) {
+            t.imprime();
             //fechaDeclaracoes = true;
             if (nodeComandoComposto.nodeListaDeComandos != null) {
                 nodeComandoComposto.nodeListaDeComandos.visit(this);
@@ -150,6 +151,7 @@ public class Checker implements Visitor {
             }
             t.enter(nodeDeclaracaoDeVariavel);
             //t.imprime();
+            
         }
     }
 

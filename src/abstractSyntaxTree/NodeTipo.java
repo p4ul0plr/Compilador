@@ -12,6 +12,14 @@ package abstractSyntaxTree;
 public abstract class NodeTipo {
 
     public byte kind;
+
+    public byte getKind() {
+        return kind;
+    }
+
+    public void setKind(byte kind) {
+        this.kind = kind;
+    }
     
     public abstract void visit(Visitor v);
 }

@@ -18,7 +18,7 @@ import lexicalAnalysis.Token;
 public class IdentificationTable {
 
     private final ArrayList<NodeId> identificadores = new ArrayList<>();
-    private final ArrayList<Node> t = new ArrayList<>();
+    //private final ArrayList<Node> t = new ArrayList<>();
     private static int i = 0;
     private boolean naoEstaContido = true;
 
@@ -63,7 +63,7 @@ public class IdentificationTable {
                 }
             }*/
             for (int j = 0; j < identificadores.size(); j++) {
-                if (id.spelling.equals(identificadores.get(j).spelling)) {
+                if (id.getSpelling().equals(identificadores.get(j).getSpelling())) {
                     System.out.println("CONTEXT ERROR! -"
                             + " LINE: " + id.getLine()
                             + " COLUMN: " + id.getColumn()
@@ -92,15 +92,15 @@ public class IdentificationTable {
         NodeId id;
         do {
             id = li.nodeId;
-            if (!t.isEmpty()) {
+            if (!identificadores.isEmpty()) {
                 /*for (StringBuffer identificadore : identificadores) {
                 if (id.equals(identificadore)) {
                     System.out.println("Identificador " + id + " já foi declarado!");
                     naoEstaContido = false;
                 }
             }*/
-                for (int j = 0; j < t.size(); j++) {
-                    if (id.spelling.equals(t.get(j).getNodeId().spelling)) {
+                for (int j = 0; j < identificadores.size(); j++) {
+                    if (id.getSpelling().equals(identificadores.get(j).getSpelling())) {
                         System.out.println("CONTEXT ERROR! -"
                                 + " LINE: " + id.getLine()
                                 + " COLUMN: " + id.getColumn()
@@ -110,11 +110,13 @@ public class IdentificationTable {
                 }
             }
             if (naoEstaContido) {
-                Node node = new Node();
-                node.setNodeId(id);
-                node.setNodeTipo(v.nodeTipo);
-                t.add(i, node);
-                //System.out.println(identificadores.get(i));
+//                Node node = new Node();
+//                node.setNodeId(id);
+//                node.setNodeTipo(v.nodeTipo);
+//                t.add(i, node);
+                id.setKind(v.nodeTipo.getKind());
+                identificadores.add(id);
+                //System.out.println(identificadores.get(i).getSpelling());
                 i++;
             }
             naoEstaContido = true;
@@ -154,13 +156,13 @@ public class IdentificationTable {
         /*if (!this.identificadores.contains(id)) {
             System.out.println("Identificador " + id + " não declarado!");
         }*/
-        if (!t.isEmpty()) {
-            for (int j = 0; j < t.size(); j++) {
-                if (!id.spelling.equals(t.get(j).getNodeId().spelling)) {
+        if (!identificadores.isEmpty()) {
+            for (int j = 0; j < identificadores.size(); j++) {
+                if (!id.getSpelling().equals(identificadores.get(j).getSpelling())) {
                     naoEstaContido = true;
                 } else {
                     naoEstaContido = false;
-                    return t.get(j).getNodeTipo().kind;
+                    return identificadores.get(j).getKind();
                     //break;
                 }
             }
@@ -175,8 +177,8 @@ public class IdentificationTable {
     }
 
     public void imprime() {
-        for (int j = 0; j < t.size(); j++) {
-            System.out.println("id: " + t.get(j).getNodeId().spelling + " tipo: " + t.get(j).getNodeTipo().kind);
+        for (int j = 0; j < identificadores.size(); j++) {
+            System.out.println("id: " + identificadores.get(j).getSpelling() + " tipo: " + identificadores.get(j).getKind());
         }
     }
 }
