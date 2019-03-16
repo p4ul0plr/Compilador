@@ -58,17 +58,19 @@ public class Checker implements Visitor {
     @Override
     public void visitAtribuicao(NodeAtribuicao nodeAtribuicao) {
         if (nodeAtribuicao != null) {
-            byte e1 = -1, e2 = -1;
+            byte v = -1, e = -1;
             if (nodeAtribuicao.nodeVariavel != null) {
                 nodeAtribuicao.nodeVariavel.visit(this);
-                e1 = nodeAtribuicao.nodeVariavel.kind;
+                v = nodeAtribuicao.nodeVariavel.kind;
             }
             if (nodeAtribuicao.nodeExpressao != null) {
                 nodeAtribuicao.nodeExpressao.visit(this);
-                e2 = nodeAtribuicao.nodeExpressao.kind;
+                e = nodeAtribuicao.nodeExpressao.kind;
             }
-            if (e1 == e2 && e1 != -1 && e2 != -1) {
-                nodeAtribuicao.kind = e1;
+            if (v == e && v != -1 && e != -1) {
+                nodeAtribuicao.kind = v;
+            } else if (v == 3 && e == 1 || v == 4 && e == 2) {
+                nodeAtribuicao.kind = v;
             } else {
                 nodeAtribuicao.kind = -1;
                 System.out.println("Error");
@@ -151,7 +153,7 @@ public class Checker implements Visitor {
             }
             t.enter(nodeDeclaracaoDeVariavel);
             //t.imprime();
-            
+
         }
     }
 
@@ -170,24 +172,26 @@ public class Checker implements Visitor {
     @Override
     public void visitExpressao(NodeExpressao nodeExpressao) {
         if (nodeExpressao != null) {
-            byte e1 = -1, e2 = -1;
+            byte es1 = -1, es2 = -1;
             if (nodeExpressao.nodeExpressaoSimples1 != null) {
                 nodeExpressao.nodeExpressaoSimples1.visit(this);
-                e1 = nodeExpressao.nodeExpressaoSimples1.kind;
+                es1 = nodeExpressao.nodeExpressaoSimples1.kind;
             }
             if (nodeExpressao.nodeOpRel != null) {
                 nodeExpressao.nodeOpRel.visit(this);
             }
             if (nodeExpressao.nodeExpressaoSimples2 != null) {
                 nodeExpressao.nodeExpressaoSimples2.visit(this);
-                e2 = nodeExpressao.nodeExpressaoSimples1.kind;
-                if (e1 == e2 && e1 != -1 && e2 != -1) {
-                    nodeExpressao.kind = e1;
+                es2 = nodeExpressao.nodeExpressaoSimples1.kind;
+                if (es1 == es2 && es1 != -1 && es2 != -1) {
+                    nodeExpressao.kind = es1;
+                } else if (es1 == 3 && es2 == 1 || es1 == 4 && es2 == 2 || es1 == 1 && es2 == 3 || es1 == 2 && es2 == 4) {
+                    nodeExpressao.kind = es1;
                 } else {
                     nodeExpressao.kind = -1;
                 }
             } else {
-                nodeExpressao.kind = e1;
+                nodeExpressao.kind = es1;
             }
         }
     }
@@ -202,8 +206,21 @@ public class Checker implements Visitor {
             }
             if (nodeExpressaoSimples.nodeExpressaoSimplesComplemento != null) {
                 nodeExpressaoSimples.nodeExpressaoSimplesComplemento.visit(this);
-                esc = nodeExpressaoSimples.nodeTermo.kind;
+                NodeExpressaoSimplesComplemento e = nodeExpressaoSimples.nodeExpressaoSimplesComplemento;
+                byte escAux;
+                esc = e.nodeTermo.kind;
+                do {
+                    escAux = e.nodeTermo.kind;
+                    if (esc != escAux && !(esc == 3 && escAux == 1 || esc == 4 && escAux == 2 || esc == 1 && escAux == 3 || esc == 2 && escAux == 4)) {
+                        esc = -1;
+                    }
+
+                    e = e.next;
+                } while (e != null);
+                //esc = nodeExpressaoSimples.nodeTermo.kind;
                 if (t == esc && esc != -1 && esc != -1) {
+                    nodeExpressaoSimples.kind = t;
+                } else if (t == 3 && esc == 1 || t == 4 && esc == 2 || t == 1 && esc == 3 || t == 2 && esc == 4) {
                     nodeExpressaoSimples.kind = t;
                 } else {
                     nodeExpressaoSimples.kind = -1;
@@ -222,16 +239,17 @@ public class Checker implements Visitor {
             }
             if (nodeExpressaoSimplesComplemento.nodeTermo != null) {
                 nodeExpressaoSimplesComplemento.nodeTermo.visit(this);
-                if (nodeExpressaoSimplesComplemento.kind == -2) {
-                    nodeExpressaoSimplesComplemento.kind = nodeExpressaoSimplesComplemento.nodeTermo.kind;
-                } else if (nodeExpressaoSimplesComplemento.kind != nodeExpressaoSimplesComplemento.nodeTermo.kind) {
-                    nodeExpressaoSimplesComplemento.kind = -1;
-                }
+//                if (nodeExpressaoSimplesComplemento.kind == -2) {
+//                    nodeExpressaoSimplesComplemento.kind = nodeExpressaoSimplesComplemento.nodeTermo.kind;
+//                } else if (nodeExpressaoSimplesComplemento.kind != nodeExpressaoSimplesComplemento.nodeTermo.kind) {
+//                    nodeExpressaoSimplesComplemento.kind = -1;
+//                }
 
             }
             if (nodeExpressaoSimplesComplemento.next != null) {
                 nodeExpressaoSimplesComplemento.next.visit(this);
             }
+            //System.out.println(nodeExpressaoSimplesComplemento.kind);
         }
     }
 
@@ -253,7 +271,7 @@ public class Checker implements Visitor {
     @Override
     public void visitId(NodeId nodeId) {
         if (nodeId != null) {
-            
+
 //            if (fechaDeclaracoes) {
 //                t.retrieve(new Token(Token.ID, nodeId.spelling, nodeId.line, nodeId.column));
 //            } else {
@@ -314,7 +332,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitLiteral(NodeLiteral nodeLiteral) {
         if (nodeLiteral != null) {
@@ -368,8 +386,20 @@ public class Checker implements Visitor {
             }
             if (nodeTermo.nodeTermoComplemento != null) {
                 nodeTermo.nodeTermoComplemento.visit(this);
-                tc = nodeTermo.nodeFator.kind;
+                NodeTermoComplemento t = nodeTermo.nodeTermoComplemento;
+                byte tcAux;
+                tc = t.nodeFator.kind;
+                do {
+                    tcAux = t.nodeFator.kind;
+                    if (tc != tcAux && !(tc == 3 && tcAux == 1 || tc == 4 && tcAux == 2 || tc == 1 && tcAux == 3 || tc == 2 && tcAux == 4)) {
+                        tc = -1;
+                    }
+
+                    t = t.next;
+                } while (t != null);
                 if (f == tc && f != -1 && tc != -1) {
+                    nodeTermo.kind = f;
+                } else if (f == 3 && tc == 1 || f == 4 && tc == 2 || f == 1 && tc == 3 || f == 2 && tc == 4) {
                     nodeTermo.kind = f;
                 } else {
                     nodeTermo.kind = -1;
@@ -388,11 +418,11 @@ public class Checker implements Visitor {
             }
             if (nodeTermoComplemento.nodeFator != null) {
                 nodeTermoComplemento.nodeFator.visit(this);
-                if (nodeTermoComplemento.kind == -2) {
-                    nodeTermoComplemento.kind = nodeTermoComplemento.nodeFator.kind;
-                } else if (nodeTermoComplemento.kind != nodeTermoComplemento.nodeFator.kind) {
-                    nodeTermoComplemento.kind = -1;
-                }
+//                if (nodeTermoComplemento.kind == -2) {
+//                    nodeTermoComplemento.kind = nodeTermoComplemento.nodeFator.kind;
+//                } else if (nodeTermoComplemento.kind != nodeTermoComplemento.nodeFator.kind) {
+//                    nodeTermoComplemento.kind = -1;
+//                }
             }
             if (nodeTermoComplemento.next != null) {
                 nodeTermoComplemento.next.visit(this);
@@ -450,13 +480,13 @@ public class Checker implements Visitor {
     public void visitTipoSimples(NodeTipoSimples nodeTipoSimples) {
         if (nodeTipoSimples != null) {
             switch (nodeTipoSimples.tipoSimples) {
-                case "integer" :
+                case "integer":
                     nodeTipoSimples.kind = 3;
                     break;
-                case "real" :
+                case "real":
                     nodeTipoSimples.kind = 4;
                     break;
-                case "boolean" :
+                case "boolean":
                     nodeTipoSimples.kind = 5;
                     break;
                 default:

@@ -14,7 +14,6 @@ public class NodeTermoComplemento {
     public NodeOpMul nodeOpMul;
     public NodeFator nodeFator;
     public NodeTermoComplemento next;
-    public byte kind = -2;  //-2 é que está vazio
     
     public void visit(Visitor v) {
         v.visitTermoComplemento(this);

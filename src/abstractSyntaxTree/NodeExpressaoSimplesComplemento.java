@@ -14,7 +14,6 @@ public class NodeExpressaoSimplesComplemento {
     public NodeOpAd nodeOpAd;
     public NodeTermo nodeTermo;
     public NodeExpressaoSimplesComplemento next;
-    public byte kind = -2;  //-2 é que está vazio
     
     public void visit(Visitor v) {
         v.visitExpressaoSimplesComplemento(this);

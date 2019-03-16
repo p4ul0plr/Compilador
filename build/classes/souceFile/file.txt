@@ -12,13 +12,14 @@ program teste ;
     !var fib : integer;
     var a, b, c, d, e, z : integer;
     var q, r, s : boolean;
+    var t, u, v : real;
 
 begin
     
     !amor := 1.444 + .12 + 123. * 12353 + 1548.3146469798 - .1;
     !x := true;
     !a := b * (c + d) > e + z - q;
-    q := r;
+    a := b and e > d or c;
     !b[1] := 2;
     !b := 2;
     !c := a;
