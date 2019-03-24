@@ -25,6 +25,7 @@
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeAtribuicao.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/syntaxAnalisys/Parser.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeExpressao.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeTipoAgregado.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeId.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeIterativo.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeIntLit.java</file>

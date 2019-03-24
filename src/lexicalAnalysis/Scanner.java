@@ -199,7 +199,7 @@ public class Scanner {
 
     public Token scan() {
         while (currentChar == '!' || currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == '\r') {
-            //calculateTheNumberOfColumns();
+            calculateTheNumberOfColumns();
             scanSeparator();
         }
         currentSpelling = new StringBuffer("");

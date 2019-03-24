@@ -1,7 +1,8 @@
 program teste ;
-
+    
     var cache, cache1 : array [1..100] of integer;
-    var v1 : array [1 ..100] of array [1 ..100] of real;
+    var cache3 : array [1 ..100] of array [1 ..100] of integer;
+    !var v1 : array [1 ..100] of array [1 ..100] of real;
     !var v2, v3, v4 : array [0 ..1] of boolean;
     !var i, i, b : integer;
     !var i, i, b : integer;
@@ -11,12 +12,16 @@ program teste ;
     !var d, x, amor : boolean;
     !var fib : integer;
     var a, b, c, d, e, x, z, l : integer;
-    !var q, r, s : boolean;
-    !var t, u, v : real;
+    var q, r, s : boolean;
+    var t, u, v : real;
+    !var a1, a2 : integer;
+    !var a3 : real;
 
 begin
     
-    cache[0] := a[0];
+    cache[0] := cache1[cache[0]];
+    !A := b;
+    !a := 1.;
     !q := t + .61656 -66464. * 4.5454 / 6465.6 = 1.444 + .12 + 123. * u + 1548.3146469798 - .1;
     !q := 1 + a - b - d >= 1;
     !b := a + a - c + 15 -161561515;

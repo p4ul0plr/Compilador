@@ -122,6 +122,7 @@ public class Parser {
                         + " | \"" + Token.spellings[Token.FALSE] + "\""
                         + " was expected and not token " + "\""
                         + currentToken.getSpelling() + "\"");
+                System.exit(0);
             //report a systatic error
         }
         return b;
@@ -152,6 +153,7 @@ public class Parser {
                         + " | \"" + Token.spellings[Token.BEGIN] + "\""
                         + " was expected and not token " + "\""
                         + currentToken.getSpelling() + "\"");
+                System.exit(0);
             //report a systatic error
         }
         return c;
@@ -320,6 +322,7 @@ public class Parser {
                         + " | \"" + Token.spellings[Token.LEFTPARENTHESIS] + "\""
                         + " was expected and not token " + "\""
                         + currentToken.getSpelling() + "\"");
+                System.exit(0);
             //report a systatic error
         }
         return f;
@@ -443,6 +446,7 @@ public class Parser {
                         + " | \"" + Token.spellings[Token.FLOAT_LIT] + "\""
                         + " was expected and not token " + "\""
                         + currentToken.getSpelling() + "\"");
+                System.exit(0);
             //report a systatic error    
         }
         return l;
@@ -469,6 +473,7 @@ public class Parser {
                         + " | \"" + Token.spellings[Token.OP_AD_SUB] + "\""
                         + " was expected and not token " + "\""
                         + currentToken.getSpelling() + "\"");
+                System.exit(0);
             //report a systatic error    
         }
         return o;
@@ -495,6 +500,7 @@ public class Parser {
                         + " | \"" + Token.spellings[Token.OP_MULT_MULT] + "\""
                         + " was expected and not token " + "\""
                         + currentToken.getSpelling() + "\"");
+                System.exit(0);
             //report a systatic error    
         }
         return o;
@@ -527,6 +533,7 @@ public class Parser {
                         + " | \"" + Token.spellings[Token.OP_REL_LESSTHEN] + "\""
                         + " was expected and not token " + "\""
                         + currentToken.getSpelling() + "\"");
+                System.exit(0);
             //report a systatic error    
         }
         return o;
@@ -611,6 +618,7 @@ public class Parser {
                         + " | \"" + Token.spellings[Token.BOOLEAN] + "\""
                         + " was expected and not token " + "\""
                         + currentToken.getSpelling() + "\"");
+                System.exit(0);
             //report a systatic error 
         }
         return t;
@@ -620,9 +628,11 @@ public class Parser {
         NodeTipoAgregado tA = new NodeTipoAgregado();
         accept(Token.ARRAY);
         accept(Token.LEFTBRACKET);
-        tA.nodeLiteral1 = parseLiteral(); //Errado? o correto seria <int-lit>?
+        //tA.nodeLiteral1 = parseLiteral(); //Errado? o correto seria <int-lit>?
+        tA.nodeLiteral1 = parseIntLit();
         accept(Token.DOTDOT);
-        tA.nodeLiteral2 = parseLiteral(); //Errado? o correto seria <int-lit>?
+        //tA.nodeLiteral2 = parseLiteral(); //Errado? o correto seria <int-lit>?
+        tA.nodeLiteral2 = parseIntLit();
         accept(Token.RIGHTBRACKET);
         accept(Token.OF);
         tA.nodeTipo = parseTipo();
@@ -650,6 +660,7 @@ public class Parser {
                         + " | \"" + Token.spellings[Token.BOOLEAN] + "\""
                         + " was expected and not token " + "\""
                         + currentToken.getSpelling() + "\"");
+                System.exit(0);
             //report a systatic error    
         }
         return tS;

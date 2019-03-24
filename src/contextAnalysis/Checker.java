@@ -44,10 +44,12 @@ import lexicalAnalysis.Token;
  * @author paulo
  */
 public class Checker implements Visitor {
-    
+
     private final IdentificationTable t = new IdentificationTable();
     private byte tA;
     private int dimensãoVariavel = 0;
+    private int quantidadeSeletor = 0;
+
     //private boolean fechaDeclaracoes = false;
     //private boolean ehTipoAgregado = false;
     //private String indiceMenor = null, indiceMaior = null;
@@ -56,7 +58,7 @@ public class Checker implements Visitor {
         System.out.println("---> Iniciando identificacao de nomes\n");
         nodePrograma.visit(this);
     }
-    
+
     @Override
     public void visitAtribuicao(NodeAtribuicao nodeAtribuicao) {
         if (nodeAtribuicao != null) {
@@ -66,7 +68,7 @@ public class Checker implements Visitor {
                 nodeAtribuicao.nodeVariavel.visit(this);
                 v = nodeAtribuicao.nodeVariavel.kind;
                 line = nodeAtribuicao.nodeVariavel.nodeId.line;
-                //column = nodeAtribuicao.nodeVariavel.nodeId.column; //Problema na contagem de colunas
+                column = nodeAtribuicao.nodeVariavel.nodeId.column; //Problema na contagem de colunas
             }
             if (nodeAtribuicao.nodeExpressao != null) {
                 nodeAtribuicao.nodeExpressao.visit(this);
@@ -81,28 +83,31 @@ public class Checker implements Visitor {
                 System.out.println("CONTEXT ERROR! -"
                         + " LINE: " + line
                         + " COLUMN: " + column
-                        + " - Assignment with incompatible types");
+                        + " - Assignment with incompatible types"
+                        + " - The variable \"" + nodeAtribuicao.nodeVariavel.nodeId.getSpelling()
+                        + "\" of type \"" + Token.spellings[v]
+                        + "\" is not compatible with type \"" + Token.spellings[e] + "\".");
                 System.exit(0);
             }
         }
     }
-    
+
     @Override
     public void visitBoolLit(NodeBoolLit nodeBoolLit) {
         if (nodeBoolLit != null) {
             //System.out.println(nodeBoolLit.kind);
             //nodeBoolLit.kind;
         }
-        
+
     }
-    
+
     @Override
     public void visitComando(NodeComando nodeComando) {
         if (nodeComando != null) {
             nodeComando.visit(this);
         }
     }
-    
+
     @Override
     public void visitComandoComposto(NodeComandoComposto nodeComandoComposto) {
         if (nodeComandoComposto != null) {
@@ -113,7 +118,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitCondicional(NodeCondicional nodeCondicional) {
         if (nodeCondicional != null) {
@@ -138,7 +143,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitCorpo(NodeCorpo nodeCorpo) {
         if (nodeCorpo != null) {
@@ -150,7 +155,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitDeclaracao(NodeDeclaracao nodeDeclaracao) {
         if (nodeDeclaracao != null) {
@@ -159,7 +164,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitDeclaracaoDeVariavel(NodeDeclaracaoDeVariavel nodeDeclaracaoDeVariavel) {
         if (nodeDeclaracaoDeVariavel != null) {
@@ -172,14 +177,15 @@ public class Checker implements Visitor {
                     nodeDeclaracaoDeVariavel.nodeTipo.kind = tA;
                 }
             }
-            System.out.println(dimensãoVariavel);
+            nodeDeclaracaoDeVariavel.nodeListaDeIds.setDimensao(dimensãoVariavel);
+            //System.out.println(nodeDeclaracaoDeVariavel.nodeListaDeIds.getDimensao());
             dimensãoVariavel = 0;
             t.enter(nodeDeclaracaoDeVariavel);
             //t.imprime();
 
         }
     }
-    
+
     @Override
     public void visitDeclaracoes(NodeDeclaracoes nodeDeclaracoes) {
         if (nodeDeclaracoes != null) {
@@ -191,7 +197,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitExpressao(NodeExpressao nodeExpressao) {
         if (nodeExpressao != null) {
@@ -219,7 +225,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitExpressaoSimples(NodeExpressaoSimples nodeExpressaoSimples) {
         if (nodeExpressaoSimples != null) {
@@ -236,7 +242,7 @@ public class Checker implements Visitor {
                 do {
                     escAux = e.nodeTermo.kind;
                     if (e.nodeOpAd.getKind() == 19) { //Esse trecho limita a operação OR apenas para operandos boolean
-                        if (!(esc == 5 && escAux == 5)) {                            
+                        if (!(esc == 5 && escAux == 5)) {
                             esc = -1;
                         }                             //O trecho termina aqui                  
                     } else if (esc != escAux && !(esc == 3 && escAux == 1 || esc == 4 && escAux == 2 || esc == 1 && escAux == 3 || esc == 2 && escAux == 4)) {
@@ -257,7 +263,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitExpressaoSimplesComplemento(NodeExpressaoSimplesComplemento nodeExpressaoSimplesComplemento) {
         if (nodeExpressaoSimplesComplemento != null) {
@@ -279,26 +285,30 @@ public class Checker implements Visitor {
             //System.out.println(nodeExpressaoSimplesComplemento.kind);
         }
     }
-    
+
     @Override
     public void visitFator(NodeFator nodeFator) {
         if (nodeFator != null) {
             nodeFator.visit(this);
         }
     }
-    
+
     @Override
     public void visitFloatLit(NodeFloatLit nodeFloatLit) {
         if (nodeFloatLit != null) {
-            
+
         }
-        
+
     }
-    
+
     @Override
     public void visitId(NodeId nodeId) {
         if (nodeId != null) {
-
+//            System.out.println("ID - id: " + nodeId.getSpelling() 
+//                    + " line: " + nodeId.getLine()
+//                    + " column: " + nodeId.getColumn()
+//                    + " tipo: " + nodeId.getKind()
+//                    + " dimensao: " + nodeId.getDimensao());
 //            if (fechaDeclaracoes) {
 //                t.retrieve(new Token(Token.ID, nodeId.spelling, nodeId.line, nodeId.column));
 //            } else {
@@ -306,7 +316,7 @@ public class Checker implements Visitor {
 //            }
         }
     }
-    
+
     @Override
     public void visitIntLit(NodeIntLit nodeIntLit) {
         if (nodeIntLit != null) {
@@ -322,7 +332,7 @@ public class Checker implements Visitor {
             }*/
         }
     }
-    
+
     @Override
     public void visitIterativo(NodeIterativo nodeIterativo) {
         if (nodeIterativo != null) {
@@ -344,7 +354,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitListaDeComandos(NodeListaDeComandos nodeListaDeComandos) {
         if (nodeListaDeComandos != null) {
@@ -356,7 +366,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitListaDeIds(NodeListaDeIds nodeListaDeIds) {
         if (nodeListaDeIds != null) {
@@ -369,29 +379,29 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitLiteral(NodeLiteral nodeLiteral) {
         if (nodeLiteral != null) {
             nodeLiteral.visit(this);
         }
     }
-    
+
     @Override
     public void visitOpAd(NodeOpAd nodeOpAd) {
-        
+
     }
-    
+
     @Override
     public void visitOpMul(NodeOpMul nodeOpMul) {
-        
+
     }
-    
+
     @Override
     public void visitOpRel(NodeOpRel nodeOpRel) {
-        
+
     }
-    
+
     @Override
     public void visitPrograma(NodePrograma nodePrograma) {
         if (nodePrograma != null) {
@@ -400,7 +410,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitSeletor(NodeSeletor nodeSeletor) {
         if (nodeSeletor != null) {
@@ -413,17 +423,17 @@ public class Checker implements Visitor {
                     System.out.println("CONTEXT ERROR! -"
                             //+ " LINE: " + line
                             //+ " COLUMN: " + column 
-                            + " Assignment with incompatible types -"
-                            + " The index must be INTEGER or <int-lit>");
+                            + " The index must be \"integer\" or \"<int-lit>\".");
                     System.exit(0);
                 }
             }
+            quantidadeSeletor++;
             if (nodeSeletor.next != null) {
                 nodeSeletor.next.visit(this);
             }
         }
     }
-    
+
     @Override
     public void visitTermo(NodeTermo nodeTermo) {
         if (nodeTermo != null) {
@@ -440,13 +450,13 @@ public class Checker implements Visitor {
                 do {
                     tcAux = t.nodeFator.kind;
                     if (t.nodeOpMul.getKind() == 20) { //Esse trecho limita a operação AND apenas para operandos boolean
-                        if (!(tc == 5 && tcAux == 5)) {                            
+                        if (!(tc == 5 && tcAux == 5)) {
                             tc = -1;
                         }                             //O trecho termina aqui                  
                     } else if (tc != tcAux && !(tc == 3 && tcAux == 1 || tc == 4 && tcAux == 2 || tc == 1 && tcAux == 3 || tc == 2 && tcAux == 4)) {
                         tc = -1;
                     }
-                    
+
                     t = t.next;
                 } while (t != null);
                 if (f == tc && f != -1 && tc != -1 && f != 5 && tc != 5) {
@@ -461,7 +471,7 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitTermoComplemento(NodeTermoComplemento nodeTermoComplemento) {
         if (nodeTermoComplemento != null) {
@@ -481,54 +491,64 @@ public class Checker implements Visitor {
             }
         }
     }
-    
+
     @Override
     public void visitTipo(NodeTipo nodeTipo) {
         if (nodeTipo != null) {
             nodeTipo.visit(this);
         }
     }
-    
+
     @Override
     public void visitTipoAgregado(NodeTipoAgregado nodeTipoAgregado) {
-        dimensãoVariavel++;
-        NodeIntLit indiceMenorS = null, indiceMaiorS;
-        int indiceMenorI = 0, indiceMaiorI = 0;
         if (nodeTipoAgregado != null) {
+            dimensãoVariavel++;
+            NodeIntLit indiceMenorS = null, indiceMaiorS;
+            int indiceMenorI = 0, indiceMaiorI = 0;
             //ehTipoAgregado = true;
             if (nodeTipoAgregado.nodeTipo != null) {
                 nodeTipoAgregado.nodeTipo.visit(this);
             }
             if (nodeTipoAgregado.nodeLiteral1 != null) {
-                if (nodeTipoAgregado.nodeLiteral1 instanceof NodeIntLit) {
-                    indiceMenorS = ((NodeIntLit) nodeTipoAgregado.nodeLiteral1);
-                    indiceMenorI = Integer.parseInt(indiceMenorS.getIntLiteral());
-                } else {
-                    System.out.println("CONTEXT ERROR! - Index 1 invalid - An index of type <int-lit> was expected.");
-                    System.exit(0);
-                }
+//                if (nodeTipoAgregado.nodeLiteral1 instanceof NodeIntLit) {
+//                    indiceMenorS = ((NodeIntLit) nodeTipoAgregado.nodeLiteral1);
+//                    indiceMenorI = Integer.parseInt(indiceMenorS.getIntLiteral());
+//                } else {
+//                    System.out.println("CONTEXT ERROR! - Index 1 invalid - An index of type <int-lit> was expected.");
+//                    System.exit(0);
+//                }
+                indiceMenorS = ((NodeIntLit) nodeTipoAgregado.nodeLiteral1);
+                indiceMenorI = Integer.parseInt(indiceMenorS.getIntLiteral());
+
             }
             if (nodeTipoAgregado.nodeLiteral2 != null) {
-                if (nodeTipoAgregado.nodeLiteral2 instanceof NodeIntLit) {
-                    indiceMaiorS = ((NodeIntLit) nodeTipoAgregado.nodeLiteral2);
-                    indiceMaiorI = Integer.parseInt(indiceMaiorS.getIntLiteral());
-                } else {
-                    System.out.println("CONTEXT ERROR! - Index 2 invalid - An index of type <int-lit> was expected.");
-                    System.exit(0);
-                }
+//                if (nodeTipoAgregado.nodeLiteral2 instanceof NodeIntLit) {
+//                    indiceMaiorS = ((NodeIntLit) nodeTipoAgregado.nodeLiteral2);
+//                    indiceMaiorI = Integer.parseInt(indiceMaiorS.getIntLiteral());
+//                } else {
+//                    //indiceMaiorS = ((NodeIntLit) nodeTipoAgregado.nodeLiteral2);
+//                    System.out.println("CONTEXT ERROR! - "
+//                            //+ " LINE: " + indiceMaiorS.getLine()
+//                            //+ " COLUMN: " + indiceMaiorS.getColumn()
+//                            + " - Index 2 invalid - An index of type <int-lit> was expected.");
+//                    System.exit(0);
+//                }
+                indiceMaiorS = ((NodeIntLit) nodeTipoAgregado.nodeLiteral2);
+                indiceMaiorI = Integer.parseInt(indiceMaiorS.getIntLiteral());
             }
             if (indiceMenorI >= indiceMaiorI) {
                 System.out.println("CONTEXT ERROR! -"
                         + " LINE: " + indiceMenorS.getLine()
                         + " COLUMN: " + indiceMenorS.getColumn()
-                        + " Index \"" + indiceMenorI + "\""
+                        + " - Index \"" + indiceMenorI + "\""
                         + " should be lower than index \"" + indiceMaiorI + "\".");
+                System.exit(0);
             }
             //System.out.println("indiceMenor: " + indiceMenor + "\nindiceMaior: " + indiceMaior);
             //ehTipoAgregado = false;
         }
     }
-    
+
     @Override
     public void visitTipoSimples(NodeTipoSimples nodeTipoSimples) {
         if (nodeTipoSimples != null) {
@@ -549,21 +569,38 @@ public class Checker implements Visitor {
             tA = nodeTipoSimples.kind;
         }
     }
-    
+
     @Override
     public void visitVariavel(NodeVariavel nodeVariavel) {
         if (nodeVariavel != null) {
+            NodeId id;
             if (nodeVariavel.nodeId != null) {
                 nodeVariavel.nodeId.visit(this);
-                byte kind = t.retrieve(nodeVariavel.nodeId);
+                id = t.retrieve(nodeVariavel.nodeId);
                 //System.out.println(kind);
-                nodeVariavel.kind = kind;
-                nodeVariavel.setDimensao(dimensãoVariavel);
+                nodeVariavel.setKind(id.getKind());
+                nodeVariavel.setDimensao(id.getDimensao());
             }
             if (nodeVariavel.nodeSeletor != null) {
                 nodeVariavel.nodeSeletor.visit(this);
             }
+            if (nodeVariavel.getDimensao() != quantidadeSeletor) {
+                System.out.println("CONTEXT ERROR! -"
+                        + " LINE: " + nodeVariavel.nodeId.getLine()
+                        + " COLUMN: " + nodeVariavel.nodeId.getColumn()
+                        + " - Error in indexing the variable - The variable \""
+                        + nodeVariavel.nodeId.getSpelling()
+                        + "\" has dimensions \""
+                        + nodeVariavel.getDimensao()
+                        + "\" and not \""
+                        + quantidadeSeletor
+                        + "\".");
+                System.exit(0);
+            }
+            //System.out.println("Quantidade do seletor: " + quantidadeSeletor);
+            quantidadeSeletor = 0;
         }
     }
-    
+
 }
+//(nodeVariavel.nodeId.getColumn() + nodeVariavel.nodeId.getSpelling().length() + 1)

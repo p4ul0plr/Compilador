@@ -19,6 +19,14 @@ public class NodeVariavel extends NodeFator {
         return dimensao;
     }
 
+    public byte getKind() {
+        return kind;
+    }
+
+    public void setKind(byte kind) {
+        this.kind = kind;
+    }
+    
     public void setDimensao(int dimensao) {
         this.dimensao = dimensao;
     }

@@ -115,6 +115,7 @@ public class IdentificationTable {
 //                node.setNodeTipo(v.nodeTipo);
 //                t.add(i, node);
                 id.setKind(v.nodeTipo.getKind());
+                id.setDimensao(v.nodeListaDeIds.getDimensao());
                 identificadores.add(id);
                 //System.out.println(identificadores.get(i).getSpelling());
                 i++;
@@ -152,7 +153,33 @@ public class IdentificationTable {
 //            }
 //        }
 //    }
-    public byte retrieve(NodeId id) {
+//    public byte retrieve(NodeId id) {
+//        /*if (!this.identificadores.contains(id)) {
+//            System.out.println("Identificador " + id + " não declarado!");
+//        }*/
+//        if (!identificadores.isEmpty()) {
+//            for (int j = 0; j < identificadores.size(); j++) {
+//                if (!id.getSpelling().equals(identificadores.get(j).getSpelling())) {
+//                    naoEstaContido = true;
+//                } else {
+//                    naoEstaContido = false;
+//                    return identificadores.get(j).getKind();
+//                    //break;
+//                }
+//            }
+//            if (naoEstaContido) {
+//                System.out.println("CONTEXT ERROR! -"
+//                        + " LINE: " + id.getLine()
+//                        + " COLUMN: " + id.getColumn()
+//                        + " - Identifier " + id.getSpelling() + " not declared!");
+//                System.exit(0);
+//            }
+//        }
+//        NodeId nodeId = new NodeId((byte)-1, id.getSpelling(), id.getLine(), id.getColumn());
+//        return -1;
+//    }
+
+    public NodeId retrieve(NodeId id) {
         /*if (!this.identificadores.contains(id)) {
             System.out.println("Identificador " + id + " não declarado!");
         }*/
@@ -162,7 +189,7 @@ public class IdentificationTable {
                     naoEstaContido = true;
                 } else {
                     naoEstaContido = false;
-                    return identificadores.get(j).getKind();
+                    return identificadores.get(j);
                     //break;
                 }
             }
@@ -174,17 +201,17 @@ public class IdentificationTable {
                 System.exit(0);
             }
         }
-        NodeId nodeId = new NodeId((byte)-1, id.getSpelling(), id.getLine(), id.getColumn());
-        return -1;
+        return new NodeId((byte)-1, id.getSpelling(), id.getLine(), id.getColumn());
     }
-
+    
     public void imprime() {
         System.out.println("Tabela de Identificadores: ");
         for (int j = 0; j < identificadores.size(); j++) {
             System.out.println("id: " + identificadores.get(j).getSpelling() 
                     + " line: " + identificadores.get(j).getLine()
                     + " column: " + identificadores.get(j).getColumn()
-                    + " tipo: " + identificadores.get(j).getKind());
+                    + " tipo: " + identificadores.get(j).getKind()
+                    + " dimensao: " + identificadores.get(j).getDimensao());
         }
         System.out.println("");
     }
