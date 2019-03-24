@@ -636,8 +636,10 @@ public class Parser {
             case Token.INTEGER:
             case Token.REAL:
             case Token.BOOLEAN:
+                byte t = currentToken.kind;
                 acceptIt();
                 tS = new NodeTipoSimples(tipoSimples);
+                tS.kind = t;
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
