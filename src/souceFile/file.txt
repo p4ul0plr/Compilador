@@ -23,11 +23,13 @@ begin
     cache[a] := cache1[cache[cache3[b][0]]] + 16194894 + 61656 -66464 * 45454 / 64656;
     cache3[c][a] := 1;
     cache4[a][0][c] := 1;
-    !a := 1.1;
+    a := cache[a];
+    q := 1.1 >= 1.;
     q := q or true or true or false and true and r and v2[0];
     !a := 1 and 2 or b;
     !a := 1.;
     a3 := t + .61656 -66464.* 4.5454 / 6465.6 + 1.444 + 123. * u + 1548.3146469798 - .1 / v1[0][b];
+    s := t + .61656 -66464.* 4.5454 / 6465.6 + 1.444 < 123. * u + 1548.3146469798 - .1 / v1[0][b];
     !q := 1 + a - b - d >= 1;
     !b := a + a - c + 15 -161561515;
     !q := r and s or q;
@@ -54,7 +56,7 @@ begin
     cache[1] := 1;
     cache3[a][2] := 1;
 
-    if (q) then
+    if (q or true) then
         q := true;
 
 end.

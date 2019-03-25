@@ -61,12 +61,9 @@ public class Checker implements Visitor {
     public void visitAtribuicao(NodeAtribuicao nodeAtribuicao) {
         if (nodeAtribuicao != null) {
             byte v = -1, e = -1;
-            int line = 0, column = 0;
             if (nodeAtribuicao.nodeVariavel != null) {
                 nodeAtribuicao.nodeVariavel.visit(this);
                 v = nodeAtribuicao.nodeVariavel.kind;
-                line = nodeAtribuicao.nodeVariavel.nodeId.line;
-                column = nodeAtribuicao.nodeVariavel.nodeId.column; //Problema na contagem de colunas
             }
             if (nodeAtribuicao.nodeExpressao != null) {
                 nodeAtribuicao.nodeExpressao.visit(this);
@@ -79,8 +76,8 @@ public class Checker implements Visitor {
             } else {
                 nodeAtribuicao.kind = -1;
                 System.out.println("CONTEXT ERROR! -"
-                        + " LINE: " + line
-                        + " COLUMN: " + column
+                        + " LINE: " + nodeAtribuicao.nodeVariavel.getLine()
+                        + " COLUMN: " + nodeAtribuicao.nodeVariavel.getColumn()
                         + " - Assignment with incompatible types - Type \""
                         + Token.spellings[v] + "\" is not compatible with type \""
                         + Token.spellings[e] + "\".");
@@ -119,16 +116,13 @@ public class Checker implements Visitor {
     public void visitCondicional(NodeCondicional nodeCondicional) {
         if (nodeCondicional != null) {
             byte c = -1;
-            int line = 0, column = 0;
             if (nodeCondicional.nodeExpressao != null) {
                 nodeCondicional.nodeExpressao.visit(this);
                 c = nodeCondicional.nodeExpressao.kind;
-                line = nodeCondicional.nodeExpressao.getLine();
-                column = nodeCondicional.nodeExpressao.getColumn();
                 if (c != 5) {
                     System.out.println("CONTEXT ERROR! -"
-                            + " LINE: " + line
-                            + " COLUMN: " + column
+                            + " LINE: " + nodeCondicional.nodeExpressao.getLine()
+                            + " COLUMN: " + nodeCondicional.nodeExpressao.getColumn()
                             + " - \"If Then\" with incompatible type expression"
                             + " - An expression of type \"boolean\" was expected, not type \""
                             + Token.spellings[c] + "\".");
@@ -200,7 +194,7 @@ public class Checker implements Visitor {
     @Override
     public void visitExpressao(NodeExpressao nodeExpressao) {
         if (nodeExpressao != null) {
-            byte es1 = -1, es2 = -1, opRel;
+            byte es1 = -1, es2 = -1;
             if (nodeExpressao.nodeExpressaoSimples1 != null) {
                 nodeExpressao.nodeExpressaoSimples1.visit(this);
                 es1 = nodeExpressao.nodeExpressaoSimples1.kind;
@@ -209,7 +203,6 @@ public class Checker implements Visitor {
             }
             if (nodeExpressao.nodeOpRel != null) {
                 nodeExpressao.nodeOpRel.visit(this);
-                opRel = nodeExpressao.nodeOpRel.getKind();
             }
             if (nodeExpressao.nodeExpressaoSimples2 != null) {
                 nodeExpressao.nodeExpressaoSimples2.visit(this);
