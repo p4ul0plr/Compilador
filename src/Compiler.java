@@ -4,6 +4,12 @@
  * and open the template in the editor.
  */
 
+/* Alunos: PAULO ROBERTO DA SILVA NOBREGA e EDUARDO CAVALCANTE ARAUJO
+ * Disciplina: Compiladores 
+ * Professor: Marcus Vinícius Midena Ramos
+ * ---------- Projeto Final da disciplina de compiladores ------------
+ */
+
 import TreeDrawer.Printer;
 import abstractSyntaxTree.NodePrograma;
 import souceFile.SourceFile;

@@ -2,34 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="4"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/Compiler.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeFloatLit.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeFator.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeTermo.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeBoolLit.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeTermoComplemento.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/contextAnalysis/Node.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeVariavel.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeTipo.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/contextAnalysis/IdentificationTable.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeTipoSimples.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeListaDeIds.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/TreeDrawer/Printer.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeExpressaoSimples.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeExpressaoSimplesComplemento.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Token.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/contextAnalysis/Checker.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Scanner.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeLiteral.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeAtribuicao.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/syntaxAnalisys/Parser.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeExpressao.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeTipoAgregado.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeId.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeIterativo.java</file>
-            <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeIntLit.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
