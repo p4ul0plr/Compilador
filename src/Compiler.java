@@ -53,7 +53,11 @@ public class Compiler {
             System.out.println("5 - Geração de Código");
             System.out.println("6 - Sair");
             System.out.print("Opção: ");
-            opcao = Integer.parseInt(ler.nextLine());
+            try {
+                opcao = Integer.parseInt(ler.nextLine());
+            } catch (NumberFormatException e) {
+                opcao = -1;
+            }
         } while (opcao < 1 || opcao > 6);
         Parser parser = new Parser(sourceFile);
         NodePrograma nodePrograma;
@@ -100,6 +104,7 @@ public class Compiler {
                 Checker checker = new Checker();
                 nodePrograma = parser.parse();
                 checker.Check(nodePrograma);
+                checker.ImpimeIdentificationTable();
                 sourceFile.source.close();
                 break;
             case 5:

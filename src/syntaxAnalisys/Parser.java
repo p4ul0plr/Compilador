@@ -456,13 +456,15 @@ public class Parser {
         String opAd = scanner.getCurrentSpelling().toString();
         int column;
         NodeOpAd o = null;
+        byte kind;
         switch (currentToken.getKind()) {
             case Token.OP_AD_AD:
             case Token.OP_AD_OR:
             case Token.OP_AD_SUB:
                 column = currentToken.getColumn();
+                kind = currentToken.kind;
                 acceptIt();
-                o = new NodeOpAd(currentToken.kind, opAd, currentToken.line, column);
+                o = new NodeOpAd(kind, opAd, currentToken.line, column);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -483,13 +485,15 @@ public class Parser {
         String opMul = scanner.getCurrentSpelling().toString();
         int column;
         NodeOpMul o = null;
+        byte kind;
         switch (currentToken.getKind()) {
             case Token.OP_MULT_AND:
             case Token.OP_MULT_DIV:
             case Token.OP_MULT_MULT:
                 column = currentToken.getColumn();
+                kind = currentToken.kind;
                 acceptIt();
-                o = new NodeOpMul(currentToken.kind, opMul, currentToken.line, column);
+                o = new NodeOpMul(kind, opMul, currentToken.line, column);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "
@@ -510,6 +514,7 @@ public class Parser {
         String opRel = scanner.getCurrentSpelling().toString();
         int column;
         NodeOpRel o = null;
+        byte kind;
         switch (currentToken.getKind()) {
             case Token.OP_REL_BIGGEROREQUAL:
             case Token.OP_REL_BIGGERTHEN:
@@ -518,8 +523,9 @@ public class Parser {
             case Token.OP_REL_LESSOREQUAL:
             case Token.OP_REL_LESSTHEN:
                 column = currentToken.getColumn();
+                kind = currentToken.kind;
                 acceptIt();
-                o = new NodeOpRel(currentToken.kind, opRel, currentToken.line, column);
+                o = new NodeOpRel(kind, opRel, currentToken.line, column);
                 break;
             default:
                 System.out.println("SYNTAX ERROR! - "

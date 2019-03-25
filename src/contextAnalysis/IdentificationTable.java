@@ -69,6 +69,7 @@ public class IdentificationTable {
                             + " COLUMN: " + id.getColumn()
                             + " - Identifier " + id.getSpelling() + " already declared!");
                     naoEstaContido = false;
+                    System.exit(0);
                 }
             }
         }
@@ -106,6 +107,7 @@ public class IdentificationTable {
                                 + " COLUMN: " + id.getColumn()
                                 + " - Identifier " + id.getSpelling() + " already declared!");
                         naoEstaContido = false;
+                        System.exit(0);
                     }
                 }
             }

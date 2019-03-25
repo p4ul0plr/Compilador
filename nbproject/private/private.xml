@@ -20,6 +20,7 @@
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeExpressaoSimplesComplemento.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Token.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/contextAnalysis/Checker.java</file>
+            <file>file:/home/paulo/NetBeansProjects/Compilador/src/lexicalAnalysis/Scanner.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeLiteral.java</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/souceFile/file.txt</file>
             <file>file:/home/paulo/NetBeansProjects/Compilador/src/abstractSyntaxTree/NodeAtribuicao.java</file>

@@ -12,8 +12,6 @@ package abstractSyntaxTree;
 public class NodeBoolLit extends NodeLiteral {
 
     public String booleano;
-    public int line;
-    public int column;
 
     public NodeBoolLit(String booleano) {
         this.booleano = booleano;
@@ -23,6 +21,44 @@ public class NodeBoolLit extends NodeLiteral {
         this.kind = kind;
         this.booleano = booleano;
         this.line = line;
+        this.column = column;
+    }
+
+    public String getBooleano() {
+        return booleano;
+    }
+
+    public void setBooleano(String booleano) {
+        this.booleano = booleano;
+    }
+
+    @Override
+    public byte getKind() {
+        return kind;
+    }
+
+    @Override
+    public void setKind(byte kind) {
+        this.kind = kind;
+    }
+
+    @Override
+    public int getLine() {
+        return line;
+    }
+
+    @Override
+    public void setLine(int line) {
+        this.line = line;
+    }
+
+    @Override
+    public int getColumn() {
+        return column;
+    }
+
+    @Override
+    public void setColumn(int column) {
         this.column = column;
     }
     

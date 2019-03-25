@@ -48,12 +48,10 @@ public class Checker implements Visitor {
     private final IdentificationTable t = new IdentificationTable();
     private byte tA;
     private int dimensãoVariavel = 0;
-    private int quantidadeSeletor = 0;
 
     //private boolean fechaDeclaracoes = false;
     //private boolean ehTipoAgregado = false;
     //private String indiceMenor = null, indiceMaior = null;
-
     public void Check(NodePrograma nodePrograma) {
         System.out.println("---> Iniciando identificacao de nomes\n");
         nodePrograma.visit(this);
@@ -83,10 +81,9 @@ public class Checker implements Visitor {
                 System.out.println("CONTEXT ERROR! -"
                         + " LINE: " + line
                         + " COLUMN: " + column
-                        + " - Assignment with incompatible types"
-                        + " - The variable \"" + nodeAtribuicao.nodeVariavel.nodeId.getSpelling()
-                        + "\" of type \"" + Token.spellings[v]
-                        + "\" is not compatible with type \"" + Token.spellings[e] + "\".");
+                        + " - Assignment with incompatible types - Type \""
+                        + Token.spellings[v] + "\" is not compatible with type \""
+                        + Token.spellings[e] + "\".");
                 System.exit(0);
             }
         }
@@ -111,7 +108,6 @@ public class Checker implements Visitor {
     @Override
     public void visitComandoComposto(NodeComandoComposto nodeComandoComposto) {
         if (nodeComandoComposto != null) {
-            t.imprime();
             //fechaDeclaracoes = true;
             if (nodeComandoComposto.nodeListaDeComandos != null) {
                 nodeComandoComposto.nodeListaDeComandos.visit(this);
@@ -127,11 +123,15 @@ public class Checker implements Visitor {
             if (nodeCondicional.nodeExpressao != null) {
                 nodeCondicional.nodeExpressao.visit(this);
                 c = nodeCondicional.nodeExpressao.kind;
+                line = nodeCondicional.nodeExpressao.getLine();
+                column = nodeCondicional.nodeExpressao.getColumn();
                 if (c != 5) {
                     System.out.println("CONTEXT ERROR! -"
-                            //+ " LINE: " + line
-                            //+ " COLUMN: " + column 
-                            + " Assignment with incompatible types");
+                            + " LINE: " + line
+                            + " COLUMN: " + column
+                            + " - \"If Then\" with incompatible type expression"
+                            + " - An expression of type \"boolean\" was expected, not type \""
+                            + Token.spellings[c] + "\".");
                     System.exit(0);
                 }
             }
@@ -181,7 +181,6 @@ public class Checker implements Visitor {
             //System.out.println(nodeDeclaracaoDeVariavel.nodeListaDeIds.getDimensao());
             dimensãoVariavel = 0;
             t.enter(nodeDeclaracaoDeVariavel);
-            //t.imprime();
 
         }
     }
@@ -205,6 +204,8 @@ public class Checker implements Visitor {
             if (nodeExpressao.nodeExpressaoSimples1 != null) {
                 nodeExpressao.nodeExpressaoSimples1.visit(this);
                 es1 = nodeExpressao.nodeExpressaoSimples1.kind;
+                nodeExpressao.setLine(nodeExpressao.nodeExpressaoSimples1.getLine());
+                nodeExpressao.setColumn(nodeExpressao.nodeExpressaoSimples1.getColumn());
             }
             if (nodeExpressao.nodeOpRel != null) {
                 nodeExpressao.nodeOpRel.visit(this);
@@ -223,6 +224,13 @@ public class Checker implements Visitor {
             } else {
                 nodeExpressao.kind = es1;
             }
+            if (nodeExpressao.kind == -1) {
+                System.out.println("CONTEXT ERROR! -"
+                        + " LINE: " + nodeExpressao.getLine()
+                        + " COLUMN: " + nodeExpressao.getColumn()
+                        + " - Malformed expression or incompatible types");
+                System.exit(0);
+            }
         }
     }
 
@@ -233,6 +241,8 @@ public class Checker implements Visitor {
             if (nodeExpressaoSimples.nodeTermo != null) {
                 nodeExpressaoSimples.nodeTermo.visit(this);
                 t = nodeExpressaoSimples.nodeTermo.kind;
+                nodeExpressaoSimples.setLine(nodeExpressaoSimples.nodeTermo.getLine());
+                nodeExpressaoSimples.setColumn(nodeExpressaoSimples.nodeTermo.getColumn());
             }
             if (nodeExpressaoSimples.nodeExpressaoSimplesComplemento != null) {
                 nodeExpressaoSimples.nodeExpressaoSimplesComplemento.visit(this);
@@ -250,6 +260,7 @@ public class Checker implements Visitor {
                     }
                     e = e.next;
                 } while (e != null);
+                //System.out.println(esc);
                 //esc = nodeExpressaoSimples.nodeTermo.kind;
                 if (t == esc && esc != -1 && esc != -1 && t != 5 && esc != 5) {
                     nodeExpressaoSimples.kind = t;
@@ -257,6 +268,13 @@ public class Checker implements Visitor {
                     nodeExpressaoSimples.kind = t;
                 } else {
                     nodeExpressaoSimples.kind = -1;
+                }
+                if (nodeExpressaoSimples.nodeExpressaoSimplesComplemento.nodeOpAd.getKind() == 19) {
+                    if (t == 5 && esc == 5) {
+                        nodeExpressaoSimples.kind = t;
+                    } else {
+                        nodeExpressaoSimples.kind = -1;
+                    }
                 }
             } else {
                 nodeExpressaoSimples.kind = t;
@@ -337,15 +355,16 @@ public class Checker implements Visitor {
     public void visitIterativo(NodeIterativo nodeIterativo) {
         if (nodeIterativo != null) {
             byte i = -1;
-            int line = 0, column = 0;
             if (nodeIterativo.nodeExpressao != null) {
                 nodeIterativo.nodeExpressao.visit(this);
                 i = nodeIterativo.nodeExpressao.kind;
                 if (i != 5) {
                     System.out.println("CONTEXT ERROR! -"
-                            //+ " LINE: " + line
-                            //+ " COLUMN: " + column 
-                            + " Assignment with incompatible types");
+                            + " LINE: " + nodeIterativo.nodeExpressao.getLine()
+                            + " COLUMN: " + nodeIterativo.nodeExpressao.getColumn()
+                            + " - \"While\" with incompatible type expression"
+                            + " - An expression of type \"boolean\" was expected, not type \""
+                            + Token.spellings[i] + "\".");
                     System.exit(0);
                 }
             }
@@ -389,17 +408,22 @@ public class Checker implements Visitor {
 
     @Override
     public void visitOpAd(NodeOpAd nodeOpAd) {
-
+        if (nodeOpAd != null) {
+        }
     }
 
     @Override
     public void visitOpMul(NodeOpMul nodeOpMul) {
+        if (nodeOpMul != null) {
 
+        }
     }
 
     @Override
     public void visitOpRel(NodeOpRel nodeOpRel) {
+        if (nodeOpRel != null) {
 
+        }
     }
 
     @Override
@@ -415,19 +439,19 @@ public class Checker implements Visitor {
     public void visitSeletor(NodeSeletor nodeSeletor) {
         if (nodeSeletor != null) {
             byte s = -1;
-            int line = 0, column = 0;
             if (nodeSeletor.nodeExpressao != null) {
                 nodeSeletor.nodeExpressao.visit(this);
                 s = nodeSeletor.nodeExpressao.kind;
                 if (s != 1 && s != 3) {
                     System.out.println("CONTEXT ERROR! -"
-                            //+ " LINE: " + line
-                            //+ " COLUMN: " + column 
-                            + " The index must be \"integer\" or \"<int-lit>\".");
+                            + " LINE: " + nodeSeletor.nodeExpressao.getLine()
+                            + " COLUMN: " + nodeSeletor.nodeExpressao.getColumn() + " -"
+                            + " Incompatible type index -"
+                            + " An index of type \"integer\" or \"<int-lit>\" was expected, not type \""
+                            + Token.spellings[s] + "\".");
                     System.exit(0);
                 }
             }
-            quantidadeSeletor++;
             if (nodeSeletor.next != null) {
                 nodeSeletor.next.visit(this);
             }
@@ -441,6 +465,8 @@ public class Checker implements Visitor {
             if (nodeTermo.nodeFator != null) {
                 nodeTermo.nodeFator.visit(this);
                 f = nodeTermo.nodeFator.kind;
+                nodeTermo.setLine(nodeTermo.nodeFator.getLine());
+                nodeTermo.setColumn(nodeTermo.nodeFator.getColumn());
             }
             if (nodeTermo.nodeTermoComplemento != null) {
                 nodeTermo.nodeTermoComplemento.visit(this);
@@ -465,6 +491,13 @@ public class Checker implements Visitor {
                     nodeTermo.kind = f;
                 } else {
                     nodeTermo.kind = -1;
+                }
+                if (nodeTermo.nodeTermoComplemento.nodeOpMul.getKind() == 20) {
+                    if (f == 5 && tc == 5) {
+                        nodeTermo.kind = f;
+                    } else {
+                        nodeTermo.kind = -1;
+                    }
                 }
             } else {
                 nodeTermo.kind = f;
@@ -574,15 +607,23 @@ public class Checker implements Visitor {
     public void visitVariavel(NodeVariavel nodeVariavel) {
         if (nodeVariavel != null) {
             NodeId id;
+            int quantidadeSeletor = 0;
             if (nodeVariavel.nodeId != null) {
                 nodeVariavel.nodeId.visit(this);
                 id = t.retrieve(nodeVariavel.nodeId);
                 //System.out.println(kind);
                 nodeVariavel.setKind(id.getKind());
                 nodeVariavel.setDimensao(id.getDimensao());
+                nodeVariavel.setLine(nodeVariavel.nodeId.getLine());
+                nodeVariavel.setColumn(nodeVariavel.nodeId.getColumn());
             }
             if (nodeVariavel.nodeSeletor != null) {
                 nodeVariavel.nodeSeletor.visit(this);
+                NodeSeletor lS = nodeVariavel.nodeSeletor;
+                do {
+                    lS = lS.next;
+                    quantidadeSeletor++;
+                } while (lS != null);
             }
             if (nodeVariavel.getDimensao() != quantidadeSeletor) {
                 System.out.println("CONTEXT ERROR! -"
@@ -598,8 +639,11 @@ public class Checker implements Visitor {
                 System.exit(0);
             }
             //System.out.println("Quantidade do seletor: " + quantidadeSeletor);
-            quantidadeSeletor = 0;
         }
+    }
+
+    public void ImpimeIdentificationTable() {
+        t.imprime();
     }
 
 }
