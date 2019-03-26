@@ -1,0 +1,13 @@
+
+
+Program exemplo ;
+	var variavel1, variavel2 : integer ;
+	var a,b,c : real;
+	var d : array[1 .. 100] of array[1 .. 100] of boolean;
+	var e,f : boolean;
+
+begin
+
+	amor := 6;
+end
+.
